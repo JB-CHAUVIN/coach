@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "event",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "time": {
+      "type": "enumeration",
+      "enum": [
+        "matin",
+        "midi",
+        "apres-midi",
+        "soir"
+      ]
+    },
+    "seance": {
+      "type": "enumeration",
+      "enum": [
+        "footing",
+        "renforcement",
+        "sl",
+        "tempo",
+        "piste"
+      ]
+    },
+    "seance_variation": {
+      "type": "string"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "events"
+    }
+  }
+}
