@@ -12,4 +12,5 @@ export const COLORS = {
   red: "#bb3e03",
   redDark: "#ae2012",
   auburn: "#9b2226",
+  text: "#656565",
 };
