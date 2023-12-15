@@ -13,6 +13,8 @@ import store from "../store/store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 
+require('../config/reactotron');
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,

@@ -7,26 +7,42 @@ import { InputSelect } from "../components/forms/InputSelect/InputSelect";
 import { EVENTS_TYPES } from "../constants/_features/events/eventsTypes";
 import moment from "moment";
 import { PHRASES } from "../constants/phrases";
-import {InputSubmit} from "../components/forms/InputSubmit/InputSubmit";
+import { InputSubmit } from "../components/forms/InputSubmit/InputSubmit";
+import { API_ENDPOINTS, useQuery } from "../hooks/useQuery";
+import {useNavigation} from "expo-router";
 
 type Inputs = {
   date: Date;
-  type: any;
-  typeVariation: any;
+  time?: {
+    value: string;
+  };
+  type?: {
+    value: string;
+    variations: any;
+  };
+  typeVariation?:
+    | {
+        value: string;
+      }
+    | undefined;
 };
 
 const optionsTime = [
   {
     label: "Matin",
+    value: "matin",
   },
   {
     label: "Midi",
+    value: "midi",
   },
   {
     label: "Après-midi",
+    value: "apres-midi",
   },
   {
     label: "Soir",
+    value: "soir",
   },
 ];
 
@@ -34,18 +50,35 @@ const optionsType = EVENTS_TYPES;
 
 export default function ModalScreen() {
   const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
+  const navigation = useNavigation();
 
   const defaultValues = {
     date: moment(currentDate).toDate(),
   };
   const [form, setForm] = React.useState<Inputs>(defaultValues);
 
+  const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.EVENT);
+
   const onSelectType = () => {
     setForm((prev) => {
       return {
         ...prev,
-        typeVariation: null,
+        typeVariation: undefined,
       };
+    });
+  };
+
+  const handleSubmit = () => {
+    handleQuery("POST", {
+      body: {
+        date: form?.date,
+        time: form?.time?.value,
+        seance: form?.type?.value,
+        seanceVariation: form?.typeVariation?.value,
+      },
+      onSuccess: () => {
+        navigation.goBack();
+      }
     });
   };
 
@@ -59,6 +92,7 @@ export default function ModalScreen() {
           options={optionsTime}
           horizontal={true}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_EVENT_ADD_TIME}
+          icon={"clock-in"}
         />
 
         <InputSelect
@@ -72,9 +106,14 @@ export default function ModalScreen() {
           id={"typeVariation"}
           options={form["type"]?.variations}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
+          icon={"information-variant"}
         />
 
-        <InputSubmit id={"submit"} />
+        <InputSubmit
+          id={"submit"}
+          onPress={handleSubmit}
+          isLoading={isLoading}
+        />
       </Form>
     </View>
   );

@@ -6,6 +6,7 @@ export const COLORS = {
   primary: COLOR_PRIMARY,
   blue: "#0a9396",
   blueLight: "#94d2bd",
+  green: "rgba(46,105,51,0.5)",
   white: "#e9d8a6",
   orange: "#ee9b00",
   secondary: COLOR_SECONDARY,

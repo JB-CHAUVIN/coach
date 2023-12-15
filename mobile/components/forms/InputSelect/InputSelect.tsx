@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InputSelectI } from "./InputSelect.props";
 import { View, TouchableOpacity, FlatList, Dimensions } from "react-native";
-import { s } from "./InputSelect.styles.ts";
+import { s } from "./InputSelect.styles";
 import { Text } from "../../atoms/Text";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SCREEN_WIDTH, SIZES } from "../../../constants/sizes";
@@ -14,6 +14,8 @@ export const InputSelect = (p: InputSelectI<any>) => {
     onSelect,
     horizontal = false,
     placeholder,
+    icon: iconProp,
+    isInputValid = false,
   } = p || {};
 
   const [open, setOpen] = useState(false);
@@ -28,6 +30,8 @@ export const InputSelect = (p: InputSelectI<any>) => {
       setValue(item);
     }
   };
+
+  // @ts-ignore
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -64,13 +68,23 @@ export const InputSelect = (p: InputSelectI<any>) => {
     );
   };
 
-  if(!options || options.length === 0) {
+  if (!options || options.length === 0) {
     return null;
+  }
+
+  let icon = <MaterialCommunityIcons style={s.icon} name={iconProp} />;
+
+  if (!iconProp) {
+    icon = <View />;
   }
 
   return (
     <TouchableOpacity
-      style={[s.button, open ? { height: undefined } : {}]}
+      style={[
+        s.button,
+        open ? { height: undefined } : {},
+        isInputValid && s.buttonValid,
+      ]}
       onPress={() => setOpen(true)}
     >
       {!open && value
@@ -86,7 +100,10 @@ export const InputSelect = (p: InputSelectI<any>) => {
           horizontal={horizontal}
           data={options}
           renderItem={renderItem}
-          contentContainerStyle={horizontal && s.containerListSelectHorizontal}
+          contentContainerStyle={[
+            s.containerListSelect,
+            horizontal && s.containerListSelectHorizontal,
+          ]}
           ItemSeparatorComponent={() => (
             <View
               style={
@@ -98,7 +115,9 @@ export const InputSelect = (p: InputSelectI<any>) => {
           )}
           scrollEnabled={!horizontal}
         />
-      ) : null}
+      ) : (
+        icon
+      )}
     </TouchableOpacity>
   );
 };

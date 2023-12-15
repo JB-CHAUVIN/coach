@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import {COLORS} from "./colors";
 
 
 const paddingInput = 20;
@@ -13,6 +14,10 @@ export const FORM_STYLES = StyleSheet.create({
     borderColor: "#c7c7c7",
     height: 70,
     alignItems: "center",
+  },
+
+  inputContainerValid: {
+    borderColor: COLORS.green,
   },
 
   icon: {

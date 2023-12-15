@@ -1,3 +1,7 @@
 import { InputI } from "../Form";
 
-export interface InputSubmitI extends InputI<T> {}
+export interface InputSubmitI<T> extends InputI<T> {
+    onPress: () => void;
+    isLoading: boolean;
+    isFormValid?: boolean;
+}

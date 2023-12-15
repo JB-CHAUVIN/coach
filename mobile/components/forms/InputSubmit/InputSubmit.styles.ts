@@ -9,6 +9,11 @@ export const s = StyleSheet.create({
     height: FORM_STYLES.inputContainer.height,
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
+  },
+
+  buttonDisabled: {
+    opacity: 0.5,
   },
 
   text: {

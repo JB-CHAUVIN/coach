@@ -1,6 +1,7 @@
 export const EVENTS_TYPES = {
   FOOTING: {
     label: "Footing",
+    value: "footing",
     variations: [
       { label: "Endurance fondamentale" },
       { label: "Récupération" },
@@ -17,6 +18,7 @@ export const EVENTS_TYPES = {
   },
   RENFO: {
     label: "Renforcement",
+    value: "renforcement",
     variations: [
       {
         label: "Full-body",
@@ -38,6 +40,7 @@ export const EVENTS_TYPES = {
   },
   SL: {
     label: "Sortie longue",
+    value: "sl",
     variations: [
       { label: "Avec variations d'allure" },
       { label: "Lente" },
@@ -52,6 +55,7 @@ export const EVENTS_TYPES = {
   },
   TEMPO: {
     label: "Tempo",
+    value: "tempo",
     variations: [
       { label: "Avec variations d'allure" },
       { label: "Avec variations de dénivelé" },
@@ -65,6 +69,7 @@ export const EVENTS_TYPES = {
   },
   TRACK: {
     label: "Piste",
+    value: "piste",
     variations: [{ label: "Sprint" }, { label: "Seuil" }, { label: "VMA" }],
     color: "#d01616",
     icon: {

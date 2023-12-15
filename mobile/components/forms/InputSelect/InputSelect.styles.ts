@@ -5,6 +5,10 @@ import { COLORS } from "../../../constants/colors";
 
 export const s = StyleSheet.create({
   // containers
+  containerListSelect: {
+
+  },
+
   containerListSelectHorizontal: {},
 
   // buttons
@@ -12,17 +16,23 @@ export const s = StyleSheet.create({
     ...FORM_STYLES.inputContainer,
   },
 
+  buttonValid: {
+    ...FORM_STYLES.inputContainerValid,
+  },
+
   buttonSelectOption: {
     borderWidth: 0,
-    padding: FORM_STYLES.inputContainer.marginVertical,
-    paddingRight: 0,
-    flexDirection: "row",
     alignItems: "center",
+    flexGrow: 1,
+    flexDirection: "row",
+    height: FORM_STYLES.inputContainer.height - FORM_STYLES.inputContainer.borderWidth,
+    paddingLeft: FORM_STYLES.inputContainer.marginVertical,
   },
 
   buttonSelectOptionHorizontal: {
     paddingLeft: 0,
     paddingRight: 0,
+    justifyContent: "center",
   },
 
   buttonSelectOptionSeparator: {
@@ -52,10 +62,15 @@ export const s = StyleSheet.create({
     fontFamily: "UrbanistRegular",
     color: COLORS.text,
     padding: FORM_STYLES.inputContainer.marginVertical,
-    opacity: 0.6
+    opacity: 0.6,
+    flexGrow: 1
   },
 
   // icons
+  icon: {
+    ...FORM_STYLES.icon
+  },
+
   iconSelectedOption: {
     fontSize: 30,
     marginRight: FORM_STYLES.icon.marginRight,

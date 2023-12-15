@@ -4,12 +4,13 @@ import { View } from "react-native";
 import { s } from "./InputDate.styles";
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import {FORM_STYLES} from "../../../constants/formStyles";
 
 export const InputDate = (p: InputDateI<Date>) => {
-  const { setValue, value } = p || {};
+  const { setValue, value, isInputValid } = p || {};
 
   return (
-    <View style={s.button}>
+    <View style={[s.button, isInputValid && FORM_STYLES.inputContainerValid]}>
       <View style={s.containerInput}>
         {value ? (
           <DateTimePicker
