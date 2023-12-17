@@ -1,6 +1,5 @@
+import {TYPE_EVENTS} from "../../../../../../types/Events";
+
 export type AgendaDayProps = {
-    day: any;
-    item: {
-        text: string;
-    }
+    item: Array<TYPE_EVENTS>;
 };

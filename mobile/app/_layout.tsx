@@ -12,8 +12,13 @@ import { Provider } from "react-redux";
 import store from "../store/store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import moment from 'moment';
 
 require('../config/reactotron');
+
+import 'moment/locale/fr'
+moment.locale('fr');
+
 
 export {
   // Catch any errors thrown by the Layout component.

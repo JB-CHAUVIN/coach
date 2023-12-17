@@ -3,7 +3,7 @@ import { CONFIG } from "../constants/config";
 import { Platform } from "react-native";
 
 export const API_ENDPOINTS = {
-  EVENT: "api/events",
+  EVENT: "api/events?sort=date",
 };
 
 const DEBUG = true;

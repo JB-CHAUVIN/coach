@@ -14,4 +14,5 @@ export const COLORS = {
   redDark: "#ae2012",
   auburn: "#9b2226",
   text: "#656565",
+  whiteTrue: "#ffffff",
 };

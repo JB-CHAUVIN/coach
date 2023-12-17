@@ -1,4 +1,25 @@
-export const EVENTS_TYPES = {
+interface EventVariation {
+  label: string;
+}
+
+interface EventIcon {
+  name: string;
+  type: string;
+}
+
+interface EventType {
+  label: string;
+  value: string;
+  variations: EventVariation[];
+  color: string;
+  icon: EventIcon;
+}
+
+interface EventsTypes {
+  [key: string]: EventType;
+}
+
+export const EVENTS_TYPES: EventsTypes = {
   FOOTING: {
     label: "Footing",
     value: "footing",

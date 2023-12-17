@@ -22,7 +22,7 @@ type Inputs = {
   };
   typeVariation?:
     | {
-        value: string;
+        label: string;
       }
     | undefined;
 };
@@ -71,10 +71,10 @@ export default function ModalScreen() {
   const handleSubmit = () => {
     handleQuery("POST", {
       body: {
-        date: form?.date,
+        date: moment(form?.date).add(1, 'day').toISOString(), // fix date adding on wrong date
         time: form?.time?.value,
         seance: form?.type?.value,
-        seanceVariation: form?.typeVariation?.value,
+        seanceVariation: form?.typeVariation?.label,
       },
       onSuccess: () => {
         navigation.goBack();
