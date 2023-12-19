@@ -6,5 +6,7 @@ export const PHRASES = {
         PLACEHOLDER_FORM_SUBMIT: "Soumettre",
         PLACEHOLDER_FORM_CANCEL: "Annuler",
         PLACEHOLDER_FORM_EDIT: "Modifier",
+        AGENDA_HEADER_TITLE: "Votre semaine",
+        AGENDA_HEADER_TOTAL: "Entraînements : ",
     }
 }
