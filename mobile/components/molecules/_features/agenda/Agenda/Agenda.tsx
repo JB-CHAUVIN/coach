@@ -67,6 +67,7 @@ const Agenda: React.FC<AgendaProps> = (p) => {
     <View style={s.container}>
       {!isLoading ? (
         <AgendaRNCal
+          firstDay={1}
           theme={{
             textMonthFontFamily: FONTS.Bold,
             textDayFontFamily: FONTS.Regular,

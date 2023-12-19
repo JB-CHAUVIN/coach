@@ -5,12 +5,13 @@ import { AgendaDayProps } from "./AgendaDay.props";
 import moment from "moment";
 import { stringUcFirst } from "../../../../../utils/string";
 import { Text } from "../../../../atoms/Text";
-import { orderBy } from "lodash";
-import { TYPE_EVENTS } from "../../../../../../types/Events";
+import { useNavigation } from "expo-router";
+import { AgendaDayItem } from "./AgendaDayItem";
 
 const AgendaDay: React.FC<AgendaDayProps> = (p) => {
   const { item } = p || {};
 
+  const navigation = useNavigation();
   const date = moment(item?.[0].date);
   const Time = ["matin", "midi", "apres-midi", "soir"];
   const timeOrder = Object.values(Time);
@@ -31,19 +32,7 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
       </View>
 
       {sortedItems.map((i) => {
-        return (
-          <View style={s.containerEvent}>
-            <Text style={s.textTime}>{i.time}</Text>
-            <Text style={s.textSeance}>
-              <Text style={s.textSeance}>{stringUcFirst(i.seance)}</Text>
-              {i.seance_variation ? (
-                <Text style={s.textSeance}>
-                  {" (" + i.seance_variation + ")"}
-                </Text>
-              ) : null}
-            </Text>
-          </View>
-        );
+        return <AgendaDayItem i={i} key={"agenda-day-item" + i.id} />;
       })}
     </View>
   );

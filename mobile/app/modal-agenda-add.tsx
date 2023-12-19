@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../store/store";
 import { InputDate } from "../components/forms/InputDate/InputDate";
 import { Form } from "../components/forms/Form";
 import { InputSelect } from "../components/forms/InputSelect/InputSelect";
@@ -8,8 +8,11 @@ import { EVENTS_TYPES } from "../constants/_features/events/eventsTypes";
 import moment from "moment";
 import { PHRASES } from "../constants/phrases";
 import { InputSubmit } from "../components/forms/InputSubmit/InputSubmit";
-import { API_ENDPOINTS, useQuery } from "../hooks/useQuery";
-import {useNavigation} from "expo-router";
+import { API_ENDPOINTS, QUERY_IDS, useQuery } from "../hooks/useQuery";
+import { useLocalSearchParams, useNavigation } from "expo-router";
+import { TYPE_EVENTS } from "../../types/Events";
+import { addStoreItem, updateStoreItem } from "../store/slices/querySlices";
+import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
 
 type Inputs = {
   date: Date;
@@ -18,7 +21,7 @@ type Inputs = {
   };
   type?: {
     value: string;
-    variations: any;
+    variations?: any;
   };
   typeVariation?:
     | {
@@ -48,16 +51,43 @@ const optionsTime = [
 
 const optionsType = EVENTS_TYPES;
 
+type TypeLocalSearchParams = {
+  item?: TYPE_EVENTS;
+};
+
 export default function ModalScreen() {
   const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
-  const defaultValues = {
+  // @ts-ignore...
+  const { item } = useLocalSearchParams<TypeLocalSearchParams>();
+
+  let isUpdate = false;
+  let defaultValues: Inputs = {
     date: moment(currentDate).toDate(),
   };
+
+  if (item) {
+    isUpdate = true;
+    defaultValues = {
+      ...defaultValues,
+      date: moment(item.date).toDate(),
+      time: {
+        value: item.time,
+      },
+      type: {
+        value: item.seance,
+      },
+      typeVariation: {
+        label: item.seance_variation,
+      },
+    };
+  }
+
   const [form, setForm] = React.useState<Inputs>(defaultValues);
 
-  const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.EVENT);
+  const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.EVENT_CRUD);
 
   const onSelectType = () => {
     setForm((prev) => {
@@ -69,16 +99,25 @@ export default function ModalScreen() {
   };
 
   const handleSubmit = () => {
-    handleQuery("POST", {
+    handleQuery(isUpdate ? "PUT" : "POST", {
       body: {
-        date: moment(form?.date).add(1, 'day').toISOString(), // fix date adding on wrong date
+        id: item?.id,
+        date: moment(form?.date)
+          .add(1, "day")
+          .toISOString(), // fix date adding on wrong date
         time: form?.time?.value,
         seance: form?.type?.value,
-        seanceVariation: form?.typeVariation?.label,
+        seance_variation: form?.typeVariation?.label,
+        done: false,
       },
-      onSuccess: () => {
+      onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {
+        if (!isUpdate) {
+          dispatch(addStoreItem({ key: QUERY_IDS.HOME_ITEMS, value: i }));
+        } else {
+          dispatch(updateStoreItem({ key: QUERY_IDS.HOME_ITEMS, value: i }));
+        }
         navigation.goBack();
-      }
+      },
     });
   };
 
@@ -113,6 +152,11 @@ export default function ModalScreen() {
           id={"submit"}
           onPress={handleSubmit}
           isLoading={isLoading}
+          label={
+            isUpdate
+              ? PHRASES.FR.PLACEHOLDER_FORM_EDIT
+              : PHRASES.FR.PLACEHOLDER_FORM_SUBMIT
+          }
         />
       </Form>
     </View>

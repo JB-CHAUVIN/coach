@@ -5,7 +5,12 @@ import { s } from "./InputSubmit.styles";
 import { PHRASES } from "../../../constants/phrases";
 
 export const InputSubmit = (p: InputSubmitI<any>) => {
-  const { onPress, isLoading, isFormValid = false } = p;
+  const {
+    onPress,
+    isLoading,
+    isFormValid = false,
+    label = PHRASES.FR.PLACEHOLDER_FORM_SUBMIT,
+  } = p;
   const disabled = isLoading || !isFormValid;
 
   return (
@@ -14,7 +19,7 @@ export const InputSubmit = (p: InputSubmitI<any>) => {
       onPress={() => onPress()}
       disabled={disabled}
     >
-      <Text style={s.text}>{PHRASES.FR.PLACEHOLDER_FORM_SUBMIT}</Text>
+      <Text style={s.text}>{label}</Text>
       {isLoading ? <ActivityIndicator color={s.text.color} /> : null}
     </TouchableOpacity>
   );

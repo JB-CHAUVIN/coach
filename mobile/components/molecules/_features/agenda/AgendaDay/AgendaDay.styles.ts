@@ -24,34 +24,10 @@ export const s = StyleSheet.create({
     marginVertical: 10,
   },
 
-  containerEvent: {
-    backgroundColor: COLORS.whiteTrue,
-    margin: 6,
-    ...sharedStyles.borderRadius,
-    borderTopRightRadius: 20,
-  },
-
   // text
+  textDate: {},
+
   textDayName: {
     fontFamily: FONTS.Bold,
-  },
-
-  textDate: {
-    flexDirection: "row",
-    textTransform: "uppercase",
-    fontSize: 15,
-  },
-
-  textTime: {
-    fontFamily: FONTS.Medium,
-    textTransform: "uppercase",
-    fontSize: 14,
-  },
-
-  textSeance: {
-    flexDirection: "row",
-    fontFamily: FONTS.Regular,
-    fontSize: 13,
-    marginTop: 3,
   },
 });

@@ -5170,7 +5170,7 @@ expo-modules-core@1.5.12:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo-router@^2.0.0:
+expo-router@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/expo-router/-/expo-router-2.0.14.tgz#6c05fc9620d3d3e94dfffdd013ad5dace1bc69e0"
   integrity sha512-F5dP4WMe+zQLzlGSbC+NT9/67FGgwmUCJuPGD4BkK0eRt0uga+y53vQ59m5MCOebqE0N9Ukr/Jz8Num16iGqZA==
@@ -5216,7 +5216,7 @@ expo-web-browser@~12.3.2:
     compare-urls "^2.0.0"
     url "^0.11.0"
 
-expo@~49.0.15:
+expo@~49.0.21:
   version "49.0.21"
   resolved "https://registry.yarnpkg.com/expo/-/expo-49.0.21.tgz#32a66b32d0a233879ec3afdec35fb63d2cc8a4c3"
   integrity sha512-JpHL6V0yt8/fzsmkAdPdtsah+lU6Si4ac7MDklLYvzEil7HAFEsN/pf06wQ21ax4C+BL27hI6JJoD34tzXUCJA==
@@ -8316,6 +8316,11 @@ reactotron-react-native@^5.0.4:
     reactotron-core-client "2.8.11"
   optionalDependencies:
     react-native-flipper "^0.164.0"
+
+reactotron-redux@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/reactotron-redux/-/reactotron-redux-3.1.4.tgz#8dc8101f508eb33f57033613da14a6fd0ba77777"
+  integrity sha512-UaEi1J4FwUqWWOv6QjLz8XBVUhC8JCo1e6PQJpWOteU45yIhWCCYZH2BZgt7ALPPkoOxG/hMBL01wmGy2rYRTw==
 
 readable-stream@^3.4.0:
   version "3.6.2"

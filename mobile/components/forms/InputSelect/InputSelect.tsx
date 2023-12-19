@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { InputSelectI } from "./InputSelect.props";
 import { View, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import { s } from "./InputSelect.styles";
@@ -18,6 +18,8 @@ export const InputSelect = (p: InputSelectI<any>) => {
     isInputValid = false,
   } = p || {};
 
+  const isFirstLoad = useRef(true);
+
   const [open, setOpen] = useState(false);
 
   const handleSelect = (item: any) => {
@@ -30,6 +32,19 @@ export const InputSelect = (p: InputSelectI<any>) => {
       setValue(item);
     }
   };
+
+  /**
+   * Default value init;
+   */
+  useEffect(() => {
+    if (value && setValue && isFirstLoad.current === true) {
+      const theValue =
+        (options && options.find((o) => o.value === value.value)) || value;
+      console.log("[INFO] The value", { theValue, value });
+      handleSelect(theValue);
+      isFirstLoad.current = false;
+    }
+  }, []);
 
   // @ts-ignore
   const renderItem = ({ item }) => {

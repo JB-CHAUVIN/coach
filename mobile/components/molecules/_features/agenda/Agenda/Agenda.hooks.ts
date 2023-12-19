@@ -1,12 +1,27 @@
 /* @ts-ignore */
-import { API_ENDPOINTS, useQuery } from "../../../../../hooks/useQuery";
+import {
+  API_ENDPOINTS,
+  QUERY_IDS,
+  useQuery,
+} from "../../../../../hooks/useQuery";
 import { useEffect, useMemo } from "react";
 import { getEventByType } from "./Agenda.utils";
 import { TYPE_EVENTS } from "../../../../../../types/Events";
-import {orderBy, sortBy} from "lodash";
+import { orderBy, sortBy } from "lodash";
+import { useAppSelector } from "../../../../../store/store";
+import moment from "moment";
 
 export const useAgendaEvents = () => {
-  const { isLoading, data, handleQuery } = useQuery(API_ENDPOINTS.EVENT);
+  const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
+
+  const { isLoading, data, handleQuery } = useQuery(
+    API_ENDPOINTS.EVENT_GET +
+      "&filters[date][$gte]=" +
+      moment(currentDate).startOf('week').format("YYYY-MM-DD"),
+    {
+      id: QUERY_IDS.HOME_ITEMS,
+    },
+  );
 
   useEffect(() => {
     handleQuery("GET");
@@ -18,7 +33,7 @@ export const useAgendaEvents = () => {
 
     // @ts-ignore
     for (let i in data) {
-      const { attributes } = data?.[i];
+      const { attributes, id } = data?.[i];
       if (attributes) {
         const { date } = attributes;
         if (!res[date]) {
@@ -39,12 +54,13 @@ export const useAgendaEvents = () => {
         res[date].push({
           // @ts-ignore
           ...attributes,
+          id,
           date,
         });
 
         // dot
         // @ts-ignore
-        dots[date].dots.push({key: attributes.seance, color: event?.color});
+        dots[date].dots.push({ key: attributes.seance, color: event?.color });
       }
     }
     return {

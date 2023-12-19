@@ -1,5 +1,12 @@
 interface EventVariation {
   label: string;
+  ratings?: {
+    force: number;
+    puissance: number;
+    technique: number;
+    endurance: number;
+    resistance: number;
+  }
 }
 
 interface EventIcon {
@@ -13,6 +20,13 @@ interface EventType {
   variations: EventVariation[];
   color: string;
   icon: EventIcon;
+  ratings?: {
+    force: number;
+    puissance: number;
+    technique: number;
+    endurance: number;
+    resistance: number;
+  }
 }
 
 interface EventsTypes {
@@ -24,17 +38,24 @@ export const EVENTS_TYPES: EventsTypes = {
     label: "Footing",
     value: "footing",
     variations: [
-      { label: "Endurance fondamentale" },
-      { label: "Récupération" },
-      { label: "Actif" },
-      { label: "Progressif" },
-      { label: "Avec variations de dénivelé" },
-      { label: "Aux sensations" },
+      { label: "Endurance fondamentale", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
+      { label: "Récupération", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
+      { label: "Actif", ratings: { force: 3, puissance: 4, technique: 4, endurance: 5, resistance: 4 } },
+      { label: "Progressif", ratings: { force: 2, puissance: 4, technique: 5, endurance: 5, resistance: 5 } },
+      { label: "Avec variations de dénivelé", ratings: { force: 4, puissance: 5, technique: 4, endurance: 7, resistance: 7 } },
+      { label: "Aux sensations", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
     ],
     color: "#41943a",
     icon: {
       name: "run",
       type: "MaterialCommunityIcons",
+    },
+    ratings: {
+      force: 3,
+      puissance: 2,
+      technique: 4,
+      endurance: 8,
+      resistance: 6,
     },
   },
   RENFO: {
@@ -58,20 +79,34 @@ export const EVENTS_TYPES: EventsTypes = {
       name: "weight-lifter",
       type: "MaterialCommunityIcons",
     },
+    ratings: {
+      force: 8,
+      puissance: 8,
+      technique: 5,
+      endurance: 4,
+      resistance: 7,
+    },
   },
   SL: {
     label: "Sortie longue",
     value: "sl",
     variations: [
-      { label: "Avec variations d'allure" },
-      { label: "Lente" },
-      { label: "Avec variations de dénivelé" },
-      { label: "Aux sensations" },
+      { label: "Avec variations d'allure", ratings: { force: 4, puissance: 3, technique: 4, endurance: 9, resistance: 8 } },
+      { label: "Lente", ratings: { force: 3, puissance: 2, technique: 3, endurance: 9, resistance: 7 } },
+      { label: "Avec variations de dénivelé", ratings: { force: 5, puissance: 4, technique: 4, endurance: 8, resistance: 8 } },
+      { label: "Aux sensations", ratings: { force: 3, puissance: 3, technique: 5, endurance: 9, resistance: 6 } },
     ],
     color: "#de7e31",
     icon: {
       name: "clock-outline",
       type: "MaterialCommunityIcons",
+    },
+    ratings: {
+      force: 4,
+      puissance: 3,
+      technique: 4,
+      endurance: 9,
+      resistance: 8,
     },
   },
   TEMPO: {
@@ -87,6 +122,13 @@ export const EVENTS_TYPES: EventsTypes = {
       name: "run-fast",
       type: "MaterialCommunityIcons",
     },
+    ratings: {
+      force: 5,
+      puissance: 5,
+      technique: 6,
+      endurance: 7,
+      resistance: 7,
+    },
   },
   TRACK: {
     label: "Piste",
@@ -96,6 +138,13 @@ export const EVENTS_TYPES: EventsTypes = {
     icon: {
       name: "rocket",
       type: "MaterialCommunityIcons",
+    },
+    ratings: {
+      force: 6,
+      puissance: 9,
+      technique: 7,
+      endurance: 5,
+      resistance: 6,
     },
   },
 };
