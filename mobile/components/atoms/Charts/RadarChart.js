@@ -1,5 +1,6 @@
 import React from "react";
 import Svg, { G, Path, Text, Polyline } from "react-native-svg";
+import { stringUcFirst } from "../../../utils/string";
 
 export default function RadarChart({
   graphSize,
@@ -95,12 +96,12 @@ export default function RadarChart({
         x={posX(column.angle, 1.2)}
         y={posY(column.angle, 1.2)}
         dy={10 / 2}
-        fill="#444"
+        fill="white"
         fontWeight="bold"
-        fontSize="30"
+        fontSize="35"
         textAnchor="middle"
       >
-        {column.key}
+        {stringUcFirst(column.key)}
       </Text>
     );
   };
@@ -121,7 +122,7 @@ export default function RadarChart({
   };
 
   const groups = [];
-  const labels = Object.keys(data?.[0] ||{});
+  const labels = Object.keys(data?.[0] || {});
 
   const columns = labels.map((key, i, arr) => {
     return {

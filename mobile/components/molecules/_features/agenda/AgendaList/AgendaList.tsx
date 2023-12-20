@@ -4,6 +4,7 @@ import { AgendaDay } from "../AgendaDay/AgendaDay";
 import { s } from "./AgendaList.styles";
 import { TYPE_EVENTS } from "../../../../../../types/Events";
 import { AgendaHeader } from "../AgendaHeader/AgendaHeader";
+import {AgendaEmpty} from "../AgendaEmpty/AgendaEmpty";
 
 type AgendaListProps = {
   agendaItems: {
@@ -16,11 +17,14 @@ type AgendaListProps = {
 const AgendaList: React.FC<AgendaListProps> = (p) => {
   const { agendaItems: agenda } = p || {};
 
+  const items = Object.values(agenda?.items);
+
   return (
     <View style={s.container}>
       <FlatList
-        ListHeaderComponent={() => <AgendaHeader />}
-        data={Object.values(agenda?.items)}
+        ListHeaderComponent={() => items.length > 0 ? <AgendaHeader /> : null}
+        ListEmptyComponent={() => <AgendaEmpty />}
+        data={items}
         renderItem={(item) => <AgendaDay item={item?.item} />}
       />
     </View>

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { FORM_STYLES } from "../../../constants/formStyles";
 import { color } from "ansi-fragments";
 import { COLORS } from "../../../constants/colors";
+import {FONTS} from "../../../constants/fonts";
 
 export const s = StyleSheet.create({
   // containers
@@ -59,10 +60,8 @@ export const s = StyleSheet.create({
   },
 
   textPlaceholder: {
-    fontFamily: "UrbanistRegular",
-    color: COLORS.text,
+    ...FORM_STYLES.inputPlaceholder,
     padding: FORM_STYLES.inputContainer.marginVertical,
-    opacity: 0.6,
     flexGrow: 1
   },
 

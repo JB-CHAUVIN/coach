@@ -14,8 +14,8 @@ export interface InputI<T> {
   id: string;
   setValue?: (value: T) => void;
   value?: T;
-  icon?: any,
-  isInputValid?: boolean,
+  icon?: any;
+  isInputValid?: boolean;
 }
 
 export const Form = <T extends unknown>(p: FormI<T>) => {
@@ -45,15 +45,38 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
       // @ts-ignore
       const id = child?.props?.id;
 
-      if (id && id !== 'submit') {
+      if (id && id !== "submit") {
         // @ts-ignore
         fields.current[id] = true;
       }
 
-      let isFormValid = true;
-      for(let i in fields.current) {
+      const isInputValidFn = (formValue: any) => {
+        // Is input valid
+        let res = false;
         // @ts-ignore
-        if (typeof form?.[i] === 'undefined') {
+        if (typeof formValue !== "undefined") {
+          if (typeof formValue === "string") {
+            res = formValue.length > 0;
+          } else {
+            res = true;
+          }
+        }
+        // @ts-ignore
+        if (formValue?.nullable) {
+          res = true;
+        }
+
+        return res;
+      }
+
+      // @ts-ignore
+      const formValue = form?.[id];
+      const isInputValid = isInputValidFn(formValue);
+
+      let isFormValid = true;
+      for (let j in fields.current) {
+        // @ts-ignore
+        if (fields.current?.[j] && !isInputValidFn(form[j])) {
           isFormValid = false;
         }
       }
@@ -66,7 +89,7 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
         value: form?.[child?.props?.id],
         isFormValid,
         // @ts-ignore
-        isInputValid: typeof form?.[id] !== 'undefined',
+        isInputValid,
       });
     });
   };

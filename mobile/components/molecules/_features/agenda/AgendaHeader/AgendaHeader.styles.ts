@@ -11,7 +11,12 @@ export const s = StyleSheet.create({
     borderBottomRightRadius: 50,
     backgroundColor: COLORS.primary,
     marginBottom: 0,
-    paddingRight: 50,
+  },
+
+  containerCharts: {
+    marginLeft: -1 * SIZES.PADDING_PAGE,
+    marginTop: -20,
+    height: 330,
   },
 
   containerInfo: {

@@ -38,12 +38,66 @@ export const EVENTS_TYPES: EventsTypes = {
     label: "Footing",
     value: "footing",
     variations: [
-      { label: "Endurance fondamentale", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
-      { label: "Récupération", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
-      { label: "Actif", ratings: { force: 3, puissance: 4, technique: 4, endurance: 5, resistance: 4 } },
-      { label: "Progressif", ratings: { force: 2, puissance: 4, technique: 5, endurance: 5, resistance: 5 } },
-      { label: "Avec variations de dénivelé", ratings: { force: 4, puissance: 5, technique: 4, endurance: 7, resistance: 7 } },
-      { label: "Aux sensations", ratings: { force: 2, puissance: 2, technique: 2, endurance: 2, resistance: 2 } },
+      {
+        label: "Endurance fondamentale",
+        ratings: {
+          force: 2,
+          puissance: 2,
+          technique: 2,
+          endurance: 2,
+          resistance: 2,
+        },
+      },
+      {
+        label: "Récupération",
+        ratings: {
+          force: 2,
+          puissance: 2,
+          technique: 2,
+          endurance: 2,
+          resistance: 2,
+        },
+      },
+      {
+        label: "Actif",
+        ratings: {
+          force: 3,
+          puissance: 4,
+          technique: 4,
+          endurance: 5,
+          resistance: 4,
+        },
+      },
+      {
+        label: "Progressif",
+        ratings: {
+          force: 2,
+          puissance: 4,
+          technique: 5,
+          endurance: 5,
+          resistance: 5,
+        },
+      },
+      {
+        label: "Avec variations de dénivelé",
+        ratings: {
+          force: 4,
+          puissance: 5,
+          technique: 4,
+          endurance: 7,
+          resistance: 7,
+        },
+      },
+      {
+        label: "Aux sensations",
+        ratings: {
+          force: 2,
+          puissance: 2,
+          technique: 2,
+          endurance: 2,
+          resistance: 2,
+        },
+      },
     ],
     color: "#41943a",
     icon: {
@@ -80,9 +134,9 @@ export const EVENTS_TYPES: EventsTypes = {
       type: "MaterialCommunityIcons",
     },
     ratings: {
-      force: 8,
-      puissance: 8,
-      technique: 5,
+      force: 10,
+      puissance: 10,
+      technique: 8,
       endurance: 4,
       resistance: 7,
     },
@@ -91,10 +145,46 @@ export const EVENTS_TYPES: EventsTypes = {
     label: "Sortie longue",
     value: "sl",
     variations: [
-      { label: "Avec variations d'allure", ratings: { force: 4, puissance: 3, technique: 4, endurance: 9, resistance: 8 } },
-      { label: "Lente", ratings: { force: 3, puissance: 2, technique: 3, endurance: 9, resistance: 7 } },
-      { label: "Avec variations de dénivelé", ratings: { force: 5, puissance: 4, technique: 4, endurance: 8, resistance: 8 } },
-      { label: "Aux sensations", ratings: { force: 3, puissance: 3, technique: 5, endurance: 9, resistance: 6 } },
+      {
+        label: "Avec variations d'allure",
+        ratings: {
+          force: 4,
+          puissance: 3,
+          technique: 4,
+          endurance: 9,
+          resistance: 8,
+        },
+      },
+      {
+        label: "Lente",
+        ratings: {
+          force: 3,
+          puissance: 2,
+          technique: 3,
+          endurance: 9,
+          resistance: 7,
+        },
+      },
+      {
+        label: "Avec variations de dénivelé",
+        ratings: {
+          force: 5,
+          puissance: 4,
+          technique: 4,
+          endurance: 8,
+          resistance: 8,
+        },
+      },
+      {
+        label: "Aux sensations",
+        ratings: {
+          force: 3,
+          puissance: 3,
+          technique: 5,
+          endurance: 9,
+          resistance: 6,
+        },
+      },
     ],
     color: "#de7e31",
     icon: {

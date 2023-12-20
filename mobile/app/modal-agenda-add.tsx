@@ -13,6 +13,8 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { TYPE_EVENTS } from "../../types/Events";
 import { addStoreItem, updateStoreItem } from "../store/slices/querySlices";
 import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
+import Head from "expo-router/head";
+import { Input } from "../components/forms/Input/Input";
 
 type Inputs = {
   date: Date;
@@ -28,6 +30,7 @@ type Inputs = {
         label: string;
       }
     | undefined;
+  distance?: number;
 };
 
 const optionsTime = [
@@ -66,6 +69,7 @@ export default function ModalScreen() {
   let isUpdate = false;
   let defaultValues: Inputs = {
     date: moment(currentDate).toDate(),
+    distance: 0,
   };
 
   if (item) {
@@ -109,6 +113,7 @@ export default function ModalScreen() {
         seance: form?.type?.value,
         seance_variation: form?.typeVariation?.label,
         done: false,
+        distance: form?.distance || 0,
       },
       onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {
         if (!isUpdate) {
@@ -146,6 +151,15 @@ export default function ModalScreen() {
           options={form["type"]?.variations}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
           icon={"information-variant"}
+        />
+
+        <Input
+          id={"distance"}
+          options={form["type"]?.variations}
+          placeholder={PHRASES.FR.PLACEHOLDER_FORM_DISTANCE}
+          icon={"map-marker-distance"}
+          keyboardType={"numeric"}
+          nullable={true}
         />
 
         <InputSubmit

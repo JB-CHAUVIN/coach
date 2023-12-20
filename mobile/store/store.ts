@@ -1,19 +1,35 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import counterReducer from "./slices/counterSlice";
 import agendaReducer from "./slices/agendaSlice";
 import queryReducer from "./slices/querySlices";
+import userReducer from "./slices/userSlice";
+import {persistReducer, persistStore} from "redux-persist";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import reactotron from "../config/reactotron";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const persistConfig = {
+  key: "root",
+  storage: AsyncStorage,
+  whitelist: ["user"],
+};
+
+const reducer = {
+  counter: counterReducer,
+  agenda: agendaReducer,
+  query: queryReducer,
+  user: userReducer,
+};
+
+const persistedReducer = persistReducer(persistConfig, combineReducers(reducer));
 
 const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    agenda: agendaReducer,
-    query: queryReducer,
-  },
+  reducer: persistedReducer,
   // @ts-ignore
   enhancers: () => [reactotron.createEnhancer()],
 });
+
+export const persistor = persistStore(store)
 
 export default store;
 

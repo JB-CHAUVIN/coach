@@ -9,6 +9,7 @@ import { TYPE_EVENTS } from "../../types/Events";
 export const API_ENDPOINTS = {
   EVENT_CRUD: "api/events",
   EVENT_GET: "api/events?sort=date",
+  LOGIN: "api/auth/local",
 };
 
 export const QUERY_IDS = {
@@ -42,10 +43,10 @@ export const useQuery = (
     }
   };
 
-  const handleQuery = (
+  const handleQuery = <T>(
     method: string,
     options?: {
-      body: { id: number; done: boolean };
+      body: T;
       isStrapi?: boolean;
       onSuccess: (i: any) => void;
     },
@@ -61,11 +62,15 @@ export const useQuery = (
       theBody = {
         data: body,
       };
+    } else if (body) {
+      theBody = body;
     }
 
     setIsLoading(true);
     let TARGET_ENDPOINT = CONFIG.BACKEND + url;
-    if (body?.id) {
+    // @ts-ignore
+    if (body && typeof body?.id !== "undefined") {
+      // @ts-ignore
       TARGET_ENDPOINT += "/" + body.id;
     }
 
@@ -82,8 +87,12 @@ export const useQuery = (
       console.log("[INFO] Query on " + TARGET_ENDPOINT, fetchOptions);
     }
 
+    let status = 0;
     fetch(TARGET_ENDPOINT, fetchOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        status = response.status;
+        return response.json();
+      })
       .then((result) => {
         if (DEBUG) {
           console.log(
@@ -92,9 +101,14 @@ export const useQuery = (
           );
         }
 
-        if (result?.data) {
-          setData(result.data);
-          onSuccess(result.data);
+        let success = false;
+        if(status >= 200 && status <= 299) {
+          success = true;
+        }
+
+        if (success) {
+          setData(result?.data || result);
+          onSuccess(result?.data || result);
         } else {
           setError(result);
         }

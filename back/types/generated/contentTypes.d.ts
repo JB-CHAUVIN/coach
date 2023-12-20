@@ -386,6 +386,7 @@ export interface ApiEventEvent extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     done: Attribute.Boolean & Attribute.DefaultTo<false>;
+    distance: Attribute.Decimal;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

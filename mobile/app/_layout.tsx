@@ -1,24 +1,15 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
-import { Provider } from "react-redux";
-import store from "../store/store";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
-import moment from 'moment';
+import moment from "moment";
+import "moment/locale/fr";
+import { Hoc } from "./Hoc";
+import { useUser } from "../hooks/useUser";
 
-require('../config/reactotron');
+require("../config/reactotron");
 
-import 'moment/locale/fr'
-moment.locale('fr');
-
+moment.locale("fr");
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -72,29 +63,22 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Hoc>
+      <RootLayoutNav />
+    </Hoc>
+  );
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
-    <GluestackUIProvider>
-      <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen
-                name="modal-agenda-add"
-                options={{ presentation: "modal" }}
-              />
-            </Stack>
-          </ThemeProvider>
-        </GestureHandlerRootView>
-      </Provider>
-    </GluestackUIProvider>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+      <Stack.Screen
+        name="modal-agenda-add"
+        options={{ presentation: "modal", headerShown: false }}
+      />
+    </Stack>
   );
 }

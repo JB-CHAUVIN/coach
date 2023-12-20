@@ -46,6 +46,9 @@
     "done": {
       "type": "boolean",
       "default": false
+    },
+    "distance": {
+      "type": "decimal"
     }
   }
 }
