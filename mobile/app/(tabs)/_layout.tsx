@@ -3,16 +3,15 @@ import { Link, Redirect, Tabs } from "expo-router";
 import { Pressable } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { useUser } from "../../hooks/useUser";
+import { PHRASES } from "../../constants/phrases";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FONTS } from "../../constants/fonts";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+const headerTitleStyle = {
+  fontFamily: FONTS.Medium,
+  color: '#505050',
+  fontSize: 20,
+};
 
 export default function TabLayout() {
   const { isLoggedIn, user } = useUser();
@@ -30,8 +29,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerTitleStyle,
+          title: PHRASES.FR.TAB1_TITLE,
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="calendar-heart"
+              color={color}
+              size={30}
+            />
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -51,8 +57,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          headerTitleStyle,
+          title: PHRASES.FR.TAB2_TITLE,
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="account-cog"
+              color={color}
+              size={30}
+            />
+          ),
         }}
       />
     </Tabs>
