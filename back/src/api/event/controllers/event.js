@@ -53,7 +53,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
          * @type {*}
          */
         const activity = await stravaGetActivity(object_id, user);
-        const { start_date } = activity || {};
+        const { start_date_local } = activity || {};
 
         DEBUG && console.log("[INFO] Found activity", activity);
 
@@ -61,7 +61,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
          * Find corresponding event in our database.
          */
 
-        const { event, events } = await getEventByTimeOfDay(start_date);
+        const { event, events } = await getEventByTimeOfDay(start_date_local);
 
         // we must have only one matching event!
         if (
