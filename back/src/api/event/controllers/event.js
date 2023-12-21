@@ -118,22 +118,6 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           };
         }
 
-        DEBUG &&
-          console.log(
-            "[INFO] Creating or updating activity",
-            JSON.stringify({
-              bodyActivity: {
-                user: {
-                  connect: [user?.id],
-                },
-                event: {
-                  connect: [event?.id],
-                },
-              },
-              existingActivity,
-            })
-          );
-
         if (!existingActivity) {
           await strapi.entityService.create(modelActivities, {
             data: {

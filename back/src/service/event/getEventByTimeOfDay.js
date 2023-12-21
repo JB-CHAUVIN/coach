@@ -18,14 +18,25 @@ const getEventByTimeOfDay = async (start_date) => {
   } else {
     time = "soir";
   }
+  const filters = {
+    time,
+    date: activityDate.format("YYYY-MM-DD"),
+  };
+
   const events = await strapi.entityService.findMany("api::event.event", {
-    filters: {
-      time,
-      date: activityDate.format("YYYY-MM-DD"),
-    },
+    filters,
   });
 
   const event = events?.[0];
+
+  console.log('[INFO] Finding event by time of day', JSON.stringify({
+    filters,
+    hours,
+    minutes,
+    activityDate,
+    event,
+    events,
+  }))
 
   return {
     events,
