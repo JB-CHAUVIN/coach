@@ -17,6 +17,13 @@ const DEBUG = true;
 const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::event.event", ({ strapi }) => ({
+  async validateStravaWebhook(ctx) {
+    ctx.response.status = 200;
+    ctx.response.body = {
+      "hub.challenge": ctx.params?.["hub.challenge"],
+    };
+  },
+
   async createFromStrava(ctx) {
     const {
       object_id = 0,

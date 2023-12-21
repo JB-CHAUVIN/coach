@@ -8,7 +8,7 @@ module.exports = {
         {
             method: 'GET',
             path: '/webhook-strava',
-            handler: 'event.createFromStrava',
+            handler: 'event.validateStravaWebhook',
         },
     ]
 }
