@@ -113,7 +113,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
         };
 
         DEBUG && console.log('[INFO] Creating or updating activity', {
-          bodyActivity: JSON.stringify(bodyActivity)
+          bodyActivity: JSON.stringify(bodyActivity),
           existingActivity
         });
 
