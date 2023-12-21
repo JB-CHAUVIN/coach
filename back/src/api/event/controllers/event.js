@@ -25,7 +25,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
       aspect_type = "create",
     } = ctx?.request?.body || {};
 
-    DEBUG && console.log('[INFO] Body', ctx?.request?.body);
+    DEBUG && console.log("[INFO] Body", ctx?.request?.body);
 
     if (object_type === "activity") {
       /**
@@ -45,7 +45,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
       const user = users?.[0];
 
-      DEBUG && console.log('[INFO] Found user', user);
+      DEBUG && console.log("[INFO] Found user", user);
 
       if (user?.id) {
         /**
@@ -55,7 +55,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
         const activity = await stravaGetActivity(object_id, user);
         const { start_date } = activity || {};
 
-        DEBUG && console.log('[INFO] Found activity', activity);
+        DEBUG && console.log("[INFO] Found activity", activity);
 
         /**
          * Find corresponding event in our database.
@@ -69,7 +69,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           !event?.stravaFlaggedAuto &&
           event?.done === false
         ) {
-          DEBUG && console.log('[INFO] Let\'s update event');
+          DEBUG && console.log("[INFO] Let's update event");
 
           // we only automaticly link event once!
           await strapi.entityService.update("api::event.event", event?.id, {
@@ -104,26 +104,35 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
         const bodyActivity = {
           ...filtersActivity,
           data: activity,
-          user: {
-            connect: [user?.id],
-          },
-          event: {
-            connect: [event?.id],
-          },
         };
 
-        DEBUG && console.log('[INFO] Creating or updating activity', JSON.stringify({
-          bodyActivity: {
-            user: {
-              connect: [user?.id],
-            },
-            event: {
-              connect: [event?.id],
-            }
-          },
-          existingActivity
-        }));
+        if (user?.id) {
+          bodyActivity.user = {
+            connect: [user?.id],
+          };
+        }
 
+        if (event?.id) {
+          bodyActivity.event = {
+            connect: [event?.id],
+          };
+        }
+
+        DEBUG &&
+          console.log(
+            "[INFO] Creating or updating activity",
+            JSON.stringify({
+              bodyActivity: {
+                user: {
+                  connect: [user?.id],
+                },
+                event: {
+                  connect: [event?.id],
+                },
+              },
+              existingActivity,
+            })
+          );
 
         if (!existingActivity) {
           await strapi.entityService.create(modelActivities, {
