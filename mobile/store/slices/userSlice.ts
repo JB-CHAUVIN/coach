@@ -5,15 +5,19 @@ export const userSlice = createSlice({
   initialState: {
     item: {
       id: null,
+      stravaToken: null,
     },
-    token: "",
+    jwt: "",
   },
   reducers: {
     setUser: (state, action) => {
-      state.item = action?.payload;
+      state.item = {
+        ...state.item,
+        ...action?.payload,
+      };
     },
     setToken: (state, action) => {
-      state.token = action?.payload;
+      state.jwt = action?.payload;
     },
   },
 });

@@ -18,7 +18,11 @@ export const PHRASES = {
     TAB1_TITLE: "Planning",
     TAB2_TITLE: "Configuration",
     CONNECT_WITH_STRAVA: "Lier mon compte Strava",
+    CONNECT_WITH_STRAVA_OK: "Vous avez lié votre compte Strava et 400m.coach",
     CONNECT_WITH_STRAVA_DESC:
       "En vous connectant à votre compte Strava, nous pourrons automatiquement lié vos activités effectuées avec vos entraînements programmés.",
+    CONNECT_WITH_STRAVA_DESC_OK: "Vous pouvez déconnecter votre compte Strava en cliquant sur le bouton ci-dessous.",
+    LOGOUT: "Déconnexion",
+    DISABLE_STRAVA: "Supprimer le lien Strava",
   },
 };

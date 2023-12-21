@@ -3,13 +3,13 @@ import { CONFIG } from "../constants/config";
 import { Platform } from "react-native";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { setQueryStore } from "../store/slices/querySlices";
-import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
-import { TYPE_EVENTS } from "../../types/Events";
+import { useUser } from "./useUser";
 
 export const API_ENDPOINTS = {
   EVENT_CRUD: "api/events",
-  EVENT_GET: "api/events?sort=date",
+  EVENT_GET: "api/events?sort=date&populate=event",
   LOGIN: "api/auth/local",
+  USER: "api/users",
 };
 
 export const QUERY_IDS = {
@@ -24,6 +24,8 @@ export const useQuery = (
     id?: string;
   },
 ) => {
+  const { user } = useUser();
+
   const { id = false } = options || {};
   const [dataState, setDataState] = useState(false);
   // @ts-ignore
@@ -74,12 +76,22 @@ export const useQuery = (
       TARGET_ENDPOINT += "/" + body.id;
     }
 
+    let headers = {
+      "Content-Type": "application/json",
+      "User-Agent": "Application (" + Platform.OS + ")",
+      "Authorization": "",
+    };
+
+    if (user?.jwt) {
+      headers = {
+        ...headers,
+        Authorization: "Bearer " + user?.jwt,
+      };
+    }
+
     const fetchOptions = {
       method: method || "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": "Application (" + Platform.OS + ")",
-      },
+      headers,
       body: theBody ? JSON.stringify(theBody) : undefined,
     };
 
@@ -102,7 +114,7 @@ export const useQuery = (
         }
 
         let success = false;
-        if(status >= 200 && status <= 299) {
+        if (status >= 200 && status <= 299) {
           success = true;
         }
 

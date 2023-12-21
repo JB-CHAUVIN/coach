@@ -1,11 +1,10 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Redirect, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import moment from "moment";
 import "moment/locale/fr";
 import { Hoc } from "./Hoc";
-import { useUser } from "../hooks/useUser";
 
 require("../config/reactotron");
 
@@ -63,22 +62,20 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <Hoc>
-      <RootLayoutNav />
-    </Hoc>
-  );
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    <Hoc>
+      <Stack initialRouteName={"(tabs)"}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      <Stack.Screen
-        name="modal-agenda-add"
-        options={{ presentation: "modal", headerShown: false }}
-      />
-    </Stack>
+        <Stack.Screen
+          name="modal-agenda-add"
+          options={{ presentation: "modal", headerShown: false }}
+        />
+      </Stack>
+    </Hoc>
   );
 }

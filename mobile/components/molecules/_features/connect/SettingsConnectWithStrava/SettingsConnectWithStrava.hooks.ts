@@ -1,12 +1,19 @@
 import * as WebBrowser from "expo-web-browser";
 import { STRAVA_CONFIG } from "../../../../../config/strava";
-import AuthSession, {
-  makeRedirectUri,
-  useAuthRequest,
-} from "expo-auth-session";
+import { exchangeCodeAsync, useAuthRequest } from "expo-auth-session";
 import { useEffect } from "react";
+import { API_ENDPOINTS, useQuery } from "../../../../../hooks/useQuery";
+import { useUser } from "../../../../../hooks/useUser";
+import { useAppDispatch } from "../../../../../store/store";
+import { setUser } from "../../../../../store/slices/userSlice";
+import { TYPE_USER } from "../../../../../../types/User";
+import {
+  API_ENDPOINTS_STRAVA,
+  useQueryStrava,
+} from "../../../../../hooks/useQueryStrava";
+import moment from "moment";
 
-let redirectUri = "https://400m.coach/oauth.php";
+const redirectUri = "https://400m.coach/oauth.php";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,9 +24,61 @@ const discovery = {
 };
 
 export const useLoginWithStrava = () => {
-  const redirectUri = makeRedirectUri({
-    native: "https://400m.coach",
-  });
+  const { user } = useUser();
+  const dispatch = useAppDispatch();
+  const { handleQuery, isLoading } = useQuery(
+    API_ENDPOINTS.USER + "/" + user?.item?.id,
+  );
+
+  const { handleQuery: handleQueryStravaAthlete, result: resultStravaAthlete } =
+    useQueryStrava(API_ENDPOINTS_STRAVA.GET_ATHLETE); // TODO : get user by ID (from token)
+
+  const handleQueryPUTStravaToken = (
+    accessToken: string | null,
+    refreshToken: string | null | undefined,
+    stravaTokenExpiresAt?: Date,
+  ) => {
+    handleQuery("PUT", {
+      body: {
+        stravaToken: accessToken,
+        stravaRefreshToken: refreshToken,
+        stravaTokenExpiresAt,
+      },
+      onSuccess: (res: TYPE_USER) => {
+        console.log("[INFO] Success", res);
+        if (res?.id) {
+          dispatch(setUser(res));
+
+          setTimeout(() => {
+            if(accessToken) {
+              handleQueryStravaAthlete(accessToken);
+            }
+          }, 500);
+        }
+      },
+      isStrapi: false,
+    });
+  };
+
+  useEffect(() => {
+    handleQuery("PUT", {
+      body: {
+        stravaId: resultStravaAthlete?.id,
+        stravaAthlete: resultStravaAthlete,
+      },
+      onSuccess: (res: TYPE_USER) => {
+        console.log("[INFO] Success", res);
+        if (res?.id) {
+          dispatch(setUser(res));
+        }
+      },
+      isStrapi: false,
+    });
+  }, [resultStravaAthlete]);
+
+  const handleRemoveStravaToken = () => {
+    handleQueryPUTStravaToken(null, null, null);
+  };
 
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -31,7 +90,7 @@ export const useLoginWithStrava = () => {
   );
 
   const exchangeToken = async (code: string) => {
-    const { accessToken } = await AuthSession.exchangeCodeAsync(
+    const res = await exchangeCodeAsync(
       {
         clientId: STRAVA_CONFIG.clientId,
         redirectUri,
@@ -43,13 +102,21 @@ export const useLoginWithStrava = () => {
       { tokenEndpoint: "https://www.strava.com/oauth/token" },
     );
 
-    console.log('[INFO] accessToken', accessToken);
+    const { accessToken, refreshToken, expiresIn } = res;
+
+    console.log("[INFO] AccessToken", accessToken, res);
+
+    if (accessToken) {
+      handleQueryPUTStravaToken(accessToken, refreshToken, moment().add(expiresIn, 'seconds').toDate());
+    }
   };
 
   useEffect(() => {
-    if (response?.type === "success") {
-      const { code } = response.params;
-      exchangeToken(code);
+    // @ts-ignore
+    const theCode = response?.params?.code;
+    console.log("[INFO] Response", theCode);
+    if (theCode) {
+      exchangeToken(theCode);
     }
   }, [response]);
 
@@ -59,6 +126,9 @@ export const useLoginWithStrava = () => {
   };
 
   return {
+    isLoading,
+    isLoggedInWithStava: user?.item?.stravaToken,
+    handleRemoveStravaToken,
     handleLoginWithStrava,
   };
 };

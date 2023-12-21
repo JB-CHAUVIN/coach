@@ -362,6 +362,49 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiActivityActivity extends Schema.CollectionType {
+  collectionName: 'activities';
+  info: {
+    singularName: 'activity';
+    pluralName: 'activities';
+    displayName: 'activities';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    type: Attribute.Enumeration<['strava']>;
+    data: Attribute.JSON;
+    user: Attribute.Relation<
+      'api::activity.activity',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    activity_id: Attribute.BigInteger;
+    event: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'api::event.event'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiEventEvent extends Schema.CollectionType {
   collectionName: 'events';
   info: {
@@ -387,6 +430,12 @@ export interface ApiEventEvent extends Schema.CollectionType {
     >;
     done: Attribute.Boolean & Attribute.DefaultTo<false>;
     distance: Attribute.Decimal;
+    stravaFlaggedAuto: Attribute.Boolean & Attribute.DefaultTo<false>;
+    activity: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'api::activity.activity'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -674,7 +723,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -708,6 +756,16 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::event.event'
     >;
+    stravaToken: Attribute.String;
+    stravaRefreshToken: Attribute.String;
+    stravaAthlete: Attribute.JSON;
+    stravaId: Attribute.BigInteger;
+    stravaTokenExpiresAt: Attribute.DateTime;
+    activities: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::activity.activity'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -735,6 +793,7 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::activity.activity': ApiActivityActivity;
       'api::event.event': ApiEventEvent;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;

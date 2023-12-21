@@ -1,11 +1,12 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Redirect, Tabs } from "expo-router";
+import {Link, Redirect, Tabs, useNavigation} from "expo-router";
 import { Pressable } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { useUser } from "../../hooks/useUser";
 import { PHRASES } from "../../constants/phrases";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FONTS } from "../../constants/fonts";
+import {useEffect} from "react";
 
 const headerTitleStyle = {
   fontFamily: FONTS.Medium,

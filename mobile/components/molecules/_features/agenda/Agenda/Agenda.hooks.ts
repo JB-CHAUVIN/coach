@@ -36,10 +36,12 @@ export const useAgendaEvents = () => {
       const { attributes, id } = data?.[i];
       if (attributes) {
         const { date } = attributes;
+        // @ts-ignore
         if (!res[date]) {
           // @ts-ignore
           res[date] = [];
         }
+        // @ts-ignore
         if (!dots[date]) {
           // @ts-ignore
           dots[date] = {

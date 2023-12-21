@@ -1,8 +1,9 @@
 <?php
 
-$scheme = "400m.coach";
-if(isset($_GET['isDev'])) {
-    $scheme = urldecode($_GET['isDev']);
-}
+$scheme = "com.400m.coach.app";
+$header = 'Location: ' . $scheme .'://?code=' . $_GET['code'];
 
-header('Location: ' . $scheme .'://?code=' . $_GET['code']);
+echo "Code : " . $_GET['code'] . "<br>";
+echo "Scheme : " . $scheme . "<br>";
+
+header($header);

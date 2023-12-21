@@ -26,6 +26,8 @@ const persistedReducer = persistReducer(persistConfig, combineReducers(reducer))
 const store = configureStore({
   reducer: persistedReducer,
   // @ts-ignore
+  middleware: () => [],
+  // @ts-ignore
   enhancers: () => [reactotron.createEnhancer()],
 });
 

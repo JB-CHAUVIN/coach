@@ -9,8 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "draftAndPublish": false,
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -70,6 +69,27 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::event.event",
+      "mappedBy": "user"
+    },
+    "stravaToken": {
+      "type": "string"
+    },
+    "stravaRefreshToken": {
+      "type": "string"
+    },
+    "stravaAthlete": {
+      "type": "json"
+    },
+    "stravaId": {
+      "type": "biginteger"
+    },
+    "stravaTokenExpiresAt": {
+      "type": "datetime"
+    },
+    "activities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::activity.activity",
       "mappedBy": "user"
     }
   }

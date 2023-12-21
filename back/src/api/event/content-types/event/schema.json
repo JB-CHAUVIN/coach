@@ -49,6 +49,16 @@
     },
     "distance": {
       "type": "decimal"
+    },
+    "stravaFlaggedAuto": {
+      "type": "boolean",
+      "default": false
+    },
+    "activity": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::activity.activity",
+      "mappedBy": "event"
     }
   }
 }

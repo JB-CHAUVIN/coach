@@ -40,8 +40,10 @@ export default function LoginScreen() {
         dispatch(setUser(i?.user));
         dispatch(setToken(i?.jwt));
 
-        alert('TODO - reload')
-        Updates.reloadAsync();
+        // should work in production
+        setTimeout(() => {
+          Updates.reloadAsync();
+        }, 100);
       },
       isStrapi: false,
     });
