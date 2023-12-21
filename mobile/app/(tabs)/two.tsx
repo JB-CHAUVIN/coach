@@ -4,15 +4,14 @@ import { SIZES } from "../../constants/sizes";
 import { PHRASES } from "../../constants/phrases";
 import { Text } from "../../components/atoms/Text";
 import { useAppDispatch } from "../../store/store";
-import { setToken, setUser } from "../../store/slices/userSlice";
+import { cleanUser } from "../../store/slices/userSlice";
 import { COLORS } from "../../constants/colors";
 
 export default function TabTwoScreen() {
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     // TODO : Add confirm modal
-    dispatch(setUser(null));
-    dispatch(setToken(null));
+    dispatch(cleanUser());
   };
 
   return (

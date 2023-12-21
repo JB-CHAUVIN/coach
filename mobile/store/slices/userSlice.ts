@@ -16,12 +16,19 @@ export const userSlice = createSlice({
         ...action?.payload,
       };
     },
+    cleanUser: (state) => {
+      state.item = {
+        id: null,
+        stravaToken: null,
+      };
+      state.jwt = "";
+    },
     setToken: (state, action) => {
       state.jwt = action?.payload;
     },
   },
 });
 
-export const { setUser, setToken } = userSlice.actions;
+export const { setUser, setToken, cleanUser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -12,6 +12,8 @@ const {
  * event controller
  */
 
+const DEBUG = true;
+
 const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::event.event", ({ strapi }) => ({
@@ -22,6 +24,8 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
       owner_id = 0,
       aspect_type = "create",
     } = ctx?.request?.body || {};
+
+    DEBUG && console.log('[INFO] Body', ctx?.request?.body);
 
     if (object_type === "activity") {
       /**
@@ -41,6 +45,8 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
       const user = users?.[0];
 
+      DEBUG && console.log('[INFO] Found user', user);
+
       if (user?.id) {
         /**
          * Fetch activity from Strava.
@@ -48,6 +54,8 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
          */
         const activity = await stravaGetActivity(object_id, user);
         const { start_date } = activity || {};
+
+        DEBUG && console.log('[INFO] Found activity', activity);
 
         /**
          * Find corresponding event in our database.
@@ -61,6 +69,8 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           !event?.stravaFlaggedAuto &&
           event?.done === false
         ) {
+          DEBUG && console.log('[INFO] Let\'s update event');
+
           // we only automaticly link event once!
           await strapi.entityService.update("api::event.event", event?.id, {
             data: {
@@ -102,7 +112,11 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           },
         };
 
-        // console.log("[INFO] Creating or updating activity", bodyActivity);
+        DEBUG && console.log('[INFO] Creating or updating activity', {
+          bodyActivity,
+          existingActivity
+        });
+
 
         if (!existingActivity) {
           await strapi.entityService.create(modelActivities, {
