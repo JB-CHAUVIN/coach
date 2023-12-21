@@ -136,5 +136,10 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
         }
       }
     }
+
+    ctx.response.status = 200;
+    ctx.response.body = {
+      status: "ok",
+    };
   },
 }));
