@@ -6,4 +6,5 @@ export interface InputI<T> extends InputIForm<T> {
     placeholder?: string;
     secureTextEntry?: boolean;
     autoCapitalize?: "none" | "sentences" | "words" | "characters";
+    validation?: (value: T) => boolean;
 };

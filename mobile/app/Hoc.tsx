@@ -7,9 +7,11 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+import Toast from "react-native-toast-message";
 import { Provider } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PersistGate } from "redux-persist/integration/react";
+import { toastConfig } from "../constants/toasts";
 
 export const Hoc = (p: any) => {
   const { children } = p || {};
@@ -25,6 +27,7 @@ export const Hoc = (p: any) => {
             <PersistGate loading={null} persistor={persistor}>
               {children}
             </PersistGate>
+            <Toast config={toastConfig} />
           </ThemeProvider>
         </GestureHandlerRootView>
       </Provider>

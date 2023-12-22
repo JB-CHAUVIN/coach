@@ -6,8 +6,6 @@ import {
 } from "../../../../../hooks/useQuery";
 import { useEffect, useMemo } from "react";
 import { getEventByType } from "./Agenda.utils";
-import { TYPE_EVENTS } from "../../../../../../types/Events";
-import { orderBy, sortBy } from "lodash";
 import { useAppSelector } from "../../../../../store/store";
 import moment from "moment";
 
@@ -17,7 +15,7 @@ export const useAgendaEvents = () => {
   const { isLoading, data, handleQuery } = useQuery(
     API_ENDPOINTS.EVENT_GET +
       "&filters[date][$gte]=" +
-      moment(currentDate).startOf('week').format("YYYY-MM-DD"),
+      moment(currentDate).startOf("week").add(1, "day").format("YYYY-MM-DD"),
     {
       id: QUERY_IDS.HOME_ITEMS,
     },

@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Pressable, Touchable, TouchableOpacity, View } from "react-native";
 import { s } from "./AgendaHeader.styles";
 import { AgendaHeaderProps } from "./AgendaHeader.props";
 import { Text } from "../../../../atoms/Text";
@@ -8,11 +8,23 @@ import RadarChart from "../../../../atoms/Charts/RadarChart";
 import { SCREEN_WIDTH, SIZES } from "../../../../../constants/sizes";
 import { useAgendaHeaderInfos } from "./AgendaHeader.hooks";
 import { COLORS } from "../../../../../constants/colors";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import { useAgendaHeaderAnimated } from "./AgendaHeader.animated";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
   const {} = p || {};
 
   const { infos } = useAgendaHeaderInfos();
+
+  const { open, handleToggle, container, buttonOpen } =
+    useAgendaHeaderAnimated();
 
   const renderInfo = (key: string, value: string) => {
     return (
@@ -24,22 +36,33 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
   };
 
   return (
-    <View style={s.container}>
+    <Animated.View style={[s.container, container]}>
       <Text style={s.textTitle}>{PHRASES.FR.AGENDA_HEADER_TITLE}</Text>
-      {renderInfo(
-        PHRASES.FR.AGENDA_HEADER_TOTAL_DISTANCE,
-        infos.volumeDone.toString() +
-          " / " +
-          infos.volumeTheorical.toString() +
-          " km",
-      )}
 
-      {renderInfo(
-        PHRASES.FR.AGENDA_HEADER_TOTAL,
-        infos.done.toString() +
-          " / " +
-          infos.total.toString(),
-      )}
+      <View style={s.containerStats}>
+        {renderInfo(
+            PHRASES.FR.AGENDA_HEADER_TOTAL_DISTANCE,
+            infos.volumeDone.toString() +
+            " / " +
+            infos.volumeTheorical.toString() +
+            " km",
+        )}
+
+        {renderInfo(
+            PHRASES.FR.AGENDA_HEADER_TOTAL,
+            infos.done.toString() + " / " + infos.total.toString(),
+        )}
+      </View>
+
+      <Pressable onPress={() => handleToggle()}>
+        <Animated.View style={[s.buttonSeeBallance, buttonOpen]}>
+          <Text style={s.textBallance}>{PHRASES.FR.SEE_BALANCE}</Text>
+          <MaterialCommunityIcons
+            name={open ? "chevron-down" : "chevron-up"}
+            style={s.iconBallance}
+          />
+        </Animated.View>
+      </Pressable>
 
       {infos &&
       infos?.ratingsTheorical &&
@@ -60,7 +83,7 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
           />
         </View>
       ) : null}
-    </View>
+    </Animated.View>
   );
 };
 

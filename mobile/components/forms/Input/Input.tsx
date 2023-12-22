@@ -15,12 +15,13 @@ export const Input = (p: InputI<string>) => {
     setValue,
     secureTextEntry = false,
     autoCapitalize = "none",
+    isInputValid,
   } = p || {};
 
-  const hasValue = value && value.trim().length > 0;
+  const hasValue = value && value.toString().trim().length > 0;
 
   return (
-    <View style={[s.container, !!hasValue && s.containerValid]}>
+    <View style={[s.container, !!isInputValid && s.containerValid]}>
       {!hasValue && placeholder ? (
         <Text style={s.inputEmpty}>{placeholder}</Text>
       ) : null}
@@ -33,6 +34,7 @@ export const Input = (p: InputI<string>) => {
         onChangeText={(e) => setValue && setValue(e.toString())}
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}
+        value={value.toString()}
       />
 
       <MaterialCommunityIcons name={icon} style={s.icon} />

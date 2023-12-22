@@ -44,6 +44,8 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
     return React.Children.map(children, (child) => {
       // @ts-ignore
       const id = child?.props?.id;
+      // @ts-ignore
+      const validation = child?.props?.validation;
 
       if (id && id !== "submit") {
         // @ts-ignore
@@ -66,8 +68,12 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
           res = true;
         }
 
+        if (res && typeof validation === "function") {
+          res = validation(formValue);
+        }
+
         return res;
-      }
+      };
 
       // @ts-ignore
       const formValue = form?.[id];

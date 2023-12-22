@@ -1,14 +1,17 @@
-import { useState } from "react";
+import {useRef, useState} from "react";
 import { CONFIG } from "../constants/config";
 import { Platform } from "react-native";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { setQueryStore } from "../store/slices/querySlices";
 import { useUser } from "./useUser";
+import Toast from 'react-native-toast-message';
+import {PHRASES} from "../constants/phrases";
 
 export const API_ENDPOINTS = {
   EVENT_CRUD: "api/events",
   EVENT_GET: "api/events?sort=date&populate=event",
   LOGIN: "api/auth/local",
+  REGISTER: "api/auth/local/register",
   USER: "api/users",
 };
 
@@ -16,7 +19,7 @@ export const QUERY_IDS = {
   HOME_ITEMS: "HOME_ITEMS",
 };
 
-const DEBUG = true;
+const DEBUG = false;
 
 export const useQuery = (
   url: string,
@@ -33,6 +36,8 @@ export const useQuery = (
   const data = id ? dataStore : dataState;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const errorObject = useRef({});
 
   const dispatch = useAppDispatch();
   const setData = (data: any) => {
@@ -123,6 +128,8 @@ export const useQuery = (
           onSuccess(result?.data || result);
         } else {
           setError(result);
+          errorObject.current = result;
+          throw new Error('Something went wrong ...');
         }
 
         setIsLoading(false);
@@ -131,9 +138,17 @@ export const useQuery = (
         if (DEBUG) {
           console.log(
             "[INFO] Error query " + TARGET_ENDPOINT + " : ",
-            JSON.stringify(error),
+            JSON.stringify(errorObject.current),
           );
         }
+
+        Toast.show({
+          type: 'error',
+          text1: PHRASES.FR.ERROR_TITLE,
+          // @ts-ignore
+          text2: errorObject.current?.error?.message || PHRASES.FR.ERROR_DESC,
+        });
+
         setError(error);
       })
       .finally(() => {

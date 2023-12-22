@@ -41,10 +41,10 @@ export const useAgendaHeaderInfos = () => {
     }
 
     return {
-      total,
-      done,
-      volumeDone,
-      volumeTheorical,
+      total: Math.round(total),
+      done: Math.round(done),
+      volumeDone: Math.round(volumeDone),
+      volumeTheorical: Math.round(volumeTheorical),
       ratingsDone: {
         force: (meanBy(ratingsDone, "force") || 0) / 10,
         puissance: (meanBy(ratingsDone, "puissance") || 0) / 10,

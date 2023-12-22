@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SCREEN_WIDTH, SIZES } from "../constants/sizes";
 import { PHRASES } from "../constants/phrases";
 import { FONTS } from "../constants/fonts";
@@ -12,11 +12,15 @@ import { TYPE_STRAPI_IDENTIFICATION } from "../../types/_Strapi";
 import { API_ENDPOINTS, useQuery } from "../hooks/useQuery";
 import { setToken, setUser } from "../store/slices/userSlice";
 import { useAppDispatch } from "../store/store";
-import * as Updates from "expo-updates"
+import * as Updates from "expo-updates";
+import { Text } from "../components/atoms/Text";
+import { FORM_VALIDATIONS_FN } from "../components/forms/Form.utils";
 
 type Inputs = {
   identifier: string;
+  email?: string;
   password: string;
+  username?: string;
 };
 
 export default function LoginScreen() {
@@ -24,18 +28,35 @@ export default function LoginScreen() {
   const [form, setForm] = useState<Inputs>({
     identifier: "",
     password: "",
+    email: "",
+    username: "",
   });
   const isLoading = false;
 
-  const { handleQuery } = useQuery(API_ENDPOINTS.LOGIN);
+  const [isRegister, setIsRegister] = useState(false);
+
+  const { handleQuery } = useQuery(
+    !isRegister ? API_ENDPOINTS.LOGIN : API_ENDPOINTS.REGISTER,
+  );
 
   const navigation = useNavigation();
   const handleSubmit = () => {
+    let body: Inputs = {
+      identifier: form.identifier,
+      password: form.password,
+    };
+
+    if (isRegister) {
+      body = {
+        username: form.username,
+        email: form?.identifier,
+        password: form?.password,
+        identifier: "",
+      };
+    }
+
     handleQuery("POST", {
-      body: {
-        identifier: form.identifier,
-        password: form.password,
-      },
+      body,
       onSuccess: (i: TYPE_STRAPI_IDENTIFICATION) => {
         dispatch(setUser(i?.user));
         dispatch(setToken(i?.jwt));
@@ -70,7 +91,20 @@ export default function LoginScreen() {
             placeholder={PHRASES.FR.LOGIN_USERNAME}
             icon={"email"}
             autoCapitalize={"none"}
+            validation={FORM_VALIDATIONS_FN.email}
           />
+
+          {isRegister ? (
+            <Input
+              id={"username"}
+              placeholder={PHRASES.FR.USERNAME}
+              icon={"contacts"}
+              autoCapitalize={"none"}
+              validation={FORM_VALIDATIONS_FN.username}
+            />
+          ) : (
+            <View />
+          )}
 
           <Input
             id={"password"}
@@ -78,16 +112,26 @@ export default function LoginScreen() {
             icon={"form-textbox-password"}
             secureTextEntry={true}
             autoCapitalize={"none"}
+            validation={FORM_VALIDATIONS_FN.password}
           />
 
           <InputSubmit
             id={"submit"}
             onPress={handleSubmit}
             isLoading={isLoading}
-            label={PHRASES.FR.LOGIN_SUBMIT}
+            label={!isRegister ? PHRASES.FR.LOGIN_SUBMIT : PHRASES.FR.REGISTER}
           />
         </Form>
       </View>
+
+      <TouchableOpacity
+        style={s.buttonRegister}
+        onPress={() => setIsRegister((prev) => !prev)}
+      >
+        <Text style={s.textRegister}>
+          {isRegister ? PHRASES.FR.LOGIN_SUBMIT : PHRASES.FR.REGISTER}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -103,6 +147,12 @@ const s = StyleSheet.create({
     width: "100%",
   },
 
+  // texts
+  textRegister: {
+    textDecorationLine: "underline",
+    color: COLORS.text,
+  },
+
   textTitle: {
     fontSize: 30,
     color: COLORS.text,
@@ -112,5 +162,12 @@ const s = StyleSheet.create({
   image: {
     width: SCREEN_WIDTH - SIZES.PADDING_PAGE * 2,
     marginBottom: -40,
+  },
+
+  // buttons
+  buttonRegister: {
+    marginTop: 20,
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });

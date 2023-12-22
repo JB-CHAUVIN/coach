@@ -11,12 +11,19 @@ export const s = StyleSheet.create({
     borderBottomRightRadius: 50,
     backgroundColor: COLORS.primary,
     marginBottom: 0,
+    overflow: "hidden",
+  },
+
+  containerStats: {
+    height: 58,
   },
 
   containerCharts: {
     marginLeft: -1 * SIZES.PADDING_PAGE,
-    marginTop: -20,
+    marginRight: -1 * SIZES.PADDING_PAGE,
+    marginTop: 0,
     height: 330,
+    backgroundColor: COLORS.secondary,
   },
 
   containerInfo: {
@@ -40,5 +47,30 @@ export const s = StyleSheet.create({
   textValue: {
     fontFamily: FONTS.Bold,
     fontSize: 16,
+  },
+
+  textBallance: {
+    fontFamily: FONTS.Regular,
+    textDecorationLine: "underline",
+    color: 'white',
+    fontSize: 14,
+  },
+
+  // icons
+  iconBallance: {
+    color: "white",
+    fontSize: 18,
+  },
+
+  // buttons
+  buttonSeeBallance: {
+    zIndex: 10,
+    backgroundColor: COLORS.secondary,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 4,
+    borderRadius: 10,
+    marginTop: 10,
+    flexDirection: "row",
   },
 });

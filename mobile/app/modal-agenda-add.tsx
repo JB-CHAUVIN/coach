@@ -13,7 +13,6 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { TYPE_EVENTS } from "../../types/Events";
 import { addStoreItem, updateStoreItem } from "../store/slices/querySlices";
 import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
-import Head from "expo-router/head";
 import { Input } from "../components/forms/Input/Input";
 
 type Inputs = {
@@ -72,11 +71,14 @@ export default function ModalScreen() {
     distance: 0,
   };
 
+  console.log('item', item);
+
   if (item) {
     isUpdate = true;
     defaultValues = {
       ...defaultValues,
       date: moment(item.date).toDate(),
+      distance: item?.distance,
       time: {
         value: item.time,
       },
@@ -107,12 +109,12 @@ export default function ModalScreen() {
       body: {
         id: item?.id,
         date: moment(form?.date)
-          .add(1, "day")
+          .add(1, "hour")
           .toISOString(), // fix date adding on wrong date
         time: form?.time?.value,
         seance: form?.type?.value,
         seance_variation: form?.typeVariation?.label,
-        done: false,
+        done: typeof item?.done !== "undefined" ? item?.done : false,
         distance: form?.distance || 0,
       },
       onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {
@@ -155,11 +157,9 @@ export default function ModalScreen() {
 
         <Input
           id={"distance"}
-          options={form["type"]?.variations}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_DISTANCE}
           icon={"map-marker-distance"}
           keyboardType={"numeric"}
-          nullable={true}
         />
 
         <InputSubmit
