@@ -12,18 +12,25 @@ import moment from "moment";
 export const useAgendaEvents = () => {
   const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
 
+  const startOfWeek = moment(currentDate).startOf("isoWeek");
+  const endOfWeek = moment(currentDate).endOf("isoWeek");
+
+  // load one week
   const { isLoading, data, handleQuery } = useQuery(
     API_ENDPOINTS.EVENT_GET +
       "&filters[date][$gte]=" +
-      moment(currentDate).startOf("week").add(1, "day").format("YYYY-MM-DD"),
+      startOfWeek.format("YYYY-MM-DD") +
+      "&filters[date][$lt]=" +
+      endOfWeek.add(2, 'day').format("YYYY-MM-DD"),
     {
       id: QUERY_IDS.HOME_ITEMS,
     },
   );
 
   useEffect(() => {
+    console.log('[INFO] Loading week', { currentDate, startOfWeek, endOfWeek });
     handleQuery("GET");
-  }, []);
+  }, [startOfWeek.toString()]);
 
   const events = useMemo(() => {
     let res = {};
@@ -72,5 +79,6 @@ export const useAgendaEvents = () => {
   return {
     isLoading,
     events,
+    currentDate,
   };
 };

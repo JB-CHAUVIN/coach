@@ -21,22 +21,26 @@ const getEventByTimeOfDay = async (start_date) => {
   const filters = {
     time,
     date: activityDate.format("YYYY-MM-DD"),
+    stravaFlaggedAuto: false,
   };
 
-  const events = await strapi.entityService.findMany("api::event.event", {
+  let events = await strapi.entityService.findMany("api::event.event", {
     filters,
   });
 
-  const event = events?.[0];
+  let event = events?.[0];
 
-  console.log('[INFO] Finding event by time of day', JSON.stringify({
-    filters,
-    hours,
-    minutes,
-    activityDate,
-    event,
-    events,
-  }))
+  // if no event by time, we try to find atleast an event for this date
+  if (!event) {
+    events = await strapi.entityService.findMany("api::event.event", {
+      filters: {
+        date: activityDate.format("YYYY-MM-DD"),
+        stravaFlaggedAuto: false,
+      },
+    });
+
+    event = events?.[0];
+  }
 
   return {
     events,

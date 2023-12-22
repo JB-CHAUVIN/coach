@@ -14,6 +14,7 @@ import { TYPE_EVENTS } from "../../types/Events";
 import { addStoreItem, updateStoreItem } from "../store/slices/querySlices";
 import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
 import { Input } from "../components/forms/Input/Input";
+import {FORM_VALIDATIONS_FN} from "../components/forms/Form.utils";
 
 type Inputs = {
   date: Date;
@@ -30,6 +31,7 @@ type Inputs = {
       }
     | undefined;
   distance?: number;
+  description?: string;
 };
 
 const optionsTime = [
@@ -69,6 +71,7 @@ export default function ModalScreen() {
   let defaultValues: Inputs = {
     date: moment(currentDate).toDate(),
     distance: 0,
+    description: "",
   };
 
   console.log('item', item);
@@ -78,7 +81,6 @@ export default function ModalScreen() {
     defaultValues = {
       ...defaultValues,
       date: moment(item.date).toDate(),
-      distance: item?.distance,
       time: {
         value: item.time,
       },
@@ -88,6 +90,8 @@ export default function ModalScreen() {
       typeVariation: {
         label: item.seance_variation,
       },
+      distance: item?.distance,
+      description: item?.description,
     };
   }
 
@@ -116,6 +120,7 @@ export default function ModalScreen() {
         seance_variation: form?.typeVariation?.label,
         done: typeof item?.done !== "undefined" ? item?.done : false,
         distance: form?.distance || 0,
+        description: form?.description || "",
       },
       onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {
         if (!isUpdate) {
@@ -160,6 +165,14 @@ export default function ModalScreen() {
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_DISTANCE}
           icon={"map-marker-distance"}
           keyboardType={"numeric"}
+          validation={FORM_VALIDATIONS_FN.nullable}
+        />
+
+        <Input
+          id={"description"}
+          placeholder={PHRASES.FR.PLACEHOLDER_FORM_DESC}
+          icon={"calendar-text"}
+          validation={FORM_VALIDATIONS_FN.nullable}
         />
 
         <InputSubmit

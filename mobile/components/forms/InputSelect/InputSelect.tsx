@@ -40,7 +40,6 @@ export const InputSelect = (p: InputSelectI<any>) => {
     if (value && setValue && isFirstLoad.current === true) {
       const theValue =
         (options && options.find((o) => o.value === value.value)) || value;
-      console.log("[INFO] The value", { theValue, value });
       handleSelect(theValue);
       isFirstLoad.current = false;
     }

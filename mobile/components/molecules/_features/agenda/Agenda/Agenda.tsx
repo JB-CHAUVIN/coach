@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
-import { View, Text, ActivityIndicator, FlatList } from "react-native";
-import { AgendaDay } from "../AgendaDay/AgendaDay";
+import React from "react";
+import { ActivityIndicator, View } from "react-native";
 import { setCurrentDate } from "../../../../../store/slices/agendaSlice";
 import moment from "moment/moment";
 import { Agenda as AgendaRNCal, LocaleConfig } from "react-native-calendars";
 import { useAppDispatch } from "../../../../../store/store";
-import { API_ENDPOINTS, useQuery } from "../../../../../hooks/useQuery";
 import { s } from "./Agenda.styles";
 import { useAgendaEvents } from "./Agenda.hooks";
 import { FONTS } from "../../../../../constants/fonts";
-import constants from "react-native-calendars/src/commons/constants";
-import { COLORS } from "../../../../../constants/colors";
 import { AgendaList } from "../AgendaList/AgendaList";
+
 LocaleConfig.locales["fr"] = {
   monthNames: [
     "Janvier",
@@ -61,13 +58,14 @@ const Agenda: React.FC<AgendaProps> = (p) => {
   const {} = p || {};
   const dispatch = useAppDispatch();
 
-  const { isLoading, events } = useAgendaEvents();
+  const { isLoading, events, currentDate } = useAgendaEvents();
 
   return (
     <View style={s.container}>
       {!isLoading ? (
         <AgendaRNCal
           firstDay={1}
+          selected={moment(currentDate).format("YYYY-MM-DD")}
           theme={{
             textMonthFontFamily: FONTS.Bold,
             textDayFontFamily: FONTS.Regular,
@@ -81,7 +79,7 @@ const Agenda: React.FC<AgendaProps> = (p) => {
           items={events.events}
           markedDates={events.dots}
           onDayPress={(day) => {
-            dispatch(setCurrentDate(moment(day?.dateString).toISOString()));
+            dispatch(setCurrentDate(moment(day?.dateString)));
           }}
           renderEmptyData={() => {
             return <View />;

@@ -14,6 +14,7 @@ console.log  = (...args) => {
     Reactotron.display({
         name: 'CONSOLE.LOG',
         value: args,
+        // @ts-ignore
         preview: args.length > 0 && typeof args[0] === 'string' ? args[0] : null
     })
 }

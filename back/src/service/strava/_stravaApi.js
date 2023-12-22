@@ -18,6 +18,8 @@ const getStravaHeaders = async (user) => {
 
   return {
     Authorization: "Bearer " + theToken,
+    "Content-Type": "application/json",
+    Accept: "application/json",
   };
 };
 

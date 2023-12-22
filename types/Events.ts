@@ -5,4 +5,6 @@ export type TYPE_EVENTS = {
     seance: "footing" | "renforcement" | "sl" | "tempo" | "piste";
     seance_variation: string;
     done: boolean;
+    distance?: number;
+    description?: string;
 }

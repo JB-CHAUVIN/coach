@@ -22,7 +22,6 @@ export const s = StyleSheet.create({
     marginLeft: -1 * SIZES.PADDING_PAGE,
     marginRight: -1 * SIZES.PADDING_PAGE,
     marginTop: 0,
-    height: 330,
     backgroundColor: COLORS.secondary,
   },
 

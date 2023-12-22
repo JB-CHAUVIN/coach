@@ -6,6 +6,10 @@ const {
 const {
   getEventByTimeOfDay,
 } = require("../../../service/event/getEventByTimeOfDay");
+const {
+  stravaUpdateActivity,
+} = require("../../../service/strava/stravaUpdateActivity");
+const { getEventByType } = require("../../../service/event/getEventByType");
 
 /**
  * event controller
@@ -44,7 +48,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
     if (user?.id && ctx?.request?.body?.data) {
       ctx.request.body.data.user = {
-        connect: [user?.id]
+        connect: [user?.id],
       };
     }
 
@@ -106,6 +110,25 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           event?.done === false
         ) {
           DEBUG && console.log("[INFO] Let's update event");
+
+          // and we update strava activity
+          const eventInfos = getEventByType(event?.seance);
+
+          try {
+            if(eventInfos?.label) {
+              let stravaData = {
+                name: eventInfos?.label + " " + eventInfos?.emoji,
+              };
+
+              if (event?.description) {
+                stravaData.description =
+                    "✔️ " + event?.seance_variation + "\n➡️ " + event?.description;
+              }
+
+              await stravaUpdateActivity(activity?.id, stravaData, user);
+            }
+          } catch(err) {}
+
 
           // we only automaticly link event once!
           await strapi.entityService.update("api::event.event", event?.id, {

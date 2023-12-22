@@ -34,7 +34,7 @@ export const Input = (p: InputI<string>) => {
         onChangeText={(e) => setValue && setValue(e.toString())}
         secureTextEntry={secureTextEntry}
         autoCapitalize={autoCapitalize}
-        value={value.toString()}
+        value={(value || "").toString()}
       />
 
       <MaterialCommunityIcons name={icon} style={s.icon} />

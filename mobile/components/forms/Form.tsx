@@ -21,7 +21,7 @@ export interface InputI<T> {
 export const Form = <T extends unknown>(p: FormI<T>) => {
   const { children = <View />, form, setForm } = p || {};
 
-  const fields = useRef({});
+  let isFormValid = true;
 
   /**
    * Callbacks / handles
@@ -47,11 +47,6 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
       // @ts-ignore
       const validation = child?.props?.validation;
 
-      if (id && id !== "submit") {
-        // @ts-ignore
-        fields.current[id] = true;
-      }
-
       const isInputValidFn = (formValue: any) => {
         // Is input valid
         let res = false;
@@ -63,13 +58,14 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
             res = true;
           }
         }
-        // @ts-ignore
-        if (formValue?.nullable) {
-          res = true;
+
+        if (typeof validation === "function") {
+          res = validation(formValue);
         }
 
-        if (res && typeof validation === "function") {
-          res = validation(formValue);
+        if (!res && id !== 'submit') {
+          // one input not valid, then form is not valid
+          isFormValid = false;
         }
 
         return res;
@@ -78,14 +74,6 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
       // @ts-ignore
       const formValue = form?.[id];
       const isInputValid = isInputValidFn(formValue);
-
-      let isFormValid = true;
-      for (let j in fields.current) {
-        // @ts-ignore
-        if (fields.current?.[j] && !isInputValidFn(form[j])) {
-          isFormValid = false;
-        }
-      }
 
       // @ts-ignore
       return React.cloneElement(child, {

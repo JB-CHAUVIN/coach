@@ -17,7 +17,7 @@ export const useAgendaHeaderAnimated = () => {
 
   const container = useAnimatedStyle(() => {
     return {
-      height: interpolate(isOpen.value, [0, 1], [136, 440], extrapolation),
+      height: interpolate(isOpen.value, [0, 1], [136, 480], extrapolation),
     };
   });
 
@@ -28,25 +28,25 @@ export const useAgendaHeaderAnimated = () => {
       borderBottomRightRadius: interpolate(
         isOpen.value,
         [0, 0.1],
-        [90, 0],
+        [0, 0],
         extrapolation,
       ),
       borderBottomLeftRadius: interpolate(
         isOpen.value,
         [0, 0.1],
-        [90, 0],
+        [0, 0],
         extrapolation,
       ),
       borderTopRightRadius: interpolate(
         isOpen.value,
         [0, 0.1],
-        [s.buttonSeeBallance.borderRadius, 90],
+        [0, 90],
         extrapolation,
       ),
       borderTopLeftRadius: interpolate(
         isOpen.value,
         [0, 0.1],
-        [s.buttonSeeBallance.borderRadius, 90],
+        [0, 90],
         extrapolation,
       ),
     };

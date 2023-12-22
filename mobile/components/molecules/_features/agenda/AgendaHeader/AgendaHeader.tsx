@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, Touchable, TouchableOpacity, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { s } from "./AgendaHeader.styles";
 import { AgendaHeaderProps } from "./AgendaHeader.props";
 import { Text } from "../../../../atoms/Text";
@@ -8,13 +8,7 @@ import RadarChart from "../../../../atoms/Charts/RadarChart";
 import { SCREEN_WIDTH, SIZES } from "../../../../../constants/sizes";
 import { useAgendaHeaderInfos } from "./AgendaHeader.hooks";
 import { COLORS } from "../../../../../constants/colors";
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import { useAgendaHeaderAnimated } from "./AgendaHeader.animated";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -41,16 +35,16 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
 
       <View style={s.containerStats}>
         {renderInfo(
-            PHRASES.FR.AGENDA_HEADER_TOTAL_DISTANCE,
-            infos.volumeDone.toString() +
+          PHRASES.FR.AGENDA_HEADER_TOTAL_DISTANCE,
+          infos.volumeDone.toString() +
             " / " +
             infos.volumeTheorical.toString() +
             " km",
         )}
 
         {renderInfo(
-            PHRASES.FR.AGENDA_HEADER_TOTAL,
-            infos.done.toString() + " / " + infos.total.toString(),
+          PHRASES.FR.AGENDA_HEADER_TOTAL,
+          infos.done.toString() + " / " + infos.total.toString(),
         )}
       </View>
 

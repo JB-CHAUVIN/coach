@@ -36,7 +36,7 @@ export const useLoginWithStrava = () => {
   const handleQueryPUTStravaToken = (
     accessToken: string | null,
     refreshToken: string | null | undefined,
-    stravaTokenExpiresAt?: Date,
+    stravaTokenExpiresAt?: Date | null,
   ) => {
     handleQuery("PUT", {
       body: {
@@ -83,7 +83,7 @@ export const useLoginWithStrava = () => {
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: STRAVA_CONFIG.clientId,
-      scopes: ["activity:read_all"],
+      scopes: ["activity:read_all,activity:write"],
       redirectUri,
     },
     discovery,
