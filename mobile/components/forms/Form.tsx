@@ -49,16 +49,7 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
 
       const isInputValidFn = (formValue: any) => {
         // Is input valid
-        let res = false;
-        // @ts-ignore
-        if (typeof formValue !== "undefined") {
-          if (typeof formValue === "string") {
-            res = formValue.length > 0;
-          } else {
-            res = true;
-          }
-        }
-
+        let res = true;
         if (typeof validation === "function") {
           res = validation(formValue);
         }

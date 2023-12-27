@@ -44,6 +44,10 @@ const stravaRefreshTokenIfNeeded = async (
 
     const { access_token, refresh_token, expires_in } = data || {};
 
+    if(access_token) {
+      token = access_token;
+    }
+
     const oldItem = await strapi.entityService.findOne(model, entityId);
     const newItem = {
       data: {

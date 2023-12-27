@@ -420,7 +420,7 @@ export interface ApiEventEvent extends Schema.CollectionType {
     date: Attribute.Date;
     time: Attribute.Enumeration<['matin', 'midi', 'apres-midi', 'soir']>;
     seance: Attribute.Enumeration<
-      ['footing', 'renforcement', 'sl', 'tempo', 'piste']
+      ['footing', 'renforcement', 'sl', 'tempo', 'fartlek', 'piste']
     >;
     seance_variation: Attribute.String;
     user: Attribute.Relation<

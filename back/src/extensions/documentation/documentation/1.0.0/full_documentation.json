@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-12-22T16:17:49.839Z"
+    "x-generation-date": "2023-12-27T16:01:33.786Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -681,6 +681,7 @@
                                         "renforcement",
                                         "sl",
                                         "tempo",
+                                        "fartlek",
                                         "piste"
                                       ]
                                     },
@@ -1085,6 +1086,7 @@
                   "renforcement",
                   "sl",
                   "tempo",
+                  "fartlek",
                   "piste"
                 ]
               },
@@ -1199,6 +1201,7 @@
               "renforcement",
               "sl",
               "tempo",
+              "fartlek",
               "piste"
             ]
           },
@@ -1697,6 +1700,7 @@
                                         "renforcement",
                                         "sl",
                                         "tempo",
+                                        "fartlek",
                                         "piste"
                                       ]
                                     },

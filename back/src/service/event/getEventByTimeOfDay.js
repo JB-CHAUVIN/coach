@@ -1,5 +1,7 @@
 const moment = require("moment");
 
+const DEBUG = true;
+
 const getEventByTimeOfDay = async (start_date) => {
   const activityDate = moment(start_date);
   const hours = activityDate.get("hours");
@@ -18,12 +20,20 @@ const getEventByTimeOfDay = async (start_date) => {
   } else {
     time = "soir";
   }
+
+  if (DEBUG) {
+    console.log("[INFO] Get event by time of day : " + time);
+  }
+
   const filters = {
     time,
     date: activityDate.format("YYYY-MM-DD"),
     stravaFlaggedAuto: false,
   };
 
+  if (DEBUG) {
+    console.log("[INFO] Getting events with filters : ", filters);
+  }
   let events = await strapi.entityService.findMany("api::event.event", {
     filters,
   });
@@ -32,14 +42,25 @@ const getEventByTimeOfDay = async (start_date) => {
 
   // if no event by time, we try to find atleast an event for this date
   if (!event) {
+    const filters2 = {
+      date: activityDate.format("YYYY-MM-DD"),
+      stravaFlaggedAuto: false,
+    };
+
+    if (DEBUG) {
+      console.log("[INFO] Getting events with filters : ", filters2);
+    }
+
     events = await strapi.entityService.findMany("api::event.event", {
-      filters: {
-        date: activityDate.format("YYYY-MM-DD"),
-        stravaFlaggedAuto: false,
-      },
+      filters: filters2,
     });
 
     event = events?.[0];
+  }
+
+  if(DEBUG) {
+    console.log("[INFO] Event found : ", event);
+    console.log("[INFO] Events found : ", events);
   }
 
   return {

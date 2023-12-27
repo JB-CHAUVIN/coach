@@ -211,6 +211,34 @@
       "resistance": 7
     }
   },
+  "FARTLEK": {
+    "label": "Fartlek",
+    "emoji": "\uD83C\uDDF8\uD83C\uDDEA",
+    "value": "fartlek",
+    "variations": [
+      {
+        "label": "Aux sensations"
+      },
+      {
+        "label": "Variations d'intensité"
+      },
+      {
+        "label": "Progressif"
+      }
+    ],
+    "color": "#de7e31",
+    "icon": {
+      "name": "map-marker-path",
+      "type": "MaterialCommunityIcons"
+    },
+    "ratings": {
+      "force": 5,
+      "puissance": 5,
+      "technique": 6,
+      "endurance": 7,
+      "resistance": 7
+    }
+  },
   "TRACK": {
     "label": "Piste",
     "value": "piste",

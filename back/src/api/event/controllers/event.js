@@ -103,6 +103,8 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
         const { event, events } = await getEventByTimeOfDay(start_date_local);
 
+        console.log('Ici', JSON.stringify(event), events.length === 1);
+
         // we must have only one matching event!
         if (
           events.length === 1 &&
