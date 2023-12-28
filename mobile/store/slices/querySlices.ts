@@ -21,10 +21,16 @@ export const querySlice = createSlice({
       // @ts-ignore
       state[action?.payload?.key].push(action.payload.value);
     },
+    removeStoreItem: (state, action) => {
+      // @ts-ignore
+      state[action?.payload?.key] = state[action?.payload?.key].filter(
+        (i: any) => i.id !== action.payload.value,
+      );
+    },
   },
 });
 
-export const { setQueryStore, updateStoreItem, addStoreItem } =
+export const { setQueryStore, removeStoreItem, updateStoreItem, addStoreItem } =
   querySlice.actions;
 
 export default querySlice.reducer;

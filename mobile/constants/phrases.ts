@@ -3,8 +3,8 @@ export const PHRASES = {
     PLACEHOLDER_FORM_EVENT_ADD_TIME: "Moment de la journée",
     PLACEHOLDER_FORM_TYPE: "Type de séance",
     PLACEHOLDER_FORM_TYPE_VARIATION: "Plus de détails sur la séance",
-    PLACEHOLDER_FORM_DISTANCE: "Distance (en km)*",
-    PLACEHOLDER_FORM_DESC: "Plus d'infos*",
+    PLACEHOLDER_FORM_DISTANCE: "Distance (en km)",
+    PLACEHOLDER_FORM_DESC: "Plus d'infos",
     PLACEHOLDER_FORM_SUBMIT: "Soumettre",
     PLACEHOLDER_FORM_CANCEL: "Annuler",
     PLACEHOLDER_FORM_EDIT: "Modifier",
@@ -30,6 +30,10 @@ export const PHRASES = {
     USERNAME: "Nom d'utilisateur (pseudonyme)",
     ERROR_TITLE: "Oops...",
     ERROR_DESC: "Une erreur est survenue, veuillez réessayer plus tard.",
-    SEE_BALANCE: "Analyse"
+    SEE_BALANCE: "Analyse",
+    OK: "OK",
+    CANCEL: "Annuler",
+    CONFIRM: "Souhaitez-vous continuer ?",
+    DELETE_EVENT: "Souhaitez-vous supprimer cet entraînement ?",
   },
 };

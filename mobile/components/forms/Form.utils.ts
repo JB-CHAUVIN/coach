@@ -12,4 +12,10 @@ export const FORM_VALIDATIONS_FN = {
   nullable: () => {
     return true;
   },
+  select: (item: any) => {
+    return item && item !== null;
+  },
+  number: (number: string) => {
+    return !isNaN(Number(number));
+  }
 };

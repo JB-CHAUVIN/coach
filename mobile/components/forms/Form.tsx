@@ -16,6 +16,7 @@ export interface InputI<T> {
   value?: T;
   icon?: any;
   isInputValid?: boolean;
+  validation?: (value: T) => boolean;
 }
 
 export const Form = <T extends unknown>(p: FormI<T>) => {
@@ -51,7 +52,7 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
         // Is input valid
         let res = true;
         if (typeof validation === "function") {
-          res = validation(formValue);
+          res = !!validation(formValue);
         }
 
         if (!res && id !== 'submit') {

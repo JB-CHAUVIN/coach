@@ -109,6 +109,8 @@ export default function ModalScreen() {
   };
 
   const handleSubmit = () => {
+    const isDone = typeof item?.done !== "undefined" ? item?.done : false;
+
     handleQuery(isUpdate ? "PUT" : "POST", {
       body: {
         id: item?.id,
@@ -118,7 +120,7 @@ export default function ModalScreen() {
         time: form?.time?.value,
         seance: form?.type?.value,
         seance_variation: form?.typeVariation?.label,
-        done: typeof item?.done !== "undefined" ? item?.done : false,
+        done: isDone,
         distance: form?.distance || 0,
         description: form?.description || "",
       },
@@ -144,6 +146,7 @@ export default function ModalScreen() {
           horizontal={true}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_EVENT_ADD_TIME}
           icon={"clock-in"}
+          validation={FORM_VALIDATIONS_FN.select}
         />
 
         <InputSelect
@@ -151,6 +154,7 @@ export default function ModalScreen() {
           options={Object.values(optionsType)}
           onSelect={onSelectType}
           placeholder={PHRASES.FR.PLACEHOLDER_FORM_TYPE}
+          validation={FORM_VALIDATIONS_FN.select}
         />
 
         <InputSelect

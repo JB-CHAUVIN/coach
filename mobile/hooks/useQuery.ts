@@ -53,7 +53,7 @@ export const useQuery = (
   const handleQuery = <T>(
     method: string,
     options?: {
-      body: T;
+      body?: T;
       isStrapi?: boolean;
       onSuccess: (i: any) => void;
     },
