@@ -2,6 +2,7 @@
 
 const {
   stravaGetActivity,
+  stravaGetActivityLaps,
 } = require("../../../service/strava/stravaGetActivity");
 const {
   getEventByTimeOfDay,
@@ -15,7 +16,7 @@ const { getEventByType } = require("../../../service/event/getEventByType");
  * event controller
  */
 
-const DEBUG = true;
+const DEBUG = false;
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -93,17 +94,17 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
          * @type {*}
          */
         const activity = await stravaGetActivity(object_id, user);
+        const { data: laps, analysis } = await stravaGetActivityLaps(activity, object_id, user);
         const { start_date_local } = activity || {};
 
         DEBUG && console.log("[INFO] Found activity", activity);
+        DEBUG && console.log("[INFO] Found activity laps", laps);
+        true && console.log("[INFO] Activity analysis", analysis.length > 0);
 
         /**
          * Find corresponding event in our database.
          */
-
         const { event, events } = await getEventByTimeOfDay(start_date_local);
-
-        console.log('Ici', JSON.stringify(event), events.length === 1);
 
         // we must have only one matching event!
         if (
@@ -114,20 +115,38 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
           DEBUG && console.log("[INFO] Let's update event");
 
           // and we update strava activity
-          const eventInfos = getEventByType(event?.seance);
+          const eventInfos = getEventByType(event?.seance || "matin");
 
           try {
             if(eventInfos?.label) {
+              // title
               let stravaData = {
                 name: eventInfos?.label + " " + eventInfos?.emoji,
               };
-
-              if (event?.description) {
-                stravaData.description =
-                    "✔️ " + event?.seance_variation + "\n➡️ " + event?.description;
+              if(event?.seance_variation) {
+                stravaData.name = `${stravaData.name}  [${event?.seance_variation}]`;
               }
 
-              await stravaUpdateActivity(activity?.id, stravaData, user);
+              let hasSubText = false;
+              let subText = "";
+              if(event?.description) {
+                subText = `✔️  ${event?.description}\n`;
+                hasSubText = true;
+              }
+
+              if(analysis.length > 0) {
+                subText = `${subText}\n${analysis}`;
+                hasSubText = true;
+              }
+
+              if(hasSubText) {
+                stravaData.description = subText;
+              }
+
+              // do not update activity with description, since it has alread been modified
+              if(!activity?.description || activity?.description?.length === 0) {
+                await stravaUpdateActivity(activity?.id, stravaData, user);
+              }
             }
           } catch(err) {}
 
@@ -164,7 +183,10 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
         const bodyActivity = {
           ...filtersActivity,
-          data: activity,
+          data: {
+            ...activity,
+            laps,
+          },
         };
 
         if (user?.id) {

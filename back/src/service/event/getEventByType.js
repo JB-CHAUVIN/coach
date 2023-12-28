@@ -3,7 +3,7 @@ const EVENTS_TYPES = require("../../../../mobile/constants/_features/events/even
 const getEventByType = (type) => {
     for (let i in EVENTS_TYPES) {
         const event = EVENTS_TYPES[i];
-        if (event.value.toUpperCase() === type.toUpperCase()) {
+        if (event?.value?.toUpperCase() === type?.toUpperCase()) {
             return event;
         }
     }
