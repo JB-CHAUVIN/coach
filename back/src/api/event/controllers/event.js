@@ -16,7 +16,7 @@ const { getEventByType } = require("../../../service/event/getEventByType");
  * event controller
  */
 
-const DEBUG = false;
+const DEBUG = true;
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -68,7 +68,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
     DEBUG && console.log("[INFO] Body", ctx?.request?.body);
 
-    if (object_type === "activity") {
+    if (object_type === "activity" && aspect_type === "create") {
       /**
        * Find corresponding user in our database (link strava <> user).
        * @type {{stravaId: number}}
