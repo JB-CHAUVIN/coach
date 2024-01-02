@@ -1,5 +1,6 @@
 "use strict";
 
+const { orderBy } = require("lodash");
 const {
   stravaGetActivity,
   stravaGetActivityLaps,
@@ -11,6 +12,8 @@ const {
   stravaUpdateActivity,
 } = require("../../../service/strava/stravaUpdateActivity");
 const { getEventByType } = require("../../../service/event/getEventByType");
+const moment = require("moment");
+const {enumerateDaysBetweenDates} = require("../../../utils/date");
 
 /**
  * event controller
@@ -41,7 +44,39 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
     const result = await super.find(ctx);
 
-    return result;
+    const { date } = ctx?.request?.query?.filters || {};
+    const startOfWeek = date['$gte'] || moment().startOf('week')
+    const endOfWeek = date['$lte'] || moment().endOf('week');
+
+    let dates = enumerateDaysBetweenDates(moment(startOfWeek), moment(endOfWeek));
+    let newResult = [];
+    for(let i in result?.data) {
+      const item = result?.data[i];
+      const { date } = item?.attributes;
+      if(dates.includes(date)) {
+        dates = dates.filter((d) => d !== date);
+      }
+    }
+
+    newResult = newResult.concat(result?.data);
+
+    for(let i in dates) {
+      // add missing dates to fill the week
+      newResult.push({
+        id: 0,
+        attributes: {
+          date: dates[i],
+          fake: true,
+        }
+      });
+    }
+
+    newResult = orderBy(newResult, 'attributes.date', 'asc');
+
+    return {
+      ...result,
+      data: newResult
+    };
   },
 
   async create(ctx) {

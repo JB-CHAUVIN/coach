@@ -61,6 +61,10 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
   const seance = getEventByType(i.seance);
   const hasDetails = !!i.seance_variation || !!i.distance;
 
+  if(i?.fake) {
+    return null;
+  }
+
   return (
     <TouchableOpacity
       style={s.buttonEvent}

@@ -35,6 +35,7 @@ export const s = StyleSheet.create({
   buttonAddiction: {
     padding: 2,
     margin: 2,
+    marginRight: -7,
     alignItems: "center",
     justifyContent: "center",
   },

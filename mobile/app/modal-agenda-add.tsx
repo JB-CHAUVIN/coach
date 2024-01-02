@@ -5,7 +5,7 @@ import { InputDate } from "../components/forms/InputDate/InputDate";
 import { Form } from "../components/forms/Form";
 import { InputSelect } from "../components/forms/InputSelect/InputSelect";
 import { EVENTS_TYPES } from "../constants/_features/events/eventsTypes";
-import moment from "moment";
+import moment, {Moment} from "moment";
 import { PHRASES } from "../constants/phrases";
 import { InputSubmit } from "../components/forms/InputSubmit/InputSubmit";
 import { API_ENDPOINTS, QUERY_IDS, useQuery } from "../hooks/useQuery";
@@ -57,6 +57,7 @@ const optionsType = EVENTS_TYPES;
 
 type TypeLocalSearchParams = {
   item?: TYPE_EVENTS;
+  date?: moment.Moment;
 };
 
 export default function ModalScreen() {
@@ -65,16 +66,16 @@ export default function ModalScreen() {
   const dispatch = useAppDispatch();
 
   // @ts-ignore...
-  const { item } = useLocalSearchParams<TypeLocalSearchParams>();
+  const { item, date } = useLocalSearchParams<TypeLocalSearchParams>();
+
+  const theDate = date || currentDate;
 
   let isUpdate = false;
   let defaultValues: Inputs = {
-    date: moment(currentDate).toDate(),
+    date: moment(theDate).toDate(),
     distance: 0,
     description: "",
   };
-
-  console.log('item', item);
 
   if (item) {
     isUpdate = true;

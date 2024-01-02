@@ -8,4 +8,5 @@ export type TYPE_EVENTS = {
     stravaFlaggedAuto?: boolean;
     distance?: number;
     description?: string;
+    fake?: boolean;
 }

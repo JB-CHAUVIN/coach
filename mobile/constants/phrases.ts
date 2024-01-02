@@ -31,6 +31,7 @@ export const PHRASES = {
     ERROR_TITLE: "Oops...",
     ERROR_DESC: "Une erreur est survenue, veuillez réessayer plus tard.",
     SEE_BALANCE: "Analyse",
+    ANNUAL_STATS: "Statistiques annuelles",
     OK: "OK",
     CANCEL: "Annuler",
     CONFIRM: "Souhaitez-vous continuer ?",
@@ -43,6 +44,14 @@ export const PHRASES = {
       "Améliorez vos performances en réduisant votre consommation de drogues, tabac et alcool.\n" +
       "Chaque jour sans sera sauvegardé et aura un impact positif sur votre performance.",
     ADDICTION_CONTROL_HEADER: "Jours sans %{name} :",
+    TOTAL_DISTANCE: 'Distance totale :',
+    EVENTS_DONE: 'Entraînements :',
+    FOOTING_DONE: 'Footing : ',
+    RENFO_DONE: 'Renfo : ',
+    QUALITY_DONE: 'Qualité : ',
+    SL_DONE: 'Sorties longues : ',
+    JOURS_DETOX: 'Journées detox : ',
+    ADDICTION_X: '%{x} :',
   },
 };
 

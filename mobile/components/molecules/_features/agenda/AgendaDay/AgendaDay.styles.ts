@@ -28,9 +28,24 @@ export const s = StyleSheet.create({
   // text
   textDate: {
     flexGrow: 1,
+    alignItems:"center",
+    justifyContent: "center",
   },
 
   textDayName: {
     fontFamily: FONTS.Bold,
   },
+
+  iconAdd: {
+    fontSize: 30,
+    opacity: 0.8,
+    marginTop: 2,
+    marginRight: 1,
+  },
+
+  // buttons
+  buttonAdd: {
+    alignItems:"center",
+    justifyContent: "center",
+  }
 });

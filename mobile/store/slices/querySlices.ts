@@ -6,6 +6,19 @@ export const querySlice = createSlice({
   initialState: {
     [QUERY_IDS.HOME_ITEMS]: [],
     [QUERY_IDS.DETOX_ITEMS]: [],
+    [QUERY_IDS.STATS]: {
+      distanceDone: 0,
+      eventsDone: 0,
+      detoxDone: {
+        alcohol: 0,
+        tobacco: 0,
+        drugs: 0,
+      },
+      footingDone: 0,
+      renfoDone: 0,
+      qualityDone: 0,
+      slDone: 0,
+    }
   },
   reducers: {
     setQueryStore: (state, action) => {

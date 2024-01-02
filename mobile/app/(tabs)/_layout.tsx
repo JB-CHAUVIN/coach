@@ -34,7 +34,7 @@ export default function TabLayout() {
           title: PHRASES.FR.TAB1_TITLE,
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
-              name="calendar-heart"
+              name="calendar"
               color={color}
               size={30}
             />

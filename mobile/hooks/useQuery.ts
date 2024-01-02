@@ -15,11 +15,13 @@ export const API_ENDPOINTS = {
   USER: "api/users",
   DETOX_GET: "api/detoxes?sort=date",
   DETOX: "api/detoxes",
+  STATS_GET: "api/stats",
 };
 
 export const QUERY_IDS = {
   HOME_ITEMS: "HOME_ITEMS",
   DETOX_ITEMS: "DETOX_ITEMS",
+  STATS: "STATS",
 };
 
 const DEBUG = false;

@@ -2,6 +2,7 @@ import {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
@@ -11,13 +12,14 @@ import { useState } from "react";
 
 export const useAgendaHeaderAnimated = () => {
   const isOpen = useSharedValue(0);
-  const [open, setIsOpen] = useState(false);
+  const [openAnalysis, setIsOpenAnalysis] = useState(false);
+  const [openStats, setOpenStats] = useState(false);
 
   const extrapolation = Extrapolation.CLAMP;
 
   const container = useAnimatedStyle(() => {
     return {
-      height: interpolate(isOpen.value, [0, 1], [136, 480], extrapolation),
+      height: interpolate(isOpen.value, [0, 1], [136, openAnalysis ? 480 : 300], extrapolation),
     };
   });
 
@@ -53,15 +55,26 @@ export const useAgendaHeaderAnimated = () => {
   });
 
   const handleToggle = () => {
-    setIsOpen(!open);
-    isOpen.value = withTiming(isOpen.value === 1 ? 0 : 1);
+    setOpenStats(false);
+    setIsOpenAnalysis(!openAnalysis);
   };
+
+  const handleToggleStats = () => {
+    setIsOpenAnalysis(false);
+    setOpenStats(!openStats);
+  };
+
+  useDerivedValue(() => {
+    isOpen.value = withTiming(openAnalysis || openStats ? 1 : 0);
+  }, [openAnalysis, openStats]);
 
   return {
     handleToggle,
     buttonOpen,
     container,
     isOpen,
-    open,
+    openAnalysis,
+    openStats,
+    handleToggleStats,
   };
 };

@@ -14,8 +14,22 @@ export const s = StyleSheet.create({
     overflow: "hidden",
   },
 
+  containerSeeBallance: {
+    zIndex: 10,
+    backgroundColor: COLORS.secondary,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    borderRadius: 10,
+    marginTop: 10,
+    flexDirection: "row",
+  },
+
   containerStats: {
     height: 58,
+  },
+
+  containerGroupStats: {
+    marginVertical: 10,
   },
 
   containerCharts: {
@@ -25,16 +39,40 @@ export const s = StyleSheet.create({
     backgroundColor: COLORS.secondary,
   },
 
+  containerStatsAnnual: {
+    marginTop: 0,
+    marginLeft: -1 * SIZES.PADDING_PAGE,
+    marginRight: -1 * SIZES.PADDING_PAGE,
+    padding: 20,
+    backgroundColor: COLORS.secondary,
+    height: "100%",
+  },
+
+  containerSubInfoStats: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+
   containerInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
 
+  containerSubInfo: {
+    flexDirection: "row",
+  },
+
   // text
   text: {
     color: "white",
     fontSize: 14,
+  },
+
+  textSub: {
+    color: "white",
+    fontSize: 12,
   },
 
   textTitle: {
@@ -48,10 +86,15 @@ export const s = StyleSheet.create({
     fontSize: 16,
   },
 
+  textValueSub: {
+    fontFamily: FONTS.Bold,
+    fontSize: 14,
+  },
+
   textBallance: {
     fontFamily: FONTS.Regular,
     textDecorationLine: "underline",
-    color: 'white',
+    color: "white",
     fontSize: 14,
   },
 
@@ -63,13 +106,7 @@ export const s = StyleSheet.create({
 
   // buttons
   buttonSeeBallance: {
-    zIndex: 10,
-    backgroundColor: COLORS.secondary,
-    alignItems: "center",
-    justifyContent: "center",
     padding: 4,
-    borderRadius: 10,
-    marginTop: 10,
     flexDirection: "row",
   },
 });
