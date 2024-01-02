@@ -3,7 +3,7 @@ const STRAVA_CONFIG = require("../../config/strava.json");
 const { getStravaHeaders } = require("./_stravaApi");
 const {
   convertirTempsEnSecondes,
-  calculerAllureMoyenne
+  calculerAllureMoyenne,
 } = require("../utils/date");
 
 const stravaGetActivity = async (activityId, user) => {
@@ -16,6 +16,8 @@ const stravaGetActivity = async (activityId, user) => {
   const { data = {} } = res || {};
   return data;
 };
+
+const DEBUG_ANALYSIS = false;
 
 const stravaGetActivityLaps = async (activity, activityId, user) => {
   const res = await axios.get(
@@ -30,21 +32,32 @@ const stravaGetActivityLaps = async (activity, activityId, user) => {
   let times = "";
 
   const activityDistance = activity?.distance;
-  if(data && data.length > 0 && activityDistance) {
-    // d'abord on regarde si le nombre de splits est le même que la distance
-    const distance1KMSplits = Math.round(activityDistance / 1000);
-    const numberOfSplits = Math.round(data.length);
 
-    const isSameSplitsLessOrMore = numberOfSplits === distance1KMSplits || numberOfSplits === distance1KMSplits - 1 || numberOfSplits === distance1KMSplits + 1;
+  if (DEBUG_ANALYSIS) {
+    // console.log('[INFO] data', data);
+    console.log("[INFO] activityDistance", activityDistance);
+  }
+
+  if (data && data.length > 0 && activityDistance) {
+    const hasSomeFastSplits = data.some((split) => split.pace_zone > 1);
 
     let timesArray = [];
     let distancesArray = [];
 
+    DEBUG_ANALYSIS &&
+      console.log("[INFO] hasSomeFastSplits ?", hasSomeFastSplits);
+
     training = "";
     times = "";
-    if(!isSameSplitsLessOrMore) {
-      data.map(split => {
-        const { average_speed, total_elevation_gain, elapsed_time, distance, pace_zone } = split || {};
+    if (hasSomeFastSplits) {
+      data.map((split) => {
+        const {
+          average_speed,
+          total_elevation_gain,
+          elapsed_time,
+          distance,
+          pace_zone,
+        } = split || {};
 
         const isTrack = total_elevation_gain < 1;
         const distanceInKm = Math.round(distance / 1000);
@@ -53,10 +66,11 @@ const stravaGetActivityLaps = async (activity, activityId, user) => {
         const unitSplit = isTrack ? "m" : "km";
         const minutes = Math.floor(elapsed_time / 60);
         const seconds = elapsed_time - minutes * 60;
-        const timeElapsed = elapsed_time <= 60 ? `${elapsed_time}''` : `${minutes}'${seconds}''`;
+        const timeElapsed =
+          elapsed_time <= 60 ? `${elapsed_time}''` : `${minutes}'${seconds}''`;
 
-        if(pace_zone > 1) {
-          if(training.length === 0) {
+        if (pace_zone > 1) {
+          if (training.length === 0) {
             training = `📊 `;
             times = `⏱️  `;
           } else {
@@ -70,17 +84,25 @@ const stravaGetActivityLaps = async (activity, activityId, user) => {
           training = `${training}${distanceSplit}${unitSplit}`;
           times = `${times}${timeElapsed}`;
         }
-      })
+      });
 
       // allure moyenne des intervalles
-      if(times.length > 0) {
-        times = `${times} (${calculerAllureMoyenne(timesArray, distancesArray)})`;
+      if (times.length > 0) {
+        times = `${times} (${calculerAllureMoyenne(
+          timesArray,
+          distancesArray
+        )})`;
       }
     }
   }
 
+  if (DEBUG_ANALYSIS) {
+    console.log("[INFO] training", training);
+    console.log("[INFO] times", times);
+  }
+
   return {
-    analysis: training.length > 0 ? `${training}\n${times}` : '',
+    analysis: training.length > 0 ? `${training}\n${times}` : "",
     data,
   };
 };

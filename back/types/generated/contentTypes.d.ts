@@ -405,6 +405,43 @@ export interface ApiActivityActivity extends Schema.CollectionType {
   };
 }
 
+export interface ApiDetoxDetox extends Schema.CollectionType {
+  collectionName: 'detoxes';
+  info: {
+    singularName: 'detox';
+    pluralName: 'detoxes';
+    displayName: 'detox';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    addiction: Attribute.Enumeration<['alcohol', 'drugs', 'tobacco']>;
+    date: Attribute.Date;
+    detoxified: Attribute.Boolean;
+    user: Attribute.Relation<
+      'api::detox.detox',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::detox.detox',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::detox.detox',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiEventEvent extends Schema.CollectionType {
   collectionName: 'events';
   info: {
@@ -767,6 +804,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::activity.activity'
     >;
+    detoxes: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::detox.detox'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -795,6 +837,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::activity.activity': ApiActivityActivity;
+      'api::detox.detox': ApiDetoxDetox;
       'api::event.event': ApiEventEvent;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;

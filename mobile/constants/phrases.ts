@@ -35,5 +35,21 @@ export const PHRASES = {
     CANCEL: "Annuler",
     CONFIRM: "Souhaitez-vous continuer ?",
     DELETE_EVENT: "Souhaitez-vous supprimer cet entraînement ?",
+    alcohol: "Alcool",
+    tobacco: "Tabac",
+    drugs: "Drogues",
+    ADDICTION_CONTROL: "Detox",
+    ADDICTION_CONTROL_DESC:
+      "Améliorez vos performances en réduisant votre consommation de drogues, tabac et alcool.\n" +
+      "Chaque jour sans sera sauvegardé et aura un impact positif sur votre performance.",
+    ADDICTION_CONTROL_HEADER: "Jours sans %{name} :",
   },
+};
+
+export const phraseParse = (phrase: string, params: any) => {
+  let parsed = phrase;
+  for (let i in params) {
+    parsed = parsed.replace(`%{${i}}`, params[i]);
+  }
+  return parsed;
 };

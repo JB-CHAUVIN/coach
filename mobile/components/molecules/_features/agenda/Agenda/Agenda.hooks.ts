@@ -14,22 +14,29 @@ export const useAgendaEvents = () => {
 
   const startOfWeek = moment(currentDate).startOf("isoWeek");
   const endOfWeek = moment(currentDate).endOf("isoWeek");
+  const filterQueryDate = "&filters[date][$gte]=" +
+    startOfWeek.format("YYYY-MM-DD") +
+    "&filters[date][$lt]=" +
+    endOfWeek.add(2, "day").format("YYYY-MM-DD");
 
-  // load one week
+  // load one week of events
   const { isLoading, data, handleQuery } = useQuery(
-    API_ENDPOINTS.EVENT_GET +
-      "&filters[date][$gte]=" +
-      startOfWeek.format("YYYY-MM-DD") +
-      "&filters[date][$lt]=" +
-      endOfWeek.add(2, 'day').format("YYYY-MM-DD"),
+    API_ENDPOINTS.EVENT_GET + filterQueryDate,
     {
       id: QUERY_IDS.HOME_ITEMS,
     },
   );
 
+  // load one week of addictions
+  const { handleQuery: handleQueryAddictions, isLoading: isLoadingAddictions } =
+    useQuery(API_ENDPOINTS.DETOX_GET + filterQueryDate, {
+      id: QUERY_IDS.DETOX_ITEMS,
+    });
+
   useEffect(() => {
-    console.log('[INFO] Loading week', { currentDate, startOfWeek, endOfWeek });
+    console.log("[INFO] Loading week", { currentDate, startOfWeek, endOfWeek });
     handleQuery("GET");
+    handleQueryAddictions("GET");
   }, [startOfWeek.toString()]);
 
   const events = useMemo(() => {
@@ -77,7 +84,7 @@ export const useAgendaEvents = () => {
   }, [JSON.stringify(data)]);
 
   return {
-    isLoading,
+    isLoading: isLoading && isLoadingAddictions,
     events,
     currentDate,
   };

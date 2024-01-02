@@ -1,0 +1,14 @@
+[
+  {
+    "name": "alcohol",
+    "icon": "glass-cocktail-off"
+  },
+  {
+    "name": "tobacco",
+    "icon": "smoking-off"
+  },
+  {
+    "name": "drugs",
+    "icon": "cannabis-off"
+  }
+]

@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH, SIZES } from "../../../../../constants/sizes";
 import { FONTS } from "../../../../../constants/fonts";
 import { COLORS } from "../../../../../constants/colors";
+import {styleSettings} from "../../settings/styleSettings";
 
 const heightButton = 40;
 
@@ -37,8 +38,7 @@ export const s = StyleSheet.create({
 
   // texts
   textTitle: {
-    fontFamily: FONTS.SemiBold,
-    fontSize: 20,
+    ...styleSettings.textTitle,
   },
 
   textButtonDisable: {
@@ -48,8 +48,6 @@ export const s = StyleSheet.create({
   },
 
   textDesc: {
-    fontFamily: FONTS.Regular,
-    fontSize: 14,
-    color: COLORS.text,
+    ...styleSettings.textDesc,
   },
 });

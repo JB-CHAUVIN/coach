@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { stringUcFirst } from "../../../../../utils/string";
+import { stringConcat, stringUcFirst } from "../../../../../utils/string";
 import { useNavigation } from "expo-router";
 import { TYPE_EVENTS } from "../../../../../../types/Events";
 import { COLORS } from "../../../../../constants/colors";
@@ -17,6 +17,8 @@ import { getEventByType } from "../Agenda/Agenda.utils";
 import SwipeableItem, {
   useSwipeableItemParams,
 } from "react-native-swipeable-item";
+import { SCREEN_WIDTH } from "../../../../../constants/sizes";
+import { isLoading } from "expo-font";
 
 type AgendaDayItemProps = {
   i: TYPE_EVENTS;
@@ -52,11 +54,12 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
   const { i } = p || {};
 
   const navigation = useNavigation();
-  const { handleEventDone } = useUpdateEvent();
+  const { isLoading: isLoadingDone, handleEventDone } = useUpdateEvent();
 
   const { done = false } = i || {};
 
   const seance = getEventByType(i.seance);
+  const hasDetails = !!i.seance_variation || !!i.distance;
 
   return (
     <TouchableOpacity
@@ -83,21 +86,33 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
                 />
               ) : null}
 
-              <Text style={s.textSeance}>{stringUcFirst(i.seance)}</Text>
-
-              {i.seance_variation ? (
-                <Text style={s.textSeance}>
-                  {" (" + i.seance_variation + ")"}
-                </Text>
-              ) : null}
+              <Text numberOfLines={1} style={s.textSeance}>
+                {stringUcFirst(i.seance)}
+                {hasDetails ? (
+                  " (" +
+                  stringConcat(
+                    i?.seance_variation,
+                    i?.distance ? i?.distance + "km" : null,
+                    { separator: ", " },
+                  ) +
+                  ")"
+                ) : (
+                  <Text></Text>
+                )}
+              </Text>
             </View>
           </View>
 
           <TouchableOpacity
-            style={[!done && s.buttonNotDoneYet, s.buttonDone]}
+            style={[!done && !isLoadingDone ? s.buttonNotDoneYet : {}, s.buttonDone]}
             onPress={() => handleEventDone(i.id, !done)}
+            disabled={isLoadingDone}
           >
-            <MaterialCommunityIcons style={s.iconCheck} name={"check-bold"} />
+            {isLoadingDone ? (
+              <ActivityIndicator />
+            ) : (
+              <MaterialCommunityIcons style={[s.iconCheck, done && s.iconCheckDone]} name={"check-bold"} />
+            )}
           </TouchableOpacity>
         </View>
       </SwipeableItem>
@@ -105,10 +120,9 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
   );
 };
 
+const containerWidth = SCREEN_WIDTH - 130;
 const s = StyleSheet.create({
-  containerEvent: {
-    flexGrow: 1,
-  },
+  containerEvent: {},
 
   containerEventSwipeable: {
     flexDirection: "row",
@@ -118,6 +132,8 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 3,
+    flexGrow: 1,
+    width: containerWidth,
   },
 
   containerRemoveLeft: {
@@ -130,6 +146,9 @@ const s = StyleSheet.create({
   // buttons
   buttonDone: {
     padding: 12,
+    width: 45,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   buttonRemoveLeft: {},
@@ -164,12 +183,17 @@ const s = StyleSheet.create({
     flexDirection: "row",
     fontFamily: FONTS.Regular,
     fontSize: 13,
+    marginRight: 25,
   },
 
   // icons
   iconCheck: {
     fontSize: 20,
     color: COLORS.secondary,
+  },
+
+  iconCheckDone: {
+    color: COLORS.green,
   },
 
   icon: {

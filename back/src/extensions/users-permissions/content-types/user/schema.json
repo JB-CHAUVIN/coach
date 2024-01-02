@@ -91,6 +91,12 @@
       "relation": "oneToMany",
       "target": "api::activity.activity",
       "mappedBy": "user"
+    },
+    "detoxes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::detox.detox",
+      "mappedBy": "user"
     }
   }
 }

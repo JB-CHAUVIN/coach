@@ -16,7 +16,7 @@ const { getEventByType } = require("../../../service/event/getEventByType");
  * event controller
  */
 
-const DEBUG = true;
+const DEBUG = false;
 
 const { createCoreController } = require("@strapi/strapi").factories;
 

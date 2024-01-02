@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native";
 import { s } from "./AgendaHeader.styles";
 import { AgendaHeaderProps } from "./AgendaHeader.props";
 import { Text } from "../../../../atoms/Text";
-import { PHRASES } from "../../../../../constants/phrases";
+import { phraseParse, PHRASES } from "../../../../../constants/phrases";
 import RadarChart from "../../../../atoms/Charts/RadarChart";
 import { SCREEN_WIDTH, SIZES } from "../../../../../constants/sizes";
 import { useAgendaHeaderInfos } from "./AgendaHeader.hooks";
@@ -11,6 +11,7 @@ import { COLORS } from "../../../../../constants/colors";
 import Animated from "react-native-reanimated";
 import { useAgendaHeaderAnimated } from "./AgendaHeader.animated";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { addictionTranslate } from "../../../../../constants/_features/addictions/addictions";
 
 const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
   const {} = p || {};
@@ -27,6 +28,19 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
         <Text style={[s.text, s.textValue]}>{value}</Text>
       </View>
     );
+  };
+
+  const renderDetox = () => {
+    for (let i in infos?.detox) {
+      const name = i;
+      const number = infos?.detox[i]?.length || 0;
+      const phrase = phraseParse(PHRASES.FR.ADDICTION_CONTROL_HEADER, {
+        name: addictionTranslate(name).toLowerCase(),
+      });
+      return renderInfo(phrase, number.toString());
+    }
+
+    return null;
   };
 
   return (
@@ -46,6 +60,8 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
           PHRASES.FR.AGENDA_HEADER_TOTAL,
           infos.done.toString() + " / " + infos.total.toString(),
         )}
+
+        {renderDetox()}
       </View>
 
       <Pressable onPress={() => handleToggle()}>

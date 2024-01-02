@@ -110,6 +110,7 @@ export default function ModalScreen() {
 
   const handleSubmit = () => {
     const isDone = typeof item?.done !== "undefined" ? item?.done : false;
+    const distance = form?.distance || 0;
 
     handleQuery(isUpdate ? "PUT" : "POST", {
       body: {
@@ -121,7 +122,7 @@ export default function ModalScreen() {
         seance: form?.type?.value,
         seance_variation: form?.typeVariation?.label,
         done: isDone,
-        distance: form?.distance || 0,
+        distance: distance.toString().replace(',', '.'),
         description: form?.description || "",
       },
       onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {

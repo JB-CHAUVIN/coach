@@ -3,6 +3,7 @@ import counterReducer from "./slices/counterSlice";
 import agendaReducer from "./slices/agendaSlice";
 import queryReducer from "./slices/querySlices";
 import userReducer from "./slices/userSlice";
+import settingsReducer from "./slices/settingsSlice";
 import {persistReducer, persistStore} from "redux-persist";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import reactotron from "../config/reactotron";
@@ -11,7 +12,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["user"],
+  whitelist: ["user", "counter", "query", "settings"],
+  blacklist: [],
 };
 
 const reducer = {
@@ -19,6 +21,7 @@ const reducer = {
   agenda: agendaReducer,
   query: queryReducer,
   user: userReducer,
+  settings: settingsReducer,
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers(reducer));

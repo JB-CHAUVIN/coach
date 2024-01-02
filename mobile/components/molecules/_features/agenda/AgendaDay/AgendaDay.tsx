@@ -5,13 +5,12 @@ import { AgendaDayProps } from "./AgendaDay.props";
 import moment from "moment";
 import { stringUcFirst } from "../../../../../utils/string";
 import { Text } from "../../../../atoms/Text";
-import { useNavigation } from "expo-router";
 import { AgendaDayItem } from "./AgendaDayItem";
+import { AgendaDayAddiction } from "./AgendaDayAddiction";
 
 const AgendaDay: React.FC<AgendaDayProps> = (p) => {
   const { item } = p || {};
 
-  const navigation = useNavigation();
   const date = moment(item?.[0].date);
   const Time = ["matin", "midi", "apres-midi", "soir"];
   const timeOrder = Object.values(Time);
@@ -27,8 +26,10 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
             {stringUcFirst(date.format("dddd"))}
           </Text>
           <Text style={s.textDate}>{stringUcFirst(date.format(" DD "))}</Text>
-          <Text style={s.textDate}>{stringUcFirst(date.format("MMMM"))}</Text>
+          <Text style={s.textDate}>{stringUcFirst(date.format("MMM"))}</Text>
         </Text>
+
+        <AgendaDayAddiction date={date} />
       </View>
 
       {sortedItems.map((i) => {

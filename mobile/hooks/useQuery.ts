@@ -13,10 +13,13 @@ export const API_ENDPOINTS = {
   LOGIN: "api/auth/local",
   REGISTER: "api/auth/local/register",
   USER: "api/users",
+  DETOX_GET: "api/detoxes?sort=date",
+  DETOX: "api/detoxes",
 };
 
 export const QUERY_IDS = {
   HOME_ITEMS: "HOME_ITEMS",
+  DETOX_ITEMS: "DETOX_ITEMS",
 };
 
 const DEBUG = false;

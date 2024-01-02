@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 import { SIZES } from "../../../../../constants/sizes";
 import { FONTS } from "../../../../../constants/fonts";
-import { COLORS } from "../../../../../constants/colors";
 
 const sharedStyles = StyleSheet.create({
   borderRadius: {
@@ -21,11 +20,15 @@ export const s = StyleSheet.create({
 
   containerDate: {
     marginLeft: 10,
-    marginVertical: 10,
+    marginVertical: 5,
+    flexDirection: "row",
+    alignItems:"center"
   },
 
   // text
-  textDate: {},
+  textDate: {
+    flexGrow: 1,
+  },
 
   textDayName: {
     fontFamily: FONTS.Bold,

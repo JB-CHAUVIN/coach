@@ -12,7 +12,7 @@ import { Provider } from "react-redux";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PersistGate } from "redux-persist/integration/react";
 import { toastConfig } from "../constants/toasts";
-
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 export const Hoc = (p: any) => {
   const { children } = p || {};
   const colorScheme = useColorScheme();
@@ -25,7 +25,7 @@ export const Hoc = (p: any) => {
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
             <PersistGate loading={null} persistor={persistor}>
-              {children}
+              <ActionSheetProvider>{children}</ActionSheetProvider>
             </PersistGate>
             <Toast config={toastConfig} />
           </ThemeProvider>

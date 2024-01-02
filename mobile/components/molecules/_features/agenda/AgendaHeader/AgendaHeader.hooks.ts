@@ -2,13 +2,15 @@ import { useMemo } from "react";
 import { TYPE_STRAPI_RESULT } from "../../../../../../types/_Strapi";
 import { TYPE_EVENTS } from "../../../../../../types/Events";
 import { getEventByType } from "../Agenda/Agenda.utils";
-import { meanBy } from "lodash";
+import {groupBy, meanBy} from "lodash";
 import { useAppSelector } from "../../../../../store/store";
 import { QUERY_IDS } from "../../../../../hooks/useQuery";
 
 export const useAgendaHeaderInfos = () => {
   // @ts-ignore
   const events = useAppSelector((s) => s?.query?.[QUERY_IDS.HOME_ITEMS]);
+  const detox = useAppSelector((s) => s?.query?.[QUERY_IDS.DETOX_ITEMS]);
+  const detoxGrouped = groupBy(detox, "attributes.addiction");
 
   const infos = useMemo(() => {
     const total = events?.length || 0;
@@ -59,6 +61,7 @@ export const useAgendaHeaderInfos = () => {
         endurance: (meanBy(ratingsTheorical, "endurance") || 0) / 10,
         resistance: (meanBy(ratingsTheorical, "resistance") || 0) / 10,
       },
+      detox: detoxGrouped,
     };
   }, [JSON.stringify(events)]);
 
