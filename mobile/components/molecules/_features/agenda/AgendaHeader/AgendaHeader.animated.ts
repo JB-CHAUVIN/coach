@@ -19,7 +19,7 @@ export const useAgendaHeaderAnimated = () => {
 
   const container = useAnimatedStyle(() => {
     return {
-      height: interpolate(isOpen.value, [0, 1], [136, openAnalysis ? 480 : 300], extrapolation),
+      height: interpolate(isOpen.value, [0, 1], [136, openAnalysis ? 480 : 290], extrapolation),
     };
   });
 
