@@ -1,4 +1,11 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SettingsConnectWithStrava } from "../../components/molecules/_features/connect/SettingsConnectWithStrava/SettingsConnectWithStrava";
 import { SIZES } from "../../constants/sizes";
 import { PHRASES } from "../../constants/phrases";
@@ -7,6 +14,8 @@ import { useAppDispatch } from "../../store/store";
 import { cleanUser } from "../../store/slices/userSlice";
 import { COLORS } from "../../constants/colors";
 import { SettingsAddiction } from "../../components/molecules/_features/settings/SettingsAddiction/SettingsAddiction";
+import { SettingsGoals } from "../../components/molecules/_features/settings/SettingsGoals/SettingsGoals";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 export default function TabTwoScreen() {
   const dispatch = useAppDispatch();
@@ -16,33 +25,35 @@ export default function TabTwoScreen() {
   };
 
   return (
-    <View style={s.container}>
-      <View>
-        <SettingsConnectWithStrava />
+    <ScrollView contentContainerStyle={s.container}>
+      <SettingsConnectWithStrava />
 
-        <View style={s.separator} />
+      <View style={s.separator} />
 
-        <SettingsAddiction />
-      </View>
+      <SettingsGoals />
 
+      <View style={s.separator} />
+
+      <SettingsAddiction />
       <TouchableOpacity onPress={handleLogout}>
         <Text style={s.text}>{PHRASES.FR.LOGOUT}</Text>
       </TouchableOpacity>
-    </View>
+
+      <KeyboardSpacer />
+    </ScrollView>
   );
 }
 
 const s = StyleSheet.create({
   container: {
-    flex: 1,
     padding: SIZES.PADDING_PAGE,
     justifyContent: "space-between",
   },
 
   separator: {
-    width: '100%',
+    width: "100%",
     height: 1,
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     opacity: 0.3,
     marginVertical: 20,
   },

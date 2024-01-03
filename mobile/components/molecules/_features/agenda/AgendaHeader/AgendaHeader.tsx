@@ -15,9 +15,13 @@ import { addictionTranslate } from "../../../../../constants/_features/addiction
 import { QUERY_IDS } from "../../../../../hooks/useQuery";
 import { useAppSelector } from "../../../../../store/store";
 import { sum } from "lodash";
+import { getEventByType } from "../Agenda/Agenda.utils";
 
 const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
   const {} = p || {};
+
+  const [openAnalysis, setOpenAnalysis] = React.useState(false);
+  const [openStats, setOpenStats] = React.useState(false);
 
   const { infos } = useAgendaHeaderInfos();
   const stats = useAppSelector((s) => s?.query?.[QUERY_IDS.STATS]);
@@ -40,14 +44,10 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
     detoxDone = {},
   } = stats || {};
 
-  const {
-    openAnalysis,
-    handleToggle,
-    container,
-    buttonOpen,
-    handleToggleStats,
-    openStats,
-  } = useAgendaHeaderAnimated();
+  let height = 0;
+  if (infos?.goalsStats) {
+    height += 50;
+  }
 
   const renderInfo = (key: string, value: string) => {
     return (
@@ -81,7 +81,7 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
   };
 
   return (
-    <Animated.View style={[s.container, container]}>
+    <View style={[s.container]}>
       <Text style={s.textTitle}>{PHRASES.FR.AGENDA_HEADER_TITLE}</Text>
 
       <View style={s.containerStats}>
@@ -98,11 +98,33 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
           infos.done.toString() + " / " + infos.total.toString(),
         )}
 
+        {infos?.goalsStats ? (
+          <View style={s.containerSubInfoStats}>
+            {Object.keys(infos?.goalsStats)?.map((i) => {
+              const key = i;
+              const value = infos?.goalsStats?.[i];
+              const seance = getEventByType(key);
+              return renderSubInfo(
+                seance?.label,
+                ' ' + value?.done + " / " + value?.total,
+              );
+            })}
+          </View>
+        ) : null}
+
         {renderDetox()}
       </View>
 
-      <Animated.View style={[s.containerSeeBallance, buttonOpen]}>
-        <Pressable style={s.buttonSeeBallance} onPress={() => handleToggle()}>
+      <View style={[s.containerSeeBallance]}>
+        <Pressable
+          style={s.buttonSeeBallance}
+          onPress={() => {
+            setOpenAnalysis(!openAnalysis);
+            if (openStats) {
+              setOpenStats(false);
+            }
+          }}
+        >
           <Text style={s.textBallance}>{PHRASES.FR.SEE_BALANCE}</Text>
           <MaterialCommunityIcons
             name={openAnalysis ? "chevron-down" : "chevron-up"}
@@ -112,7 +134,12 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
 
         <Pressable
           style={s.buttonSeeBallance}
-          onPress={() => handleToggleStats()}
+          onPress={() => {
+            setOpenStats(!openStats);
+            if (openAnalysis) {
+              setOpenAnalysis(false);
+            }
+          }}
         >
           <Text style={s.textBallance}>{PHRASES.FR.ANNUAL_STATS}</Text>
           <MaterialCommunityIcons
@@ -120,7 +147,7 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
             style={s.iconBallance}
           />
         </Pressable>
-      </Animated.View>
+      </View>
 
       {infos &&
       infos?.ratingsTheorical &&
@@ -165,7 +192,6 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
               {Object.keys(detoxDone).map((i) => {
                 const key = i;
                 const value = detoxDone[i];
-                console.log(key, value);
                 return renderSubInfo(
                   phraseParse(PHRASES.FR.ADDICTION_X, {
                     x: addictionTranslate(key),
@@ -177,7 +203,7 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
           </View>
         </View>
       ) : null}
-    </Animated.View>
+    </View>
   );
 };
 

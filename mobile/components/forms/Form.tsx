@@ -3,6 +3,7 @@ import { View, Text, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 import { SIZES } from "../../constants/sizes";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import KeyboardSpacer from "react-native-keyboard-spacer";
 
 interface FormI<T> {
   children: React.ReactNode;
@@ -55,7 +56,7 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
           res = !!validation(formValue);
         }
 
-        if (!res && id !== 'submit') {
+        if (!res && id !== "submit") {
           // one input not valid, then form is not valid
           isFormValid = false;
         }
@@ -80,7 +81,12 @@ export const Form = <T extends unknown>(p: FormI<T>) => {
     });
   };
 
-  return <ScrollView style={s.container}>{renderChildren()}</ScrollView>;
+  return (
+    <ScrollView style={s.container}>
+      {renderChildren()}
+      <KeyboardSpacer />
+    </ScrollView>
+  );
 };
 
 export const s = StyleSheet.create({

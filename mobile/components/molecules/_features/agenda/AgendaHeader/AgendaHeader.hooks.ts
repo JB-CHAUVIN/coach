@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { TYPE_STRAPI_RESULT } from "../../../../../../types/_Strapi";
 import { TYPE_EVENTS } from "../../../../../../types/Events";
 import { getEventByType } from "../Agenda/Agenda.utils";
-import {groupBy, meanBy} from "lodash";
+import { groupBy, meanBy } from "lodash";
 import { useAppSelector } from "../../../../../store/store";
 import { QUERY_IDS } from "../../../../../hooks/useQuery";
 
@@ -10,11 +10,14 @@ export const useAgendaHeaderInfos = () => {
   // @ts-ignore
   const events = useAppSelector((s) => s?.query?.[QUERY_IDS.HOME_ITEMS]);
   const detox = useAppSelector((s) => s?.query?.[QUERY_IDS.DETOX_ITEMS]);
+  const goals = useAppSelector((s) => s?.settings?.goals) || {};
   const detoxGrouped = groupBy(detox, "attributes.addiction");
 
   const infos = useMemo(() => {
-    const total = events?.length || 0;
+    // @ts-ignore
+    const total = (events && events?.length) || 0;
     const done =
+      // @ts-ignore
       events?.filter(
         (e: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => e?.attributes?.done,
       )?.length || 0;
@@ -22,23 +25,51 @@ export const useAgendaHeaderInfos = () => {
     let volumeTheorical = 0;
     let volumeDone = 0;
 
+    let goalsStats = {} as any;
+
     let ratingsDone = [];
     let ratingsTheorical = [];
     for (let i in events) {
+      // @ts-ignore
       const event = events[i];
-      const { distance = 0, seance: seanceName } = event?.attributes || {};
+      if (event && event?.attributes && typeof event?.attributes !== "undefined") {
+        const {
+          distance = 0,
+          seance: seanceName,
+          done,
+          fake,
+        } = event?.attributes || {};
+        const seance = getEventByType(seanceName) || {};
+        const goal = goals?.[seanceName];
+        const isDone = !!done;
+        const isFake = !!fake;
 
-      const seance = getEventByType(seanceName);
-      const { ratings: rating } = seance || {}; // TODO : fetch ratings variations too!
+        if (goal && !isFake) {
+          if (typeof goalsStats[seanceName] !== "object") {
+            goalsStats[seanceName] = {
+              done: 0,
+              total: 0,
+            };
+          }
 
-      if (event?.attributes?.done) {
-        ratingsDone.push(rating);
-        ratingsTheorical.push(rating);
-        volumeDone += distance || 0;
-        volumeTheorical += distance || 0;
-      } else {
-        ratingsTheorical.push(rating);
-        volumeTheorical += distance || 0;
+          goalsStats[seanceName].total += 1;
+          if (isDone) {
+            goalsStats[seanceName].done += 1;
+          }
+        }
+        const { ratings: rating } = seance || {}; // TODO : fetch ratings variations too!
+
+        if (!isFake) {
+          if (isDone) {
+            ratingsDone.push(rating);
+            ratingsTheorical.push(rating);
+            volumeDone += distance || 0;
+            volumeTheorical += distance || 0;
+          } else {
+            ratingsTheorical.push(rating);
+            volumeTheorical += distance || 0;
+          }
+        }
       }
     }
 
@@ -62,6 +93,7 @@ export const useAgendaHeaderInfos = () => {
         resistance: (meanBy(ratingsTheorical, "resistance") || 0) / 10,
       },
       detox: detoxGrouped,
+      goalsStats,
     };
   }, [JSON.stringify(events)]);
 

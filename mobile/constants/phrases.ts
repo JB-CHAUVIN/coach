@@ -52,6 +52,8 @@ export const PHRASES = {
     SL_DONE: 'Sorties longues : ',
     JOURS_DETOX: 'Journées detox : ',
     ADDICTION_X: '%{x} :',
+    GOALS: 'Objectifs hebdomadaire',
+    GOALS_DESC: 'Définissez vos objectifs hebdomadaires pour chaque type d\'entraînement (en nombre de séances).',
   },
 };
 

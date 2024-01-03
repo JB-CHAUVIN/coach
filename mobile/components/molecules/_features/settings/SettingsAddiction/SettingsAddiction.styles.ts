@@ -17,6 +17,6 @@ export const s = StyleSheet.create({
 
   // icons
   iconAddiction: {
-    fontSize: 20,
+    ...styleSettings.icon,
   }
 });

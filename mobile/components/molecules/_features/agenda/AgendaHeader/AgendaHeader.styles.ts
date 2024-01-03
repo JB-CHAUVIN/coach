@@ -3,6 +3,12 @@ import { SIZES } from "../../../../../constants/sizes";
 import { COLORS } from "../../../../../constants/colors";
 import { FONTS } from "../../../../../constants/fonts";
 
+const fill = {
+  marginLeft: -1 * SIZES.PADDING_PAGE,
+  marginRight: -1 * SIZES.PADDING_PAGE,
+  marginBottom: -1 * SIZES.PADDING_PAGE,
+};
+
 export const s = StyleSheet.create({
   container: {
     margin: SIZES.PADDING_PAGE,
@@ -10,22 +16,24 @@ export const s = StyleSheet.create({
     borderRadius: 20,
     borderBottomRightRadius: 50,
     backgroundColor: COLORS.primary,
-    marginBottom: 0,
+    marginBottom: 20,
     overflow: "hidden",
+    borderBottomRightRadis: 50,
   },
 
   containerSeeBallance: {
+    marginTop: 30,
     zIndex: 10,
     backgroundColor: COLORS.secondary,
     alignItems: "center",
     justifyContent: "space-evenly",
     borderRadius: 10,
-    marginTop: 10,
     flexDirection: "row",
+    ...fill,
   },
 
   containerStats: {
-    height: 58,
+
   },
 
   containerGroupStats: {
@@ -33,31 +41,29 @@ export const s = StyleSheet.create({
   },
 
   containerCharts: {
-    marginLeft: -1 * SIZES.PADDING_PAGE,
-    marginRight: -1 * SIZES.PADDING_PAGE,
-    marginTop: 0,
+    ...fill,
     backgroundColor: COLORS.secondary,
   },
 
   containerStatsAnnual: {
-    marginTop: 0,
-    marginLeft: -1 * SIZES.PADDING_PAGE,
-    marginRight: -1 * SIZES.PADDING_PAGE,
+    ...fill,
     padding: 20,
+    paddingTop: 30,
     backgroundColor: COLORS.secondary,
-    height: "100%",
   },
 
   containerSubInfoStats: {
     flexDirection: "row",
     justifyContent: "space-between",
     flexWrap: "wrap",
+    marginBottom: 7,
   },
 
   containerInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 7,
   },
 
   containerSubInfo: {

@@ -20,7 +20,7 @@ export const Hoc = (p: any) => {
   return (
     <GluestackUIProvider>
       <Provider store={store}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1, opacity: 0.4 }}>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >

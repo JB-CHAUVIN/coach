@@ -28,7 +28,7 @@ const getYearlyStats = async (ctx) => {
     },
   });
 
-  const totals = {
+  let totals = {
     eventsDone: events?.length || 0,
     detoxDoneTotal: detox?.length || 0,
     detoxDone: countBy(detox, 'addiction'),
@@ -48,6 +48,13 @@ const getYearlyStats = async (ctx) => {
       return acc + (event?.seance.includes(['sl']) ? 1 : 0) || 0;
     }, 0),
   }
+
+  // round data foreach totals fields
+  Object.keys(totals).forEach((key) => {
+    if(typeof totals[key] === 'number') {
+      totals[key] = Math.round(totals[key] * 100) / 100;
+    }
+  });
 
   ctx.body = {
     data: totals,

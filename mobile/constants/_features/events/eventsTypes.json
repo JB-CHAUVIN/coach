@@ -183,6 +183,31 @@
       "resistance": 8
     }
   },
+  "COTES": {
+    "label": "Côtes",
+    "emoji": "⛰\uFE0F",
+    "value": "cotes",
+    "variations": [
+      {
+        "label": "Avec variations d'allure"
+      },
+      {
+        "label": "Aux sensations"
+      }
+    ],
+    "color": "#de7e31",
+    "icon": {
+      "name": "trending-up",
+      "type": "MaterialCommunityIcons"
+    },
+    "ratings": {
+      "force": 7,
+      "puissance": 7,
+      "technique": 6,
+      "endurance": 5,
+      "resistance": 6
+    }
+  },
   "TEMPO": {
     "label": "Tempo",
     "emoji": "🥁",

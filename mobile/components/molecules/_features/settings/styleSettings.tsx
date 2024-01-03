@@ -14,4 +14,9 @@ export const styleSettings = StyleSheet.create({
     fontSize: 14,
     color: COLORS.text,
   },
+
+  // icons
+  icon: {
+    fontSize: 20,
+  }
 });

@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-01-02T17:07:17.086Z"
+    "x-generation-date": "2024-01-03T14:06:13.022Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -682,7 +682,8 @@
                                         "sl",
                                         "tempo",
                                         "fartlek",
-                                        "piste"
+                                        "piste",
+                                        "cotes"
                                       ]
                                     },
                                     "seance_variation": {
@@ -1752,7 +1753,8 @@
                                         "sl",
                                         "tempo",
                                         "fartlek",
-                                        "piste"
+                                        "piste",
+                                        "cotes"
                                       ]
                                     },
                                     "seance_variation": {
@@ -2234,7 +2236,8 @@
                   "sl",
                   "tempo",
                   "fartlek",
-                  "piste"
+                  "piste",
+                  "cotes"
                 ]
               },
               "seance_variation": {
@@ -2349,7 +2352,8 @@
               "sl",
               "tempo",
               "fartlek",
-              "piste"
+              "piste",
+              "cotes"
             ]
           },
           "seance_variation": {
@@ -2848,7 +2852,8 @@
                                         "sl",
                                         "tempo",
                                         "fartlek",
-                                        "piste"
+                                        "piste",
+                                        "cotes"
                                       ]
                                     },
                                     "seance_variation": {

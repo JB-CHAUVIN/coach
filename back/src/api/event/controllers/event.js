@@ -159,13 +159,13 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
                 name: eventInfos?.label + " " + eventInfos?.emoji,
               };
               if(event?.seance_variation) {
-                stravaData.name = `${stravaData.name}  [${event?.seance_variation}]`;
+                stravaData.name = `${stravaData.name} [${event?.seance_variation}]`;
               }
 
               let hasSubText = false;
               let subText = "";
               if(event?.description) {
-                subText = `✔️  ${event?.description}\n`;
+                subText = `${event?.description}\n`;
                 hasSubText = true;
               }
 
