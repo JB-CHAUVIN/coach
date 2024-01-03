@@ -32,7 +32,11 @@ export const useAgendaHeaderInfos = () => {
     for (let i in events) {
       // @ts-ignore
       const event = events[i];
-      if (event && event?.attributes && typeof event?.attributes !== "undefined") {
+      if (
+        event &&
+        event?.attributes &&
+        typeof event?.attributes !== "undefined"
+      ) {
         const {
           distance = 0,
           seance: seanceName,
@@ -48,11 +52,10 @@ export const useAgendaHeaderInfos = () => {
           if (typeof goalsStats[seanceName] !== "object") {
             goalsStats[seanceName] = {
               done: 0,
-              total: 0,
+              total: goal,
             };
           }
 
-          goalsStats[seanceName].total += 1;
           if (isDone) {
             goalsStats[seanceName].done += 1;
           }
@@ -76,8 +79,8 @@ export const useAgendaHeaderInfos = () => {
     return {
       total: Math.round(total),
       done: Math.round(done),
-      volumeDone: Math.round(volumeDone),
-      volumeTheorical: Math.round(volumeTheorical),
+      volumeDone: Math.round(volumeDone * 100) / 100,
+      volumeTheorical: Math.round(volumeTheorical * 100) / 100,
       ratingsDone: {
         force: (meanBy(ratingsDone, "force") || 0) / 10,
         puissance: (meanBy(ratingsDone, "puissance") || 0) / 10,
@@ -95,7 +98,7 @@ export const useAgendaHeaderInfos = () => {
       detox: detoxGrouped,
       goalsStats,
     };
-  }, [JSON.stringify(events)]);
+  }, [JSON.stringify(events), JSON.stringify(goals), JSON.stringify(detox)]);
 
   return {
     infos,

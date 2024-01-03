@@ -38,9 +38,10 @@ export const s = StyleSheet.create({
 
   iconAdd: {
     fontSize: 30,
-    opacity: 0.8,
+    opacity: 0.7,
     marginTop: 2,
     marginRight: 1,
+    color: '#505050'
   },
 
   // buttons
