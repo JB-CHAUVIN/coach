@@ -3,7 +3,7 @@ const axios = require("axios");
 const STRAVA_CONFIG = require("../../config/strava.json");
 
 const FORCE_UPDATE = false;
-const DEBUG = true;
+const DEBUG = false;
 const model = "plugin::users-permissions.user";
 
 const stravaRefreshTokenIfNeeded = async (

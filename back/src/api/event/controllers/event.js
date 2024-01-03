@@ -101,7 +101,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
       aspect_type = "create",
     } = ctx?.request?.body || {};
 
-    DEBUG && console.log("[INFO] Body", ctx?.request?.body);
+    console.log("[INFO] Body", ctx?.request?.body);
 
     if (object_type === "activity" && aspect_type === "create") {
       /**
