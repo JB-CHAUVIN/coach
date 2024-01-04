@@ -64,6 +64,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "club": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::club.club",
+      "inversedBy": "events"
     }
   }
 }

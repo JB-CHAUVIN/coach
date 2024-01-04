@@ -4,4 +4,5 @@ export type TYPE_USER = {
     provider: string;
     confirmed: boolean;
     blocked: boolean;
+    role2: 'default' | 'coach';
 }

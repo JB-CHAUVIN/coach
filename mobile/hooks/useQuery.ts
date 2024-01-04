@@ -16,6 +16,7 @@ export const API_ENDPOINTS = {
   DETOX_GET: "api/detoxes?sort=date",
   DETOX: "api/detoxes",
   STATS_GET: "api/stats",
+  USER_ME: "api/users/me?populate=club",
 };
 
 export const QUERY_IDS = {

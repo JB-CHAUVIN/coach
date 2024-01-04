@@ -6,11 +6,18 @@ import {
 } from "../../../../../hooks/useQuery";
 import { useEffect, useMemo } from "react";
 import { getEventByType } from "./Agenda.utils";
-import { useAppSelector } from "../../../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../../../store/store";
 import moment from "moment";
+import { TYPE_USER } from "../../../../../../types/User";
+import { setUser } from "../../../../../store/slices/userSlice";
+import { startOfWeek } from "@internationalized/date";
+import { useUser } from "../../../../../hooks/useUser";
 
 export const useAgendaEvents = () => {
   const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
+  const dispatch = useAppDispatch();
+
+  const { user } = useUser();
 
   const startOfWeek = moment(currentDate).startOf("isoWeek");
   const endOfWeek = moment(currentDate).endOf("isoWeek");
@@ -42,12 +49,22 @@ export const useAgendaEvents = () => {
     },
   );
 
+  // re-fetch user
+  const { handleQuery: handleQueryUser, isLoading: isLoadingUser } = useQuery(
+    API_ENDPOINTS.USER_ME,
+  );
+
   useEffect(() => {
     console.log("[INFO] Loading week", { currentDate, startOfWeek, endOfWeek });
     handleQuery("GET");
     handleQueryAddictions("GET");
     handleQueryStats("GET");
-  }, [startOfWeek.toString()]);
+    handleQueryUser("GET", {
+      onSuccess: (data: TYPE_USER) => {
+        dispatch(setUser(data));
+      },
+    });
+  }, [startOfWeek.toString(), user?.item?.id]);
 
   const events = useMemo(() => {
     let res = {};
@@ -94,7 +111,8 @@ export const useAgendaEvents = () => {
   }, [JSON.stringify(data)]);
 
   return {
-    isLoading: isLoading && isLoadingAddictions && isLoadingStats,
+    isLoading:
+      isLoading && isLoadingAddictions && isLoadingStats && isLoadingUser,
     events,
     currentDate,
   };

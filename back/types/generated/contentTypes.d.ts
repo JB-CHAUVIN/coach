@@ -362,136 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiActivityActivity extends Schema.CollectionType {
-  collectionName: 'activities';
-  info: {
-    singularName: 'activity';
-    pluralName: 'activities';
-    displayName: 'activities';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    type: Attribute.Enumeration<['strava']>;
-    data: Attribute.JSON;
-    user: Attribute.Relation<
-      'api::activity.activity',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    activity_id: Attribute.BigInteger;
-    event: Attribute.Relation<
-      'api::activity.activity',
-      'oneToOne',
-      'api::event.event'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::activity.activity',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::activity.activity',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiDetoxDetox extends Schema.CollectionType {
-  collectionName: 'detoxes';
-  info: {
-    singularName: 'detox';
-    pluralName: 'detoxes';
-    displayName: 'detox';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    addiction: Attribute.Enumeration<['alcohol', 'drugs', 'tobacco']>;
-    date: Attribute.Date;
-    detoxified: Attribute.Boolean;
-    user: Attribute.Relation<
-      'api::detox.detox',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::detox.detox',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::detox.detox',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiEventEvent extends Schema.CollectionType {
-  collectionName: 'events';
-  info: {
-    singularName: 'event';
-    pluralName: 'events';
-    displayName: 'event';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    date: Attribute.Date;
-    time: Attribute.Enumeration<['matin', 'midi', 'apres-midi', 'soir']>;
-    seance: Attribute.Enumeration<
-      ['footing', 'renforcement', 'sl', 'tempo', 'fartlek', 'piste', 'cotes']
-    >;
-    seance_variation: Attribute.String;
-    user: Attribute.Relation<
-      'api::event.event',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    done: Attribute.Boolean & Attribute.DefaultTo<false>;
-    distance: Attribute.Decimal;
-    stravaFlaggedAuto: Attribute.Boolean & Attribute.DefaultTo<false>;
-    activity: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'api::activity.activity'
-    >;
-    description: Attribute.Text;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::event.event',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -809,6 +679,13 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::detox.detox'
     >;
+    role2: Attribute.Enumeration<['default', 'coach']> &
+      Attribute.DefaultTo<'default'>;
+    club: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::club.club'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -826,6 +703,171 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiActivityActivity extends Schema.CollectionType {
+  collectionName: 'activities';
+  info: {
+    singularName: 'activity';
+    pluralName: 'activities';
+    displayName: 'activities';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    type: Attribute.Enumeration<['strava']>;
+    data: Attribute.JSON;
+    user: Attribute.Relation<
+      'api::activity.activity',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    activity_id: Attribute.BigInteger;
+    event: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'api::event.event'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::activity.activity',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiClubClub extends Schema.CollectionType {
+  collectionName: 'clubs';
+  info: {
+    singularName: 'club';
+    pluralName: 'clubs';
+    displayName: 'club';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    address: Attribute.String;
+    logo: Attribute.Media;
+    users: Attribute.Relation<
+      'api::club.club',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    events: Attribute.Relation<
+      'api::club.club',
+      'oneToMany',
+      'api::event.event'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::club.club', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::club.club', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiDetoxDetox extends Schema.CollectionType {
+  collectionName: 'detoxes';
+  info: {
+    singularName: 'detox';
+    pluralName: 'detoxes';
+    displayName: 'detox';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    addiction: Attribute.Enumeration<['alcohol', 'drugs', 'tobacco']>;
+    date: Attribute.Date;
+    detoxified: Attribute.Boolean;
+    user: Attribute.Relation<
+      'api::detox.detox',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::detox.detox',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::detox.detox',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiEventEvent extends Schema.CollectionType {
+  collectionName: 'events';
+  info: {
+    singularName: 'event';
+    pluralName: 'events';
+    displayName: 'event';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    date: Attribute.Date;
+    time: Attribute.Enumeration<['matin', 'midi', 'apres-midi', 'soir']>;
+    seance: Attribute.Enumeration<
+      ['footing', 'renforcement', 'sl', 'tempo', 'fartlek', 'piste', 'cotes']
+    >;
+    seance_variation: Attribute.String;
+    user: Attribute.Relation<
+      'api::event.event',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    done: Attribute.Boolean & Attribute.DefaultTo<false>;
+    distance: Attribute.Decimal;
+    stravaFlaggedAuto: Attribute.Boolean & Attribute.DefaultTo<false>;
+    activity: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'api::activity.activity'
+    >;
+    description: Attribute.Text;
+    club: Attribute.Relation<'api::event.event', 'manyToOne', 'api::club.club'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::event.event',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -836,15 +878,16 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::activity.activity': ApiActivityActivity;
-      'api::detox.detox': ApiDetoxDetox;
-      'api::event.event': ApiEventEvent;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::activity.activity': ApiActivityActivity;
+      'api::club.club': ApiClubClub;
+      'api::detox.detox': ApiDetoxDetox;
+      'api::event.event': ApiEventEvent;
     }
   }
 }

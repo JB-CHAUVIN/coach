@@ -97,6 +97,20 @@
       "relation": "oneToMany",
       "target": "api::detox.detox",
       "mappedBy": "user"
+    },
+    "role2": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "coach"
+      ],
+      "default": "default"
+    },
+    "club": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::club.club",
+      "inversedBy": "users"
     }
   }
 }
