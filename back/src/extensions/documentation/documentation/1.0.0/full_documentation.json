@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-01-04T16:33:51.396Z"
+    "x-generation-date": "2024-01-05T15:20:00.999Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -844,9 +844,6 @@
                                                 "name": {
                                                   "type": "string"
                                                 },
-                                                "address": {
-                                                  "type": "string"
-                                                },
                                                 "logo": {
                                                   "type": "object",
                                                   "properties": {
@@ -1521,6 +1518,9 @@
                           }
                         }
                       },
+                      "pendingJoinClub": {
+                        "type": "boolean"
+                      },
                       "createdAt": {
                         "type": "string",
                         "format": "date-time"
@@ -1673,9 +1673,6 @@
               "name": {
                 "type": "string"
               },
-              "address": {
-                "type": "string"
-              },
               "logo": {
                 "oneOf": [
                   {
@@ -1769,9 +1766,6 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
-          },
-          "address": {
             "type": "string"
           },
           "logo": {
@@ -2801,9 +2795,6 @@
                                                   "name": {
                                                     "type": "string"
                                                   },
-                                                  "address": {
-                                                    "type": "string"
-                                                  },
                                                   "logo": {
                                                     "type": "object",
                                                     "properties": {
@@ -3246,6 +3237,9 @@
                               }
                             }
                           }
+                        },
+                        "pendingJoinClub": {
+                          "type": "boolean"
                         },
                         "createdAt": {
                           "type": "string",
@@ -4144,9 +4138,6 @@
                                                 "name": {
                                                   "type": "string"
                                                 },
-                                                "address": {
-                                                  "type": "string"
-                                                },
                                                 "logo": {
                                                   "type": "object",
                                                   "properties": {
@@ -4820,6 +4811,9 @@
                             }
                           }
                         }
+                      },
+                      "pendingJoinClub": {
+                        "type": "boolean"
                       },
                       "createdAt": {
                         "type": "string",
@@ -5758,9 +5752,6 @@
                                                 "name": {
                                                   "type": "string"
                                                 },
-                                                "address": {
-                                                  "type": "string"
-                                                },
                                                 "logo": {
                                                   "type": "object",
                                                   "properties": {
@@ -6434,6 +6425,9 @@
                             }
                           }
                         }
+                      },
+                      "pendingJoinClub": {
+                        "type": "boolean"
                       },
                       "createdAt": {
                         "type": "string",

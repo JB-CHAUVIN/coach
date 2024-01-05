@@ -16,6 +16,7 @@ export const InputSelect = (p: InputSelectI<any>) => {
     placeholder,
     icon: iconProp,
     isInputValid = false,
+    keepOpen = false,
   } = p || {};
 
   const isFirstLoad = useRef(true);
@@ -72,6 +73,7 @@ export const InputSelect = (p: InputSelectI<any>) => {
         {item?.icon ? (
           <MaterialCommunityIcons
             style={[
+              s.icon,
               s.iconSelectedOption,
               item?.color ? { color: item?.color } : {},
             ]}
@@ -88,28 +90,33 @@ export const InputSelect = (p: InputSelectI<any>) => {
 
   let icon = <MaterialCommunityIcons style={s.icon} name={iconProp} />;
 
-  if (!iconProp) {
+  if (!iconProp || (value && value?.icon?.name)) {
     icon = <View />;
+  }
+
+  let isOpen = open;
+  if(keepOpen && !value) {
+    isOpen = true;
   }
 
   return (
     <TouchableOpacity
       style={[
         s.button,
-        open ? { height: undefined } : {},
+        isOpen ? { height: undefined } : {},
         isInputValid && s.buttonValid,
       ]}
       onPress={() => setOpen(true)}
     >
-      {!open && value
+      {!isOpen && value
         ? renderItem({ item: { ...value, isSelected: true } })
         : null}
 
-      {!open && !value && placeholder ? (
+      {!isOpen && !value && placeholder ? (
         <Text style={s.textPlaceholder}>{placeholder}</Text>
       ) : null}
 
-      {open ? (
+      {isOpen ? (
         <FlatList
           horizontal={horizontal}
           data={options}

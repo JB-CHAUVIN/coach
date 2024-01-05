@@ -5,7 +5,7 @@ import { InputDate } from "../components/forms/InputDate/InputDate";
 import { Form } from "../components/forms/Form";
 import { InputSelect } from "../components/forms/InputSelect/InputSelect";
 import { EVENTS_TYPES } from "../constants/_features/events/eventsTypes";
-import moment, {Moment} from "moment";
+import moment, { Moment } from "moment";
 import { PHRASES } from "../constants/phrases";
 import { InputSubmit } from "../components/forms/InputSubmit/InputSubmit";
 import { API_ENDPOINTS, QUERY_IDS, useQuery } from "../hooks/useQuery";
@@ -14,7 +14,7 @@ import { TYPE_EVENTS } from "../../types/Events";
 import { addStoreItem, updateStoreItem } from "../store/slices/querySlices";
 import { TYPE_STRAPI_RESULT } from "../../types/_Strapi";
 import { Input } from "../components/forms/Input/Input";
-import {FORM_VALIDATIONS_FN} from "../components/forms/Form.utils";
+import { FORM_VALIDATIONS_FN } from "../components/forms/Form.utils";
 
 type Inputs = {
   date: Date;
@@ -123,7 +123,7 @@ export default function ModalScreen() {
         seance: form?.type?.value,
         seance_variation: form?.typeVariation?.label,
         done: isDone,
-        distance: distance.toString().replace(',', '.'),
+        distance: distance.toString().replace(",", "."),
         description: form?.description || "",
       },
       onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {

@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from "../store/store";
 import { setQueryStore } from "../store/slices/querySlices";
 import { useUser } from "./useUser";
 import Toast from 'react-native-toast-message';
-import {PHRASES} from "../constants/phrases";
+import { PHRASES } from "../constants/phrases";
 
 export const API_ENDPOINTS = {
+  CLUB_CRUD: "api/clubs",
+  CLUB_JOIN: "api/club/join",
   EVENT_CRUD: "api/events",
   EVENT_GET: "api/events?sort=date&populate=event",
   LOGIN: "api/auth/local",
@@ -23,6 +25,7 @@ export const QUERY_IDS = {
   HOME_ITEMS: "HOME_ITEMS",
   DETOX_ITEMS: "DETOX_ITEMS",
   STATS: "STATS",
+  CLUB: "CLUB",
 };
 
 const DEBUG = false;

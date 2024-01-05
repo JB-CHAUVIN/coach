@@ -6,6 +6,10 @@ var enumerateDaysBetweenDates = function (startDate, endDate) {
     dates.push(now.format("YYYY-MM-DD"));
     now.add(1, "days");
   }
+
+  // add sunday
+  dates.push(now.format("YYYY-MM-DD"));
+
   return dates;
 };
 

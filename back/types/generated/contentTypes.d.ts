@@ -686,6 +686,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'api::club.club'
     >;
+    pendingJoinClub: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -751,14 +752,13 @@ export interface ApiClubClub extends Schema.CollectionType {
   info: {
     singularName: 'club';
     pluralName: 'clubs';
-    displayName: 'club';
+    displayName: 'Club';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String;
-    address: Attribute.String;
     logo: Attribute.Media;
     users: Attribute.Relation<
       'api::club.club',

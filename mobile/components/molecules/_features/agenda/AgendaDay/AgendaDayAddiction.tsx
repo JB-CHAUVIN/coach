@@ -7,6 +7,7 @@ import { TYPE_STRAPI_RESULT } from "../../../../../../types/_Strapi";
 import { TYPE_DETOX } from "../../../../../../types/Detox";
 import { s } from "./AgendaDayAddiction.styles";
 import { useAgendaDayAddiction } from "./AgendaDayAddiction.hooks";
+import {useAppSelector} from "../../../../../store/store";
 
 type AgendaDayAddictionProps = {
   date: moment.Moment;
@@ -14,6 +15,7 @@ type AgendaDayAddictionProps = {
 
 const AgendaDayAddiction: React.FC<AgendaDayAddictionProps> = (p) => {
   const { date } = p || {};
+  const isCoach = useAppSelector((s) => s?.user?.isCoach);
 
   const {
     onPress,
@@ -26,7 +28,7 @@ const AgendaDayAddiction: React.FC<AgendaDayAddictionProps> = (p) => {
     noAddiction,
   } = useAgendaDayAddiction(date);
 
-  if (noAddiction) {
+  if (noAddiction || isCoach) {
     return null;
   }
 

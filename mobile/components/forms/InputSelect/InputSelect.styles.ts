@@ -56,7 +56,7 @@ export const s = StyleSheet.create({
   },
 
   textSelectOptionHorizontal: {
-    textAlign: "center",
+    flexGrow: 0,
   },
 
   textPlaceholder: {
@@ -72,6 +72,6 @@ export const s = StyleSheet.create({
 
   iconSelectedOption: {
     fontSize: 30,
-    marginRight: FORM_STYLES.icon.marginRight,
+    marginLeft: 5,
   },
 });

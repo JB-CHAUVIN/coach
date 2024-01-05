@@ -8,18 +8,21 @@ import { Text } from "../../../../atoms/Text";
 import { AgendaDayItem } from "./AgendaDayItem";
 import { AgendaDayAddiction } from "./AgendaDayAddiction";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import {
+  SCREENS,
+  useAppNavigation,
+} from "../../../../../hooks/useAppNavigation";
 
 const AgendaDay: React.FC<AgendaDayProps> = (p) => {
   const { item } = p || {};
 
-  const navigation = useNavigation();
   const date = moment(item?.[0].date);
   const Time = ["matin", "midi", "apres-midi", "soir"];
   const timeOrder = Object.values(Time);
   const sortedItems = item.sort(
     (a, b) => timeOrder.indexOf(a.time) - timeOrder.indexOf(b.time),
   );
+  const navigation = useAppNavigation();
 
   return (
     <View style={s.container}>
@@ -35,7 +38,7 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
         <TouchableOpacity
           style={s.buttonAdd}
           onPress={() =>
-            navigation.navigate("modal-agenda-add", {
+            navigation.navigate(SCREENS.MODAL.agendaAdd, {
               date,
             })
           }

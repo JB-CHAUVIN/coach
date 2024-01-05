@@ -111,6 +111,10 @@
       "relation": "manyToOne",
       "target": "api::club.club",
       "inversedBy": "users"
+    },
+    "pendingJoinClub": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

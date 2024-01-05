@@ -5,6 +5,10 @@ import { useEffect } from "react";
 import moment from "moment";
 import "moment/locale/fr";
 import { Hoc } from "./Hoc";
+import { SCREENS } from "../hooks/useAppNavigation";
+import { PHRASES } from "../constants/phrases";
+import {FONTS} from "../constants/fonts";
+import {COLORS} from "../constants/colors";
 
 require("../config/reactotron");
 
@@ -65,6 +69,11 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+const headerTitleStyle = {
+  fontFamily: FONTS.Bold,
+  color: COLORS.text,
+}
+
 function RootLayoutNav() {
   return (
     <Hoc>
@@ -72,8 +81,33 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
         <Stack.Screen
-          name="modal-agenda-add"
+          name={SCREENS.MODAL.agendaAdd}
           options={{ presentation: "modal", headerShown: false }}
+        />
+
+        <Stack.Screen
+          name={SCREENS.MODAL.clubAdd}
+          options={{ presentation: "modal", headerShown: false }}
+        />
+
+        <Stack.Screen
+          name={SCREENS.MODAL.clubFind}
+          options={{
+            presentation: "modal",
+            headerShown: true,
+            title: PHRASES.FR.JOINCLUB,
+            headerTitleStyle,
+          }}
+        />
+
+        <Stack.Screen
+          name={SCREENS.MODAL.clubInfo}
+          options={{
+            presentation: "modal",
+            headerShown: true,
+            title: PHRASES.FR.MY_CLUB,
+            headerTitleStyle,
+          }}
         />
       </Stack>
     </Hoc>

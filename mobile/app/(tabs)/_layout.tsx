@@ -1,25 +1,33 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {Link, Redirect, Tabs, useNavigation} from "expo-router";
-import { Pressable } from "react-native";
+import { Redirect, Tabs } from "expo-router";
+import { TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { useUser } from "../../hooks/useUser";
 import { PHRASES } from "../../constants/phrases";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FONTS } from "../../constants/fonts";
-import {useEffect} from "react";
+import { SCREENS, useAppNavigation } from "../../hooks/useAppNavigation";
 
 const headerTitleStyle = {
   fontFamily: FONTS.Medium,
-  color: '#505050',
+  color: "#505050",
   fontSize: 20,
 };
 
 export default function TabLayout() {
   const { isLoggedIn, user } = useUser();
+  const navigation = useAppNavigation();
 
   if (!isLoggedIn) {
     return <Redirect href={"/login"} />;
   }
+
+  const onPress = () => {
+    if (user?.item?.club?.id) {
+      navigation.navigate(SCREENS.MODAL.clubInfo);
+      return;
+    }
+    navigation.navigate(SCREENS.MODAL.clubFind);
+  };
 
   return (
     <Tabs
@@ -33,25 +41,17 @@ export default function TabLayout() {
           headerTitleStyle,
           title: PHRASES.FR.TAB1_TITLE,
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="calendar"
-              color={color}
-              size={30}
-            />
+            <MaterialCommunityIcons name="calendar" color={color} size={30} />
           ),
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={COLORS.white}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+            <TouchableOpacity onPress={onPress}>
+              <MaterialCommunityIcons
+                name="account-group"
+                size={25}
+                color={COLORS.secondary}
+                style={{ marginRight: 15, opacity: 1 }}
+              />
+            </TouchableOpacity>
           ),
         }}
       />

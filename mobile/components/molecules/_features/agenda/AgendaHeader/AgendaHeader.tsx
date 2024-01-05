@@ -8,13 +8,10 @@ import RadarChart from "../../../../atoms/Charts/RadarChart";
 import { SCREEN_WIDTH, SIZES } from "../../../../../constants/sizes";
 import { useAgendaHeaderInfos } from "./AgendaHeader.hooks";
 import { COLORS } from "../../../../../constants/colors";
-import Animated from "react-native-reanimated";
-import { useAgendaHeaderAnimated } from "./AgendaHeader.animated";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { addictionTranslate } from "../../../../../constants/_features/addictions/addictions";
 import { QUERY_IDS } from "../../../../../hooks/useQuery";
 import { useAppSelector } from "../../../../../store/store";
-import { sum } from "lodash";
 import { getEventByType } from "../Agenda/Agenda.utils";
 
 const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
@@ -106,7 +103,7 @@ const AgendaHeader: React.FC<AgendaHeaderProps> = (p) => {
               const seance = getEventByType(key);
               return renderSubInfo(
                 seance?.label,
-                ' ' + value?.done + " / " + value?.total,
+                " " + value?.done + " / " + value?.total,
               );
             })}
           </View>

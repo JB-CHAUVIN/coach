@@ -5,4 +5,5 @@ export interface InputSubmitI<T> extends InputI<T> {
     isLoading: boolean;
     isFormValid?: boolean;
     label?: string;
+    style?: any;
 }

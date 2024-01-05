@@ -8,6 +8,7 @@ import { s } from "./Agenda.styles";
 import { useAgendaEvents } from "./Agenda.hooks";
 import { FONTS } from "../../../../../constants/fonts";
 import { AgendaList } from "../AgendaList/AgendaList";
+import { AgendaPleaseConfigureClub } from "../../coach/AgendaPleaseConfigureClub";
 
 LocaleConfig.locales["fr"] = {
   monthNames: [
@@ -58,38 +59,48 @@ const Agenda: React.FC<AgendaProps> = (p) => {
   const {} = p || {};
   const dispatch = useAppDispatch();
 
-  const { isLoading, events, currentDate } = useAgendaEvents();
+  const { isLoading, events, currentDate, user } = useAgendaEvents();
+
+  if (isLoading) {
+    return (
+      <View style={s.containerLoading}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  if (user?.isCoach && !user?.hasValidClub) {
+    return (
+      <View style={s.container}>
+        <AgendaPleaseConfigureClub />
+      </View>
+    );
+  }
 
   return (
     <View style={s.container}>
-      {!isLoading ? (
-        <AgendaRNCal
-          firstDay={1}
-          selected={moment(currentDate).format("YYYY-MM-DD")}
-          theme={{
-            textMonthFontFamily: FONTS.Bold,
-            textDayFontFamily: FONTS.Regular,
-            textDayHeaderFontFamily: FONTS.SemiBold,
-          }}
-          renderList={(agenda: any) => {
-            return <AgendaList agendaItems={agenda} />;
-          }}
-          markingType={"multi-dot"}
-          refreshing={false}
-          items={events.events}
-          markedDates={events.dots}
-          onDayPress={(day) => {
-            dispatch(setCurrentDate(moment(day?.dateString)));
-          }}
-          renderEmptyData={() => {
-            return <View />;
-          }}
-        />
-      ) : (
-        <View style={s.containerLoading}>
-          <ActivityIndicator />
-        </View>
-      )}
+      <AgendaRNCal
+        firstDay={1}
+        selected={moment(currentDate).format("YYYY-MM-DD")}
+        theme={{
+          textMonthFontFamily: FONTS.Bold,
+          textDayFontFamily: FONTS.Regular,
+          textDayHeaderFontFamily: FONTS.SemiBold,
+        }}
+        renderList={(agenda: any) => {
+          return <AgendaList agendaItems={agenda} />;
+        }}
+        markingType={"multi-dot"}
+        refreshing={false}
+        items={events.events}
+        markedDates={events.dots}
+        onDayPress={(day) => {
+          dispatch(setCurrentDate(moment(day?.dateString)));
+        }}
+        renderEmptyData={() => {
+          return <View />;
+        }}
+      />
     </View>
   );
 };

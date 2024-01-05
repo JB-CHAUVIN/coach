@@ -21,7 +21,7 @@ console.log  = (...args) => {
 
 const reactotron = Reactotron.configure({
     host: 'localhost',
-    port: 9091
+    port: 9090
 })
   .setAsyncStorageHandler(AsyncStorage)
   .useReactNative()

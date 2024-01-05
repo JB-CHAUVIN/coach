@@ -5,6 +5,7 @@ import {FONTS} from "./fonts";
 
 const paddingInput = 20;
 const iconMarginRight = paddingInput / 2;
+export const iconWidthForms = 30;
 
 export const FORM_STYLES = StyleSheet.create({
   inputContainer: {
@@ -32,5 +33,8 @@ export const FORM_STYLES = StyleSheet.create({
     color: "#888888",
     fontSize: 30,
     marginRight: iconMarginRight,
+    width: iconWidthForms,
+    alignItems: "center",
+    justifyContent: "center",
   }
 });

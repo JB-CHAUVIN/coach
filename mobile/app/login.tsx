@@ -15,13 +15,35 @@ import { useAppDispatch } from "../store/store";
 import * as Updates from "expo-updates";
 import { Text } from "../components/atoms/Text";
 import { FORM_VALIDATIONS_FN } from "../components/forms/Form.utils";
+import { TYPE_USER } from "../../types/User";
+import { InputSelect } from "../components/forms/InputSelect/InputSelect";
 
 type Inputs = {
   identifier: string;
   email?: string;
   password: string;
   username?: string;
+  role2?: {
+    value: TYPE_USER["role2"]
+  };
 };
+
+const optionsRole = [
+  {
+    label: PHRASES.FR.ACCOUNT_DEFAULT,
+    value: "default",
+    icon: {
+      name: "calendar-account",
+    },
+  },
+  {
+    label: PHRASES.FR.ACCOUNT_COACH,
+    value: "coach",
+    icon: {
+      name: "account-tie-voice",
+    },
+  },
+];
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
@@ -30,6 +52,7 @@ export default function LoginScreen() {
     password: "",
     email: "",
     username: "",
+    role2: undefined,
   });
   const isLoading = false;
 
@@ -52,6 +75,7 @@ export default function LoginScreen() {
         email: form?.identifier,
         password: form?.password,
         identifier: "",
+        role2: form?.role2?.value || "default",
       };
     }
 
@@ -114,6 +138,19 @@ export default function LoginScreen() {
             autoCapitalize={"none"}
             validation={FORM_VALIDATIONS_FN.password}
           />
+
+          {isRegister ? (
+            <InputSelect
+              id={"role2"}
+              options={optionsRole}
+              horizontal={true}
+              placeholder={PHRASES.FR.ACCOUNT_WHO}
+              icon={"account-question"}
+              validation={FORM_VALIDATIONS_FN.select}
+            />
+          ) : (
+            <View />
+          )}
 
           <InputSubmit
             id={"submit"}

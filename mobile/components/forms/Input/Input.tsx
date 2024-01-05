@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputI } from "./Input.props";
-import { View, TextInput } from "react-native";
+import { View, TextInput, TouchableOpacity } from "react-native";
 import { s } from "./Input.styles";
 import { COLORS } from "../../../constants/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -18,6 +18,13 @@ export const Input = (p: InputI<string>) => {
     isInputValid,
   } = p || {};
 
+  const [secure, setSecure] = useState(secureTextEntry);
+
+  let theIcon = icon;
+  if (secureTextEntry && !secure) {
+    theIcon = "form-textbox";
+  }
+
   const hasValue = value && value.toString().trim().length > 0;
 
   return (
@@ -32,12 +39,19 @@ export const Input = (p: InputI<string>) => {
         style={[s.input]}
         keyboardType={keyboardType}
         onChangeText={(e) => setValue && setValue(e.toString())}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={secure}
         autoCapitalize={autoCapitalize}
         value={(value || "").toString()}
+        autoCorrect={false}
       />
 
-      <MaterialCommunityIcons name={icon} style={s.icon} />
+      <TouchableOpacity
+        disabled={!secureTextEntry}
+        onPress={() => setSecure(!secure)}
+        style={s.buttonIcon}
+      >
+        <MaterialCommunityIcons name={theIcon} style={s.icon} />
+      </TouchableOpacity>
     </View>
   );
 };

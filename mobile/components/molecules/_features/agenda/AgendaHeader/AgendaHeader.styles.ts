@@ -116,3 +116,5 @@ export const s = StyleSheet.create({
     flexDirection: "row",
   },
 });
+
+export const agendaHeaderStyles = s;

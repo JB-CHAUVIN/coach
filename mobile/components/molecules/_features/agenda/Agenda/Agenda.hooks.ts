@@ -12,6 +12,7 @@ import { TYPE_USER } from "../../../../../../types/User";
 import { setUser } from "../../../../../store/slices/userSlice";
 import { startOfWeek } from "@internationalized/date";
 import { useUser } from "../../../../../hooks/useUser";
+import {useGetClubInfos} from "../../coach/Coach.hooks";
 
 export const useAgendaEvents = () => {
   const currentDate = useAppSelector((s) => s?.agenda?.currentDate);
@@ -54,6 +55,9 @@ export const useAgendaEvents = () => {
     API_ENDPOINTS.USER_ME,
   );
 
+  // club
+  useGetClubInfos();
+
   useEffect(() => {
     console.log("[INFO] Loading week", { currentDate, startOfWeek, endOfWeek });
     handleQuery("GET");
@@ -64,6 +68,7 @@ export const useAgendaEvents = () => {
         dispatch(setUser(data));
       },
     });
+
   }, [startOfWeek.toString(), user?.item?.id]);
 
   const events = useMemo(() => {
@@ -115,5 +120,6 @@ export const useAgendaEvents = () => {
       isLoading && isLoadingAddictions && isLoadingStats && isLoadingUser,
     events,
     currentDate,
+    user,
   };
 };

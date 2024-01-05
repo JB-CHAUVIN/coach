@@ -9,6 +9,9 @@ export const FORM_VALIDATIONS_FN = {
   username: (username: string) => {
     return username.length > 4;
   },
+  string: (string: string) => {
+    return !!(string && string.length > 0);
+  },
   nullable: () => {
     return true;
   },

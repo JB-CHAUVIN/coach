@@ -20,5 +20,6 @@ export const s = StyleSheet.create({
     fontFamily: "UrbanistBold",
     color: COLORS.white,
     fontSize: 16,
+    textAlign: "center",
   },
 });

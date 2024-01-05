@@ -19,6 +19,7 @@ import SwipeableItem, {
 } from "react-native-swipeable-item";
 import { SCREEN_WIDTH } from "../../../../../constants/sizes";
 import { isLoading } from "expo-font";
+import {useAppSelector} from "../../../../../store/store";
 
 type AgendaDayItemProps = {
   i: TYPE_EVENTS;
@@ -55,6 +56,7 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
 
   const navigation = useNavigation();
   const { isLoading: isLoadingDone, handleEventDone } = useUpdateEvent();
+  const isCoach = useAppSelector((s) => s?.user?.isCoach);
 
   const { done = false } = i || {};
 
