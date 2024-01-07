@@ -48,7 +48,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
     // remove clubs
     ctx.request.query.filters["club"] = {
       id: {
-        $lt: 1,
+        $null: true
       }
     };
 
