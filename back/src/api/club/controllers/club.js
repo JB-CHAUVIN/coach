@@ -1,6 +1,7 @@
 "use strict";
 
 const {joinClub} = require("../_routes/joinClub");
+const { validateUser } = require("../_routes/validateUser");
 /**
  * club controller
  */
@@ -24,5 +25,9 @@ module.exports = createCoreController("api::club.club", ({ strapi }) => ({
 
   async joinClub(ctx) {
     return await joinClub(ctx);
+  },
+
+  async validateUser(ctx) {
+    return await validateUser(ctx);
   }
 }));

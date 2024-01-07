@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { FlatList, SectionList, StyleSheet, View } from "react-native";
+import {ActivityIndicator, FlatList, SectionList, StyleSheet, View} from "react-native";
 import { useAppSelector } from "../store/store";
 import { Text } from "../components/atoms/Text";
 import { phraseParse, PHRASES } from "../constants/phrases";
@@ -16,6 +16,7 @@ import { TYPE_CLUB } from "../../types/Club";
 import { groupBy } from "lodash";
 import {FONTS} from "../constants/fonts";
 import {COLORS} from "../constants/colors";
+import {useGetClubInfos} from "../components/molecules/_features/coach/Coach.hooks";
 
 export default function ModalScreen() {
   const isPendingClub = useAppSelector(SELECTOR_USER_IS_PENDING_CLUB);
@@ -24,6 +25,9 @@ export default function ModalScreen() {
   // @ts-ignore
   const clubDetailed: TYPE_STRAPI_RESULT<TYPE_CLUB> =
     useAppSelector(SELECTOR_CLUBS_QUERY);
+
+  // club
+  const { isLoading: isLoadingClub } = useGetClubInfos();
 
   const usersClubSectionList = useMemo(() => {
     const groups = groupBy(
@@ -40,8 +44,6 @@ export default function ModalScreen() {
       });
     }
 
-    console.log(res);
-
     return res;
   }, [clubDetailed?.attributes?.users?.data]);
 
@@ -53,6 +55,14 @@ export default function ModalScreen() {
         </Text>
       </View>
     );
+  }
+
+  if(isLoadingClub) {
+    return (
+      <View style={s.containerLoading}>
+        <ActivityIndicator size={"large"} />
+      </View>
+    )
   }
 
   if (user.isCoach) {
@@ -80,6 +90,12 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     padding: SIZES.PADDING_PAGE,
+  },
+
+  containerLoading: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   // texts

@@ -8,7 +8,7 @@ export const useGetClubInfos = () => {
   const clubId = useAppSelector(SELECTOR_USER_CLUB)?.id;
 
   const { user } = useUser();
-  const { handleQuery } = useQuery(API_ENDPOINTS.CLUB_CRUD + "/" + clubId + "?populate=users", {
+  const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.CLUB_CRUD + "/" + clubId + "?populate=users", {
     id: QUERY_IDS.CLUB,
   });
 
@@ -17,4 +17,8 @@ export const useGetClubInfos = () => {
       handleQuery("GET");
     }
   }, [user, clubId]);
+
+  return {
+    isLoading,
+  }
 };

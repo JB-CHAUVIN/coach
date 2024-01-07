@@ -57,7 +57,7 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
     let result = await super.find(ctx);
     let clubEvents = [];
 
-    if (theUser?.club?.id && theUser?.isPendingClub === false) {
+    if (theUser?.club?.id && theUser?.pendingJoinClub === false) {
       const filtersClubEvents = {
         club: {
           id: theUser?.club?.id,
