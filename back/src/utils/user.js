@@ -1,5 +1,7 @@
-const isUserCoachAndInClub = (user) => {
-  return !!(user?.role2 === 'coach' && user?.club?.id)
+const isUserCoachAndInClub = (user, clubId) => {
+  let isCoachAndHasClub = !!(user?.role2 === 'coach' && user?.club?.id);
+  let isUserInThisClub = typeof clubId !== 'undefined' ? user?.club?.id === clubId : true;
+  return isCoachAndHasClub && isUserInThisClub;
 }
 
 const getUser = async (id) => {

@@ -1,13 +1,14 @@
-import {useRef, useState} from "react";
+import { useRef, useState } from "react";
 import { CONFIG } from "../constants/config";
 import { Platform } from "react-native";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { setQueryStore } from "../store/slices/querySlices";
 import { useUser } from "./useUser";
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 import { PHRASES } from "../constants/phrases";
 
 export const API_ENDPOINTS = {
+  UPLOAD: "api/upload",
   CLUB_CRUD: "api/clubs",
   CLUB_JOIN: "api/club/join",
   CLUB_VALIDATE_USER: "api/club/validate-user",
@@ -30,6 +31,10 @@ export const QUERY_IDS = {
 };
 
 const DEBUG = false;
+
+export const getImageUrl = (uri: string) => {
+  return CONFIG.BACKEND + uri.replace('/uploads', 'uploads');
+};
 
 export const useQuery = (
   url: string,
@@ -66,12 +71,16 @@ export const useQuery = (
       body?: T;
       isStrapi?: boolean;
       onSuccess: (i: any) => void;
+      headers?: any;
+      extraFetchOptions?: any;
     },
   ) => {
     const {
       body = undefined,
       isStrapi = true,
       onSuccess = () => {},
+      headers: additionalHeaders = {},
+      extraFetchOptions = {},
     } = options || {};
 
     let theBody = undefined;
@@ -94,7 +103,8 @@ export const useQuery = (
     let headers = {
       "Content-Type": "application/json",
       "User-Agent": "Application (" + Platform.OS + ")",
-      "Authorization": "",
+      Authorization: "",
+      ...additionalHeaders,
     };
 
     if (user?.jwt) {
@@ -108,6 +118,7 @@ export const useQuery = (
       method: method || "GET",
       headers,
       body: theBody ? JSON.stringify(theBody) : undefined,
+      ...extraFetchOptions,
     };
 
     if (DEBUG) {
@@ -139,7 +150,7 @@ export const useQuery = (
         } else {
           setError(result);
           errorObject.current = result;
-          throw new Error('Something went wrong ...');
+          throw new Error("Something went wrong ...");
         }
 
         setIsLoading(false);
@@ -153,7 +164,7 @@ export const useQuery = (
         }
 
         Toast.show({
-          type: 'error',
+          type: "error",
           text1: PHRASES.FR.ERROR_TITLE,
           // @ts-ignore
           text2: errorObject.current?.error?.message || PHRASES.FR.ERROR_DESC,

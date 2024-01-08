@@ -72,6 +72,11 @@ export const PHRASES = {
     PENDING_CLUB_X: 'Votre demande pour rejoindre le club %{name} est en attente.',
     LABEL_ROLE2_default: 'Athlètes',
     LABEL_ROLE2_coach: 'Coachs',
+    CLUB_SETTINGS: 'Paramètres',
+    CLUB_USER_MANAGEMENT: 'Membres',
+    PLACEHOLDER_IMAGE: "Image",
+    PLACEHOLDER_IMAGE_LOGO: "Logo du club",
+    UPDATE_CLUB: "Mettre à jour mon club",
   },
 };
 

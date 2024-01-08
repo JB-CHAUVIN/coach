@@ -7,7 +7,7 @@ export const FORM_VALIDATIONS_FN = {
     return password.length > 5;
   },
   username: (username: string) => {
-    return username.length > 4;
+    return username.length > 3;
   },
   string: (string: string) => {
     return !!(string && string.length > 0);

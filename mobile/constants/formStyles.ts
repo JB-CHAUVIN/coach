@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
-import {COLORS} from "./colors";
-import {FONTS} from "./fonts";
-
+import { COLORS } from "./colors";
+import { FONTS } from "./fonts";
 
 const paddingInput = 20;
 const iconMarginRight = paddingInput / 2;
@@ -34,7 +33,8 @@ export const FORM_STYLES = StyleSheet.create({
     fontSize: 30,
     marginRight: iconMarginRight,
     width: iconWidthForms,
+    height: iconWidthForms,
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
 });

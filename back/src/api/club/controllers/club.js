@@ -1,10 +1,9 @@
 "use strict";
 
-const {joinClub} = require("../_routes/joinClub");
+const { joinClub } = require("../_routes/joinClub");
 const { validateUser } = require("../_routes/validateUser");
-/**
- * club controller
- */
+const { getUser, isUserCoachAndInClub } = require("../../../utils/user");
+const { getClub } = require("../../../utils/club");
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
@@ -23,11 +22,25 @@ module.exports = createCoreController("api::club.club", ({ strapi }) => ({
     return result;
   },
 
+  async update(ctx) {
+    const { user } = ctx.state;
+    const clubId = ctx.request.params?.id;
+    const theUser = await getUser(user?.id);
+    const theClub = await getClub(clubId);
+
+    if (!isUserCoachAndInClub(theUser, theClub?.id)) {
+      return ctx.badRequest("You are not allowed to update this club");
+    }
+
+    let result = await super.update(ctx);
+    return result;
+  },
+
   async joinClub(ctx) {
     return await joinClub(ctx);
   },
 
   async validateUser(ctx) {
     return await validateUser(ctx);
-  }
+  },
 }));

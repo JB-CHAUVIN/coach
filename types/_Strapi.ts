@@ -9,6 +9,10 @@ export type TYPE_STRAPI_POPULATE_MANY<T> = {
     data: Array<TYPE_STRAPI_RESULT<T>>;
 }
 
+export type TYPE_STRAPI_POPULATE_ONE<T> = {
+    data: TYPE_STRAPI_RESULT<T>;
+}
+
 export type TYPE_STRAPI_IDENTIFICATION = {
     jwt: string;
     user: TYPE_USER;

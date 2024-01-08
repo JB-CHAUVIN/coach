@@ -5,7 +5,7 @@ export const SCREENS = {
     agendaAdd: "modal-agenda-add",
     clubAdd: "modal-club-add",
     clubFind: "modal-club-find",
-    clubInfo: "modal-club-info"
+    clubInfo: "modal-club-info",
   },
 };
 
@@ -15,6 +15,10 @@ export const useAppNavigation = () => {
   const navigate = (route: string, params?: any) => {
     // @ts-ignore
     navigation.navigate(route, params);
+  };
+
+  const pop = () => {
+    navigation.goBack();
   };
 
   return {
