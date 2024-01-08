@@ -54,6 +54,25 @@ const createFromStrava = async (ctx) => {
       );
       const { start_date_local } = activity || {};
 
+      /**
+       * Insert or update activity in our database.
+       * @type {string}
+       */
+      const modelActivities = "api::activity.activity";
+      const filtersActivity = {
+        activity_id: activity?.id,
+        type: "strava",
+      };
+      const existingActivities = await strapi.entityService.findMany(
+        modelActivities,
+        {
+          filters: filtersActivity,
+        }
+      );
+
+      const existingActivity = existingActivities?.[0];
+      const ignoreStravaWebhook = existingActivity && aspect_type === "create"; // strava bug
+
       DEBUG && console.log("[INFO] Found activity", activity);
       DEBUG && console.log("[INFO] Found activity laps", laps);
       DEBUG && console.log("[INFO] Activity analysis", analysis.length > 0);
@@ -101,41 +120,25 @@ const createFromStrava = async (ctx) => {
             }
 
             // do not update activity with description, since it has alread been modified
-            if (!activity?.description || activity?.description?.length === 0) {
+            if (!ignoreStravaWebhook && (!activity?.description || activity?.description?.length === 0)) {
               await stravaUpdateActivity(activity?.id, stravaData, user);
             }
           }
         } catch (err) {}
 
-        // we only automaticly link event once!
-        await strapi.entityService.update("api::event.event", event?.id, {
-          data: {
-            stravaFlaggedAuto: true,
-            done: true,
-            distance: activity?.distance
-              ? activity?.distance / 1000
-              : event?.distance,
-          },
-        });
-      }
-
-      /**
-       * Insert or update activity in our database.
-       * @type {string}
-       */
-      const modelActivities = "api::activity.activity";
-      const filtersActivity = {
-        activity_id: activity?.id,
-        type: "strava",
-      };
-      const existingActivities = await strapi.entityService.findMany(
-        modelActivities,
-        {
-          filters: filtersActivity,
+        if(!ignoreStravaWebhook) {
+          // we only automaticly link event once!
+          await strapi.entityService.update("api::event.event", event?.id, {
+            data: {
+              stravaFlaggedAuto: true,
+              done: true,
+              distance: activity?.distance
+                ? activity?.distance / 1000
+                : event?.distance,
+            },
+          });
         }
-      );
-
-      const existingActivity = existingActivities?.[0];
+      }
 
       const bodyActivity = {
         ...filtersActivity,
