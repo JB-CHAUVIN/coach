@@ -1,4 +1,7 @@
-var enumerateDaysBetweenDates = function (startDate, endDate) {
+export const enumerateDaysBetweenDates = function (
+  startDate: moment.Moment,
+  endDate: moment.Moment,
+) {
   var now = startDate.clone(),
     dates = [];
 
@@ -8,8 +11,4 @@ var enumerateDaysBetweenDates = function (startDate, endDate) {
   }
 
   return dates;
-};
-
-module.exports = {
-  enumerateDaysBetweenDates,
 };

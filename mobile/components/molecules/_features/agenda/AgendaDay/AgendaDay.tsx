@@ -29,10 +29,10 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
       <View style={s.containerDate}>
         <Text style={s.textDate}>
           <Text style={[s.textDate, s.textDayName]}>
-            {stringUcFirst(date.format("dddd"))}
+            {date ? stringUcFirst(date.format("dddd")) : null}
           </Text>
-          <Text style={s.textDate}>{stringUcFirst(date.format(" DD "))}</Text>
-          <Text style={s.textDate}>{stringUcFirst(date.format("MMM"))}</Text>
+          <Text style={s.textDate}>{date ? stringUcFirst(date.format(" DD ")) : null}</Text>
+          <Text style={s.textDate}>{date ? stringUcFirst(date.format("MMM")) : null}</Text>
         </Text>
 
         <TouchableOpacity

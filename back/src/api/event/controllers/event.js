@@ -88,12 +88,13 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
     const { date } = ctx?.request?.query?.filters || {};
     const startOfWeek = date["$gte"] || moment().startOf("week");
-    const endOfWeek = date["$lte"] || moment().endOf("week");
+    const endOfWeek = date["$lt"] || moment().endOf("week");
 
     let dates = enumerateDaysBetweenDates(
       moment(startOfWeek),
       moment(endOfWeek)
     );
+
     let newResult = [];
     for (let i in result?.data) {
       const item = result?.data[i];

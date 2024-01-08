@@ -10,10 +10,10 @@ import { FONTS } from "../../../../../constants/fonts";
 import { AgendaList } from "../AgendaList/AgendaList";
 import { AgendaPleaseConfigureClub } from "../../coach/AgendaPleaseConfigureClub";
 
-moment.updateLocale('fr', {
+moment.updateLocale("fr", {
   week: {
-    dow : 1,
-  }
+    dow: 1,
+  },
 });
 
 LocaleConfig.locales["fr"] = {
@@ -70,14 +70,6 @@ const Agenda: React.FC<AgendaProps> = (p) => {
 
   const { isLoading, events, currentDate, user } = useAgendaEvents();
 
-  if (isLoading) {
-    return (
-      <View style={s.containerLoading}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
   if (user?.isCoach && !user?.hasValidClub) {
     return (
       <View style={s.container}>
@@ -88,6 +80,12 @@ const Agenda: React.FC<AgendaProps> = (p) => {
 
   return (
     <View style={s.container}>
+      {isLoading ? (
+        <View style={s.containerLoading}>
+          <ActivityIndicator />
+        </View>
+      ) : null}
+
       <AgendaRNCal
         firstDay={1}
         selected={moment(currentDate).format("YYYY-MM-DD")}

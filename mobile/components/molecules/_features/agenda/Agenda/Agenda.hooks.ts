@@ -20,15 +20,15 @@ export const useAgendaEvents = () => {
 
   const { user } = useUser();
 
-  const startOfWeek = moment(currentDate).clone().weekday(1);
-  const endOfWeek = moment(currentDate).clone().weekday(7);
+  const startOfWeek = moment(currentDate).startOf("isoWeek");
+  const endOfWeek = moment(currentDate).endOf("isoWeek");
 
   const filterQueryDate =
     "&filters[date][$gte]=" +
     startOfWeek.format("YYYY-MM-DD") +
     "&filters[date][$lt]=" +
-    endOfWeek.add(2, "day").format("YYYY-MM-DD");
-
+    endOfWeek.format("YYYY-MM-DD");
+  
   // load one week of events
   const { isLoading, data, handleQuery } = useQuery(
     API_ENDPOINTS.EVENT_GET + filterQueryDate,
