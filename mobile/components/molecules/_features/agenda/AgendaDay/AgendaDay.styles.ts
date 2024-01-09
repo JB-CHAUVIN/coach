@@ -13,7 +13,8 @@ const sharedStyles = StyleSheet.create({
 export const s = StyleSheet.create({
   container: {
     margin: SIZES.PADDING_PAGE,
-    marginBottom: 4,
+    marginBottom: 8,
+    marginTop: 8,
     backgroundColor: "rgb(249,221,177)",
     ...sharedStyles.borderRadius,
   },
@@ -35,18 +36,4 @@ export const s = StyleSheet.create({
   textDayName: {
     fontFamily: FONTS.Bold,
   },
-
-  iconAdd: {
-    fontSize: 30,
-    opacity: 0.7,
-    marginTop: 2,
-    marginRight: 1,
-    color: '#505050'
-  },
-
-  // buttons
-  buttonAdd: {
-    alignItems:"center",
-    justifyContent: "center",
-  }
 });

@@ -10,6 +10,7 @@ import { PHRASES } from "../constants/phrases";
 export const API_ENDPOINTS = {
   UPLOAD: "api/upload",
   CLUB_CRUD: "api/clubs",
+  CLUB_CRUD_GET_ONE: (clubId: number) => "api/clubs/" + clubId + "?populate=logo&populate=users",
   CLUB_JOIN: "api/club/join",
   CLUB_VALIDATE_USER: "api/club/validate-user",
   EVENT_CRUD: "api/events",

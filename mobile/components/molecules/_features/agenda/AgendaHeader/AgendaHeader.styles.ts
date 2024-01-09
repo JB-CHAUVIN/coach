@@ -16,9 +16,9 @@ export const s = StyleSheet.create({
     borderRadius: 20,
     borderBottomRightRadius: 50,
     backgroundColor: COLORS.primary,
-    marginBottom: 20,
     overflow: "hidden",
     borderBottomRightRadis: 50,
+    marginBottom: 10,
   },
 
   containerSeeBallance: {

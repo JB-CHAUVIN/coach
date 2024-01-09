@@ -1,24 +1,18 @@
-import { API_ENDPOINTS, QUERY_IDS, useQuery } from "../../../../hooks/useQuery";
-import { useAppSelector } from "../../../../store/store";
-import { SELECTOR_USER_CLUB } from "../../../../store/selectors/selectorsUser";
 import { useEffect } from "react";
 import { useUser } from "../../../../hooks/useUser";
+import { useClub } from "../../../../hooks/useClub";
 
 export const useGetClubInfos = () => {
-  const clubId = useAppSelector(SELECTOR_USER_CLUB)?.id;
-
   const { user } = useUser();
-  const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.CLUB_CRUD + "/" + clubId + "?populate=logo&populate=users", {
-    id: QUERY_IDS.CLUB,
-  });
+  const { clubId, handleQuery, isLoading } = useClub();
 
   useEffect(() => {
-    if (user?.isCoach && user?.hasValidClub) {
+    if (user?.isCoach && user?.hasValidClub || user?.item?.club?.id && user?.item?.pendingJoinClub === false) {
       handleQuery("GET");
     }
   }, [user, clubId]);
 
   return {
     isLoading,
-  }
+  };
 };

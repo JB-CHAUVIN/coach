@@ -192,6 +192,9 @@
         "label": "Avec variations d'allure"
       },
       {
+        "label": "Escaliers"
+      },
+      {
         "label": "Aux sensations"
       }
     ],
@@ -290,6 +293,49 @@
       "technique": 7,
       "endurance": 5,
       "resistance": 6
+    }
+  },
+  "RACE": {
+    "label": "Course",
+    "value": "course",
+    "emoji": "\uD83C\uDFC1",
+    "variations": [
+      {
+        "label": "Cross"
+      },
+      {
+        "label": "Piste"
+      },
+      {
+        "label": "5km"
+      },
+      {
+        "label": "10km"
+      },
+      {
+        "label": "Semi"
+      },
+      {
+        "label": "Marathon"
+      },
+      {
+        "label": "Trail"
+      },
+      {
+        "label": "Ultra"
+      }
+    ],
+    "color": "#d01616",
+    "icon": {
+      "name": "clock-fast",
+      "type": "MaterialCommunityIcons"
+    },
+    "ratings": {
+      "force": 7,
+      "puissance": 7,
+      "technique": 7,
+      "endurance": 7,
+      "resistance": 7
     }
   }
 }

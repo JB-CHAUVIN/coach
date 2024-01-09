@@ -1,3 +1,6 @@
+import {TYPE_STRAPI_POPULATE_ONE} from "./_Strapi";
+import {TYPE_CLUB} from "./Club";
+
 export type TYPE_EVENTS = {
     id: number;
     date: Date;
@@ -9,4 +12,5 @@ export type TYPE_EVENTS = {
     distance?: number;
     description?: string;
     fake?: boolean;
+    club?: TYPE_STRAPI_POPULATE_ONE<TYPE_CLUB>
 }

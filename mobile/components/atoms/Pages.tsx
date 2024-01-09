@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "./Text";
 import { FONTS } from "../../constants/fonts";
 import { COLORS } from "../../constants/colors";
-import { SIZES } from "../../constants/sizes";
+import { SCREEN_WIDTH, SIZES } from "../../constants/sizes";
 
 type PagesI = {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ export const Pages = (p: PagesI) => {
   const [index, setIndex] = React.useState(0);
   const [activeSection, setActiveSection] = React.useState(0);
   const refPaging = useRef(null);
+  const mutexClick = useRef(false);
 
   const onIndexChanged = (index: number) => {
     setActiveSection(index);
@@ -29,13 +30,17 @@ export const Pages = (p: PagesI) => {
           const sectionIndex = sectionsName.indexOf(sectionName);
           const isSelected = activeSection === sectionIndex;
           const onPress = () => {
-            console.log(sectionIndex);
+            refPaging?.current?.scrollView?.scrollTo({
+              x: SCREEN_WIDTH * (sectionIndex + 1),
+              y: 0,
+              animated: true,
+            });
           };
 
           return (
             <TouchableOpacity
               onPress={onPress}
-              disabled={true}
+              disabled={false}
               style={[s.buttonSections, isSelected && s.buttonSectionsSelected]}
             >
               <Text style={s.textSection}>{sectionName}</Text>
@@ -47,7 +52,6 @@ export const Pages = (p: PagesI) => {
       <Swiper
         ref={refPaging}
         activeDotColor={COLORS.primary}
-        index={index}
         onIndexChanged={onIndexChanged}
       >
         {children}

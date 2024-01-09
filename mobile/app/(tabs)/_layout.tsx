@@ -6,6 +6,12 @@ import { PHRASES } from "../../constants/phrases";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FONTS } from "../../constants/fonts";
 import { SCREENS, useAppNavigation } from "../../hooks/useAppNavigation";
+import { StyleSheet } from "react-native";
+import { TYPE_STRAPI_RESULT } from "../../../types/_Strapi";
+import { TYPE_CLUB } from "../../../types/Club";
+import { useAppSelector } from "../../store/store";
+import { SELECTOR_CLUBS_QUERY } from "../../store/selectors/selectorClubs";
+import { ClubLogo } from "../../components/atoms/_features/club/ClubLogo";
 
 const headerTitleStyle = {
   fontFamily: FONTS.Medium,
@@ -44,13 +50,15 @@ export default function TabLayout() {
             <MaterialCommunityIcons name="calendar" color={color} size={30} />
           ),
           headerRight: () => (
-            <TouchableOpacity onPress={onPress}>
-              <MaterialCommunityIcons
-                name="account-group"
-                size={25}
-                color={COLORS.secondary}
-                style={{ marginRight: 15, opacity: 1 }}
-              />
+            <TouchableOpacity style={s.buttonClub} onPress={onPress}>
+              <ClubLogo style={{ height: 30, width: 30 }}>
+                <MaterialCommunityIcons
+                  name="account-group"
+                  size={25}
+                  color={COLORS.secondary}
+                  style={s.iconGroup}
+                />
+              </ClubLogo>
             </TouchableOpacity>
           ),
         }}
@@ -72,3 +80,15 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const s = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
+  buttonClub: {
+    marginHorizontal: 10,
+  },
+
+  iconGroup: { opacity: 1 },
+});

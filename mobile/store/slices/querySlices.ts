@@ -18,7 +18,7 @@ export const querySlice = createSlice({
       renfoDone: 0,
       qualityDone: 0,
       slDone: 0,
-    }
+    },
   },
   reducers: {
     setQueryStore: (state, action) => {
@@ -29,7 +29,14 @@ export const querySlice = createSlice({
       // @ts-ignore
       state[action?.payload?.key] = state[action?.payload?.key].map((i) => {
         if (i.id === action.payload.value.id) {
-          return action.payload.value;
+          return {
+            ...i,
+            ...action.payload.value,
+            attributes: {
+              ...i.attributes,
+              ...action?.payload?.value?.attributes,
+            }
+          };
         }
         return i;
       });

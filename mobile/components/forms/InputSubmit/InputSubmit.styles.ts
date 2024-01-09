@@ -22,4 +22,8 @@ export const s = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
+
+  loading: {
+    marginLeft: 5,
+  }
 });

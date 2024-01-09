@@ -21,7 +21,7 @@ export const InputSubmit = (p: InputSubmitI<any>) => {
       disabled={disabled}
     >
       <Text style={s.text}>{label}</Text>
-      {isLoading ? <ActivityIndicator color={s.text.color} /> : null}
+      {isLoading ? <ActivityIndicator style={s.loading} color={s.text.color} /> : null}
     </TouchableOpacity>
   );
 };

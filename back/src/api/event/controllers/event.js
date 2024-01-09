@@ -54,15 +54,23 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
 
     ctx.request.query.filters["user"]["id"] = user?.id || 0;
 
+    const { date } = ctx?.request?.query?.filters || {};
+    const startOfWeek = date?.["$gte"] ? moment(date?.["$gte"]) : moment().startOf("week");
+    const endOfWeek = date?.["$lt"] ? moment(date?.["$lt"]) : moment().endOf("week");
+
     let result = await super.find(ctx);
     let clubEvents = [];
 
-    if (theUser?.club?.id && theUser?.pendingJoinClub === false) {
+    const shouldGetClubEvents = theUser?.club?.id && (theUser?.pendingJoinClub === false || theUser?.role2 === "coach");
+    if (shouldGetClubEvents) {
       const filtersClubEvents = {
         club: {
           id: theUser?.club?.id,
         },
-        date: ctx?.request?.query?.filters?.date,
+        date: {
+          $gte: startOfWeek.format('YYYY-MM-DD'),
+          $lt: endOfWeek.format('YYYY-MM-DD'),
+        }
       };
 
       clubEvents = await strapi.entityService.findMany("api::event.event", {
@@ -85,10 +93,6 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
         });
       }
     }
-
-    const { date } = ctx?.request?.query?.filters || {};
-    const startOfWeek = date["$gte"] || moment().startOf("week");
-    const endOfWeek = date["$lt"] || moment().endOf("week");
 
     let dates = enumerateDaysBetweenDates(
       moment(startOfWeek),

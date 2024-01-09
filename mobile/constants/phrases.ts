@@ -3,6 +3,7 @@ export const PHRASES = {
     PLACEHOLDER_FORM_EVENT_ADD_TIME: "Moment de la journée",
     PLACEHOLDER_FORM_TYPE: "Type de séance",
     PLACEHOLDER_FORM_TYPE_VARIATION: "Plus de détails sur la séance",
+    PLACEHOLDER_FORM_TYPE_VARIATION_RACE: "Plus de détails sur cet objectif",
     PLACEHOLDER_FORM_DISTANCE: "Distance (en km)",
     PLACEHOLDER_FORM_DESC: "Plus d'infos",
     PLACEHOLDER_FORM_SUBMIT: "Soumettre",

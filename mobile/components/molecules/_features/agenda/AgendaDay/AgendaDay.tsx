@@ -12,8 +12,10 @@ import {
   SCREENS,
   useAppNavigation,
 } from "../../../../../hooks/useAppNavigation";
+import {find} from "lodash";
+import {TYPE_EVENTS} from "../../../../../../types/Events";
 
-const AgendaDay: React.FC<AgendaDayProps> = (p) => {
+const AgendaDayNonMemo: React.FC<AgendaDayProps> = (p) => {
   const { item } = p || {};
 
   const date = moment(item?.[0].date);
@@ -24,27 +26,26 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
   );
   const navigation = useAppNavigation();
 
+  const onPress = () => {
+    navigation.navigate(SCREENS.MODAL.agendaAdd, {
+      date,
+    });
+  };
+
   return (
-    <View style={s.container}>
+    <TouchableOpacity onPress={onPress} style={s.container}>
       <View style={s.containerDate}>
         <Text style={s.textDate}>
           <Text style={[s.textDate, s.textDayName]}>
             {date ? stringUcFirst(date.format("dddd")) : null}
           </Text>
-          <Text style={s.textDate}>{date ? stringUcFirst(date.format(" DD ")) : null}</Text>
-          <Text style={s.textDate}>{date ? stringUcFirst(date.format("MMM")) : null}</Text>
+          <Text style={s.textDate}>
+            {date ? stringUcFirst(date.format(" DD ")) : null}
+          </Text>
+          <Text style={s.textDate}>
+            {date ? stringUcFirst(date.format("MMM")) : null}
+          </Text>
         </Text>
-
-        <TouchableOpacity
-          style={s.buttonAdd}
-          onPress={() =>
-            navigation.navigate(SCREENS.MODAL.agendaAdd, {
-              date,
-            })
-          }
-        >
-          <MaterialCommunityIcons style={s.iconAdd} name="calendar-plus" />
-        </TouchableOpacity>
 
         <AgendaDayAddiction date={date} />
       </View>
@@ -52,8 +53,16 @@ const AgendaDay: React.FC<AgendaDayProps> = (p) => {
       {sortedItems.map((i) => {
         return <AgendaDayItem i={i} key={"agenda-day-item" + i.id} />;
       })}
-    </View>
+    </TouchableOpacity>
   );
 };
+
+const AgendaDay = React.memo(AgendaDayNonMemo, (prevProps, nextProps) => {
+  if (JSON.stringify(prevProps) !== JSON.stringify(nextProps)) {
+    return false;
+  }
+
+  return true;
+});
 
 export { AgendaDay };

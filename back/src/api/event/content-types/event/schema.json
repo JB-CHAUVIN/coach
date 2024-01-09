@@ -33,7 +33,8 @@
         "tempo",
         "fartlek",
         "piste",
-        "cotes"
+        "cotes",
+        "course"
       ]
     },
     "seance_variation": {

@@ -9,7 +9,7 @@ import {
 import { useAppSelector } from "../store/store";
 import { Text } from "../components/atoms/Text";
 import { phraseParse, PHRASES } from "../constants/phrases";
-import { SIZES } from "../constants/sizes";
+import {SCREEN_WIDTH, SIZES} from "../constants/sizes";
 import {
   SELECTOR_USER_CLUB,
   SELECTOR_USER_IS_PENDING_CLUB,
@@ -46,8 +46,13 @@ export default function ModalScreen() {
     return (
       <View style={s.container}>
         <Pages sectionsName={[PHRASES.FR.CLUB_USER_MANAGEMENT, PHRASES.FR.CLUB_SETTINGS]}>
-          <ClubUserManagement />
-          <ClubSettings />
+          <View style={s.containerPage}>
+            <ClubUserManagement />
+          </View>
+
+          <View style={s.containerPage}>
+            <ClubSettings />
+          </View>
         </Pages>
       </View>
     );
@@ -63,5 +68,10 @@ export default function ModalScreen() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  containerPage: {
+    flex: 1,
+    width: SCREEN_WIDTH
   },
 });

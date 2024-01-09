@@ -162,7 +162,7 @@ export default function ModalScreen() {
         <InputSelect
           id={"typeVariation"}
           options={form["type"]?.variations}
-          placeholder={PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
+          placeholder={form?.type?.value === "course" ? PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION_RACE : PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
           icon={"information-variant"}
         />
 
