@@ -12,7 +12,7 @@ export const s = StyleSheet.create({
   containerLoading: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
 
   // texts

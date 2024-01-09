@@ -26,32 +26,6 @@ type AgendaDayItemProps = {
   i: TYPE_EVENTS;
 };
 
-const UnderlayLeft = (p: { id: number }) => {
-  const { id } = p || {};
-  const { close } = useSwipeableItemParams<TYPE_EVENTS>();
-  const { isLoading, handleDelete } = useDeleteEvenet(id);
-
-  return (
-    <View style={s.containerRemoveLeft}>
-      <TouchableOpacity
-        disabled={isLoading}
-        style={s.buttonRemoveLeft}
-        onPress={handleDelete}
-      >
-        {isLoading ? (
-          <ActivityIndicator size={"small"} />
-        ) : (
-          <MaterialCommunityIcons
-            name={"calendar-remove"}
-            style={s.iconDelete}
-            size={30}
-          />
-        )}
-      </TouchableOpacity>
-    </View>
-  );
-};
-
 const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
   const { i } = p || {};
 
@@ -60,10 +34,16 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
   const isCoach = useAppSelector((s) => s?.user?.isCoach);
   const isClubSeance = i?.club?.id;
 
+  const { isLoading, handleDelete } = useDeleteEvenet(i.id);
   const { done = false } = i || {};
 
   const seance = getEventByType(i.seance);
   const hasDetails = !!i.seance_variation || !!i.distance;
+
+  const handleLongPress = () => {
+    handleDelete();
+  };
+
   if (i?.fake) {
     return null;
   }
@@ -74,66 +54,60 @@ const AgendaDayItem: React.FC<AgendaDayItemProps> = (p) => {
       key={"event-" + i.id}
       // @ts-ignore
       onPress={() => navigation.navigate("modal-agenda-add", { item: i })}
+      onLongPress={handleLongPress}
     >
-      <SwipeableItem
-        key={"event-swipeable-" + i.id}
-        item={i}
-        renderUnderlayLeft={() => <UnderlayLeft id={i.id} />}
-        snapPointsLeft={[40]}
-      >
-        <View style={s.containerEventSwipeable}>
-          <View style={s.containerEvent}>
-            <Text style={s.textTime}>{i.time}</Text>
-            <View style={s.containerTextSeance}>
-              {seance?.icon?.name ? (
-                <MaterialCommunityIcons
-                  name={seance?.icon?.name}
-                  color={seance?.color}
-                  style={s.icon}
-                />
-              ) : null}
-
-              {isClubSeance ? <ClubLogo style={s.imageClub} /> : null}
-
-              <Text numberOfLines={1} style={s.textSeance}>
-                {stringUcFirst(i.seance)}
-
-                {hasDetails ? (
-                  " (" +
-                  stringConcat(
-                    i?.seance_variation,
-                    i?.distance
-                      ? Math.round(i?.distance * 100) / 100 + "km"
-                      : null,
-                    { separator: ", " },
-                  ) +
-                  ")"
-                ) : (
-                  <Text></Text>
-                )}
-              </Text>
-            </View>
-          </View>
-
-          <TouchableOpacity
-            style={[
-              !done && !isLoadingDone ? s.buttonNotDoneYet : {},
-              s.buttonDone,
-            ]}
-            onPress={() => handleEventDone(i.id, !done)}
-            disabled={isLoadingDone}
-          >
-            {isLoadingDone ? (
-              <ActivityIndicator />
-            ) : (
+      <View style={s.containerEventSwipeable}>
+        <View style={s.containerEvent}>
+          <Text style={s.textTime}>{i.time}</Text>
+          <View style={s.containerTextSeance}>
+            {seance?.icon?.name ? (
               <MaterialCommunityIcons
-                style={[s.iconCheck, done && s.iconCheckDone]}
-                name={"check-bold"}
+                name={seance?.icon?.name}
+                color={seance?.color}
+                style={s.icon}
               />
-            )}
-          </TouchableOpacity>
+            ) : null}
+
+            {isClubSeance ? <ClubLogo style={s.imageClub} /> : null}
+
+            <Text numberOfLines={1} style={s.textSeance}>
+              {stringUcFirst(i.seance)}
+
+              {hasDetails ? (
+                " (" +
+                stringConcat(
+                  i?.seance_variation,
+                  i?.distance
+                    ? Math.round(i?.distance * 100) / 100 + "km"
+                    : null,
+                  { separator: ", " },
+                ) +
+                ")"
+              ) : (
+                <Text></Text>
+              )}
+            </Text>
+          </View>
         </View>
-      </SwipeableItem>
+
+        <TouchableOpacity
+          style={[
+            !done && !isLoadingDone ? s.buttonNotDoneYet : {},
+            s.buttonDone,
+          ]}
+          onPress={() => handleEventDone(i.id, !done)}
+          disabled={isLoadingDone}
+        >
+          {isLoadingDone || isLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <MaterialCommunityIcons
+              style={[s.iconCheck, done && s.iconCheckDone]}
+              name={"check-bold"}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -154,13 +128,6 @@ const s = StyleSheet.create({
     width: containerWidth,
   },
 
-  containerRemoveLeft: {
-    flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "center",
-    padding: 10,
-  },
-
   // buttons
   buttonDone: {
     padding: 12,
@@ -168,8 +135,6 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
-  buttonRemoveLeft: {},
 
   buttonEvent: {
     backgroundColor: COLORS.whiteTrue,
@@ -216,11 +181,6 @@ const s = StyleSheet.create({
 
   icon: {
     fontSize: 20,
-  },
-
-  iconDelete: {
-    fontSize: 30,
-    color: COLORS.red,
   },
 
   // images

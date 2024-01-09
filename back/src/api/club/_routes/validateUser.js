@@ -11,7 +11,7 @@ const validateUser = async (ctx) => {
     return ctx.badRequest(null, "You are not a coach in a club");
   }
 
-  if(theUser?.club?.id !== theUserToValidate?.club?.id) {
+  if(theUser?.club?.id != theUserToValidate?.club?.id) {
     return ctx.badRequest(null, "You are not in the same club");
   }
 

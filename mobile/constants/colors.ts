@@ -15,4 +15,7 @@ export const COLORS = {
   auburn: "#9b2226",
   text: "#656565",
   whiteTrue: "#ffffff",
+  features: {
+    itemAgenda: "rgb(249,221,177)",
+  }
 };

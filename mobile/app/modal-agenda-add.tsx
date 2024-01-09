@@ -100,6 +100,8 @@ export default function ModalScreen() {
 
   const { handleQuery, isLoading } = useQuery(API_ENDPOINTS.EVENT_CRUD);
 
+  const isRace = form?.type?.value === "course";
+
   const onSelectType = () => {
     setForm((prev) => {
       return {
@@ -162,7 +164,7 @@ export default function ModalScreen() {
         <InputSelect
           id={"typeVariation"}
           options={form["type"]?.variations}
-          placeholder={form?.type?.value === "course" ? PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION_RACE : PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
+          placeholder={isRace ? PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION_RACE : PHRASES.FR.PLACEHOLDER_FORM_TYPE_VARIATION}
           icon={"information-variant"}
         />
 
@@ -176,7 +178,7 @@ export default function ModalScreen() {
 
         <Input
           id={"description"}
-          placeholder={PHRASES.FR.PLACEHOLDER_FORM_DESC}
+          placeholder={isRace ? PHRASES.FR.PLACEHOLDER_FORM_DESC_RACE : PHRASES.FR.PLACEHOLDER_FORM_DESC}
           icon={"calendar-text"}
           validation={FORM_VALIDATIONS_FN.nullable}
         />

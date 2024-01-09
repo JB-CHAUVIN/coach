@@ -1,6 +1,9 @@
 import Reactotron from "reactotron-react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { reactotronRedux } from "reactotron-redux";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 // swizzle the old one
 const yeOldeConsoleLog = console.log

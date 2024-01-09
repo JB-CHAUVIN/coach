@@ -9,7 +9,7 @@ import {
 import { useAppSelector } from "../store/store";
 import { Text } from "../components/atoms/Text";
 import { phraseParse, PHRASES } from "../constants/phrases";
-import {SCREEN_WIDTH, SIZES} from "../constants/sizes";
+import { SCREEN_WIDTH, SIZES } from "../constants/sizes";
 import {
   SELECTOR_USER_CLUB,
   SELECTOR_USER_IS_PENDING_CLUB,
@@ -24,8 +24,9 @@ import { FONTS } from "../constants/fonts";
 import { COLORS } from "../constants/colors";
 import { useGetClubInfos } from "../components/molecules/_features/coach/Coach.hooks";
 import { ClubUserManagement } from "../components/molecules/_features/coach/Management/ClubUserManagement/ClubUserManagement";
-import {Pages} from "../components/atoms/Pages";
-import {ClubSettings} from "../components/molecules/_features/coach/Management/ClubSettings/ClubSettings";
+import { Pages } from "../components/atoms/Pages";
+import { ClubSettings } from "../components/molecules/_features/coach/Management/ClubSettings/ClubSettings";
+import { ClubInfoGoals } from "../components/molecules/_features/agenda/AgendaGoals/ClubInfoGoals/ClubInfoGoals";
 
 export default function ModalScreen() {
   const isPendingClub = useAppSelector(SELECTOR_USER_IS_PENDING_CLUB);
@@ -45,9 +46,19 @@ export default function ModalScreen() {
   if (user.isCoach) {
     return (
       <View style={s.container}>
-        <Pages sectionsName={[PHRASES.FR.CLUB_USER_MANAGEMENT, PHRASES.FR.CLUB_SETTINGS]}>
+        <Pages
+          sectionsName={[
+            PHRASES.FR.CLUB_USER_MANAGEMENT,
+            PHRASES.FR.CLUB_USER_GOALS,
+            PHRASES.FR.CLUB_SETTINGS,
+          ]}
+        >
           <View style={s.containerPage}>
             <ClubUserManagement />
+          </View>
+
+          <View style={s.containerPage}>
+            <ClubInfoGoals />
           </View>
 
           <View style={s.containerPage}>
@@ -72,6 +83,6 @@ const s = StyleSheet.create({
 
   containerPage: {
     flex: 1,
-    width: SCREEN_WIDTH
+    width: SCREEN_WIDTH,
   },
 });

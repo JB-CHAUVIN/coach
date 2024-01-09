@@ -10,12 +10,6 @@ import { FONTS } from "../../../../../constants/fonts";
 import { AgendaList } from "../AgendaList/AgendaList";
 import { AgendaPleaseConfigureClub } from "../../coach/AgendaPleaseConfigureClub";
 
-moment.updateLocale("fr", {
-  week: {
-    dow: 1,
-  },
-});
-
 LocaleConfig.locales["fr"] = {
   week: {
     dow: 1,

@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { SIZES } from "../../../../../constants/sizes";
 import { FONTS } from "../../../../../constants/fonts";
+import {COLORS} from "../../../../../constants/colors";
 
 const sharedStyles = StyleSheet.create({
   borderRadius: {
@@ -15,7 +16,7 @@ export const s = StyleSheet.create({
     margin: SIZES.PADDING_PAGE,
     marginBottom: 8,
     marginTop: 8,
-    backgroundColor: "rgb(249,221,177)",
+    backgroundColor: COLORS.features.itemAgenda,
     ...sharedStyles.borderRadius,
   },
 

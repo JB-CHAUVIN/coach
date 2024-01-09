@@ -56,12 +56,13 @@ export const useDeleteEvenet = (id: number) => {
   );
   const dispatch = useAppDispatch();
 
-  const handleDelete = () => {
+  const handleDelete = (onSuccess?: Function) => {
     confirm(PHRASES.FR.DELETE_EVENT, () => {
       handleQuery("DELETE", {
         onSuccess: (i: TYPE_STRAPI_RESULT<TYPE_EVENTS>) => {
           if (i?.id) {
             dispatch(removeStoreItem({ key: QUERY_IDS.HOME_ITEMS, value: id }));
+            onSuccess?.();
           }
         },
       });

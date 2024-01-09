@@ -17,6 +17,7 @@ const { enumerateDaysBetweenDates } = require("../../../utils/date");
 const { createEvents } = require("../_routes/createEvents");
 const { createFromStrava } = require("../_routes/createFromStrava");
 const { getUser } = require("../../../utils/user");
+const { getEventsByClubId } = require("../../../utils/events");
 
 /**
  * event controller
@@ -64,25 +65,13 @@ module.exports = createCoreController("api::event.event", ({ strapi }) => ({
     const shouldGetClubEvents = theUser?.club?.id && (theUser?.pendingJoinClub === false || theUser?.role2 === "coach");
     if (shouldGetClubEvents) {
       const filtersClubEvents = {
-        club: {
-          id: theUser?.club?.id,
-        },
         date: {
           $gte: startOfWeek.format('YYYY-MM-DD'),
           $lt: endOfWeek.format('YYYY-MM-DD'),
         }
       };
 
-      clubEvents = await strapi.entityService.findMany("api::event.event", {
-        filters: filtersClubEvents,
-        populate: {
-          club: {
-            populate: {
-              logo: true,
-            }
-          },
-        },
-      });
+      clubEvents = await getEventsByClubId(theUser?.club?.id, filtersClubEvents);
 
       for (let j in clubEvents) {
         const clubEvent = clubEvents[j];

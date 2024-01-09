@@ -664,8 +664,8 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::event.event'
     >;
-    stravaToken: Attribute.String;
-    stravaRefreshToken: Attribute.String;
+    stravaToken: Attribute.String & Attribute.Private;
+    stravaRefreshToken: Attribute.String & Attribute.Private;
     stravaAthlete: Attribute.JSON;
     stravaId: Attribute.BigInteger;
     stravaTokenExpiresAt: Attribute.DateTime;

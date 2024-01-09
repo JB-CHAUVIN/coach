@@ -72,10 +72,12 @@
       "mappedBy": "user"
     },
     "stravaToken": {
-      "type": "string"
+      "type": "string",
+      "private": true
     },
     "stravaRefreshToken": {
-      "type": "string"
+      "type": "string",
+      "private": true
     },
     "stravaAthlete": {
       "type": "json"
